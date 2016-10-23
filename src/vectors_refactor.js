@@ -4,11 +4,10 @@
  * @param  {Int} y - A y-cordinate
  */
 
-module.exports = function Vector(opts) {
-	opts = 
+module.exports = function Vector() {
 	this.state = {
-		x: x,
-		y: y,
+		x: 0,
+		y: 1,
 	};
 };
 
