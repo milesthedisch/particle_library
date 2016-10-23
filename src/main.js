@@ -1,2 +1,1 @@
-const add = (...a) => ({a});
-add();
+const vector = require("./vector_refactor");
