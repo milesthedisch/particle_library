@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register test/*.js"
+    "test": "mocha test/**/*.test.js* -R spec --compilers jsx:babel-core/register --recursive"
   },
   "keywords": [
     "particles",
