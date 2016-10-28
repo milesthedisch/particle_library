@@ -1,4 +1,4 @@
-const INITAL_STATE = {
+const INITIAL_STATE = {
 	x: 0,
 	y: 1,
 };
@@ -7,8 +7,7 @@ const INITAL_STATE = {
  * Vector
  * @param {Object} state object.
  */
-function Vector(state={x: 0, y: 1}) {
-	state = Object.assign(INITAL_STATE, state);
+function Vector(state=INITIAL_STATE) {
 	this.state = state;
 };
 
@@ -32,23 +31,49 @@ Vector.prototype.create = function create(x, y) {
 Vector.prototype.set = function set(prop, val) {
 	// TODO: Add check val is number
 	// 1. Create utils.isNumber function.
-	
-	if (this.hasOwnProperty(prop)) {
-		this[prop] = val;
+
+	if (this.state.hasOwnProperty(prop)) {
+		this.state[prop] = val;
 		return true;
 	}
 
 	return false;
 };
 
+/**
+ * setAngle - Plot the corrdinates based on radians given.
+ * @param {radians} rad
+ */
 Vector.prototype.setAngle = function(rad) {
 	// TODO: Add check rad is number
 	// 1. Create utils.isNumber function.
-	
+
 	const length = this.getLength();
+	console.log(length);
+	this.set("x", Math.cos(rad) * length);
+	this.set("y", Math.sin(rad) * length);
+};
+
+Vector.prototype.setLength = function(length) {
+	// TODO: Add check rad is number
+	// 1. Create utils.isNumber function.
+
+	const rad = this.getAngle();
 
 	this.set("x", Math.cos(rad) * length);
 	this.set("y", Math.sin(rad) * length);
+};
+
+Vector.prototype.getLength = function() {
+	const x = this.state.x;
+	const y = this.state.y;
+	return Math.sqrt((x * x) + (y * y));
+};
+
+Vector.prototype.getAngle = function() {
+	const x = this.state.x;
+	const y = this.state.y;
+	return Math.atan2(y, x);
 };
 
 // let vector = (function (window, ctx) {

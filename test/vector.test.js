@@ -28,15 +28,33 @@ describe("#Vector", function() {
 		it("should return true if the property is part of state", function() {
 			vec.set("x", 3);
 			vec.set("y", 0);
-			assert.deepEqual(vec.state, {x: 0, y: 1});
+			assert.deepEqual(vec.state, {x: 3, y: 0});
 		});
 
 		it("should return false if the property is not part of state", function() {
 			assert.equal(vec.set("apples", 0), false);
 		});
 
-		it("should return false if the property val is a not a number", function() {
+		it.skip("should return false if the property val is a not a number", function() {
 			assert.equal(vec.set("x", "oranges"), false);
 		});
+	});
+
+	describe("vector.setAngle", function() {
+		it("should return -1 for Y", function() {
+			// Move upwards.
+			vec.setAngle(1);
+			console.log(vec);
+			assert.equal(vec.state.x, 0);
+			assert.equal(vec.state.y, -1);
+		});
+	});
+
+	describe("vector.getLength", function () {
+		// it('should return', )
+	});
+
+	describe("vector.getAngle", function () {
+
 	});
 });
