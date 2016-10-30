@@ -19,7 +19,6 @@ function Vector(state=INITIAL_STATE) {
  */
 Vector.prototype.create = function create(x, y) {
 	const vec = new Vector({x, y});
-	console.log('NEW VECTOR', vec.state);
 	return vec;
 };
 
@@ -95,19 +94,39 @@ Vector.prototype.getAngle = function() {
  * @return {[Vector]} - A vector with cooridnates, or multiple vectors.
  */
 
-Vector.prototype.add = function(v2) {
-	if (typeof v2 === "array" && v2.length()) {
-		const v = v2.reduce((v) => ({
-			x: v.state.x + this.state.x,
-			y: v.state.y + this.state.y,
-		}), this.state);
+Vector.prototype.add = Vector.prototype["+"] = function(v2) {
+	const self = this;
 
-		return vector.create(v);
+	if (v2.constructor.name === "Array" && v2.length) {
+		const vecs = v2.map((v) => ({x: v.state.x, y: v.state.y}))
+		.reduce((v0, vn) =>
+			({x: v0.x + vn.x, y: v0.y + vn.y}),
+		self.state);
+
+		return self.create(vecs.x, vecs.y);
 	}
 
 	return this.create(
-		this.state.x + v2.state.x,
-		this.state.y + v2.state.y
+		self.state.x + v2.state.x,
+		self.state.y + v2.state.y
+	);
+};
+
+Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
+	const self = this;
+
+	if (v2.constructor.name === "Array" && v2.length) {
+		const vecs = v2.map((v) => ({x: v.state.x, y: v.state.y}))
+		.reduce((v0, vn) =>
+			({x: v0.x - vn.x, y: v0.y - vn.y}),
+		self.state);
+
+		return self.create(vecs.x, vecs.y);
+	}
+
+	return this.create(
+		self.state.x - v2.state.x,
+		self.state.y - v2.state.y
 	);
 };
 
