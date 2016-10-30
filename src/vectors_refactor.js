@@ -69,7 +69,7 @@ Vector.prototype.setLength = function(length) {
 };
 
 /**
- * getLength - Gets length of the coordinates.
+ * getLength - Gets length of the coordinates from center plane.
  * @return {Integer} - Cooridinates.
  */
 Vector.prototype.getLength = function() {
@@ -79,7 +79,7 @@ Vector.prototype.getLength = function() {
 };
 
 /**
- * getAngle - Get the angle the coordinates.
+ * getAngle - Get the angle of coordinates from center plane.
  * @return {Integer} - Cooridinates.
  */
 Vector.prototype.getAngle = function() {
@@ -90,6 +90,8 @@ Vector.prototype.getAngle = function() {
 
 /**
  * add - Should add vectors together given a vector
+ * @name subtract
+ * @override ["-"]
  * @param {Vector} - A given vector to add.
  * @return {[Vector]} - A vector with cooridnates, or multiple vectors.
  */
@@ -112,6 +114,13 @@ Vector.prototype.add = Vector.prototype["+"] = function(v2) {
 	);
 };
 
+/**
+ * subtract - should subtract the given vector with its own vector.
+ * @name subtract
+ * @override ["-"]
+ * @param  {[type]} v2 [description]
+ * @return {[type]}    [description]
+ */
 Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 	const self = this;
 
