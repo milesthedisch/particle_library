@@ -6,6 +6,11 @@ describe("#Vector", function() {
 
 	beforeEach(function() {
 		vec = new Vector();
+		vec = vec.create(0, 1);
+	});
+
+	afterEach(function() {
+		vec = undefined;
 	});
 
 	it("should have a state of x and y", function() {
@@ -35,26 +40,55 @@ describe("#Vector", function() {
 			assert.equal(vec.set("apples", 0), false);
 		});
 
-		it.skip("should return false if the property val is a not a number", function() {
+		it.skip("should return false if the property val is a not a number", function() { // eslint-disable-line
 			assert.equal(vec.set("x", "oranges"), false);
 		});
 	});
 
 	describe("vector.setAngle", function() {
-		it("should return -1 for Y", function() {
+		it("should return -1 for Y and 0 for X", function() {
+			console.log("State", vec.state);
 			// Move upwards.
-			vec.setAngle(1);
-			console.log(vec);
-			assert.equal(vec.state.x, 0);
+			vec.setAngle(-Math.PI / 2);
+			console.log("State", vec.state);
+			assert.equal(~~vec.state.x, 0);
 			assert.equal(vec.state.y, -1);
 		});
 	});
 
-	describe("vector.getLength", function () {
-		// it('should return', )
+	describe.only("vector.setLength", function() {
+		it('given the length it should set cooridnates according to angle ', function() { // eslint-disable-line
+			vec.setLength(1);
+			assert.equal(~~vec.state.x, 0);
+			assert.equal(vec.state.y, 1);
+		});
 	});
 
-	describe("vector.getAngle", function () {
+	describe("vector.getLength", function() {
+		it("should return the length of the vector/magnitude", function() {
+			const x = 10;
+			const y = 10;
+			vec.set("x", x);
+			vec.set("y", y);
+			assert.equal(vec.getLength(), Math.sqrt((x * x) + (y * y)));
+		});
+	});
 
+	describe("vector.getAngle", function() {
+		it("should return the angle in radians.", function() {
+			const x = 10;
+			const y = 10;
+			vec.set("x", x);
+			vec.set("y", y);
+			assert.equal(vec.getAngle(), Math.atan2(y, x));
+		});
+	});
+
+	describe.only("vector.add", function() {
+		it("should return a vector addition with another", function(){
+			const v1 = vec.create(1, 1);
+			const v2 = vec.create(1, 1);
+			assert.deepEqual((v1.add(v2)).state, (vec.create(2, 2)).state);
+		});
 	});
 });
