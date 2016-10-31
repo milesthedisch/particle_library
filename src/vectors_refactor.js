@@ -118,8 +118,8 @@ Vector.prototype.add = Vector.prototype["+"] = function(v2) {
  * subtract - should subtract the given vector with its own vector.
  * @name subtract
  * @override ["-"]
- * @param  {[type]} v2 [description]
- * @return {[type]}    [description]
+ * @param  {Vector} A vector that contains state.
+ * @return {Vector} A vector that contains a reduced state.
  */
 Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 	const self = this;
@@ -138,5 +138,31 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 		self.state.y - v2.state.y
 	);
 };
+
+/**
+ * Mulitply
+ * @param  {[type]} v2 [description]
+ * @return {[type]}    [description]
+ */
+Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
+	return this.create.bind(
+		this,
+		this.state.x * v2.state.x, 
+		this..state.y * v2.state.y
+	);
+};	
+
+/**
+ * 
+ * @param  {[type]} v2 [description]
+ * @return {[type]}    [description]
+ */
+Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
+	return this.create.apply(
+		this, 
+		this.state.x / v2.state.x, 
+		this.state.y / v2.state.y
+	);
+};	
 
 module.exports = Vector;
