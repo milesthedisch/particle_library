@@ -90,8 +90,8 @@ Vector.prototype.getAngle = function() {
 
 /**
  * add - Should add vectors together given a vector
- * @name subtract
- * @override ["-"]
+ * @name add
+ * @override ["+"]
  * @param {Vector} - A given vector to add.
  * @return {[Vector]} - A vector with cooridnates, or multiple vectors.
  */
@@ -116,9 +116,10 @@ Vector.prototype.add = Vector.prototype["+"] = function(v2) {
 
 /**
  * subtract - should subtract the given vector with its own vector.
+ * ie: {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
  * @name subtract
  * @override ["-"]
- * @param  {Vector} A vector that contains state.
+ * @param  {Vector} v2 A vector that contains state.
  * @return {Vector} A vector that contains a reduced state.
  */
 Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
@@ -140,29 +141,34 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 };
 
 /**
- * Mulitply
- * @param  {[type]} v2 [description]
- * @return {[type]}    [description]
+ * Mulitplying vectors together
+ * ie: {x: 2, y: 2} * {x: 2, y: 2} = {x: 3, y: 3}
+ * @name multiply
+ * @override ["*"]
+ * @param  {Vector} v2 A vector that contains state.
+ * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
 	return this.create.bind(
 		this,
-		this.state.x * v2.state.x, 
-		this..state.y * v2.state.y
+		this.state.x * v2.state.x,
+		this.state.y * v2.state.y
 	);
-};	
+};
 
 /**
- * 
- * @param  {[type]} v2 [description]
- * @return {[type]}    [description]
+ * Divide vectors together.
+ * @name Divide
+ * @override ["/"]
+ * @param  {Vector} v2 A vector that contains state.
+ * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
 	return this.create.apply(
-		this, 
-		this.state.x / v2.state.x, 
+		this,
+		this.state.x / v2.state.x,
 		this.state.y / v2.state.y
 	);
-};	
+};
 
 module.exports = Vector;
