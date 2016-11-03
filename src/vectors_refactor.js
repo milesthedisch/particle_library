@@ -190,8 +190,8 @@ Vector.prototype.addTo = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.subtractFrom = function(v2) {
-	this.state.x += v2.state.x;
-	this.state.y += v2.state.y;
+	this.state.x -= v2.state.x;
+	this.state.y -= v2.state.y;
 	return this.state;
 };
 

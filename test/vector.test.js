@@ -163,5 +163,39 @@ describe("#Vector", function() {
 		});
 	});
 
+	describe("vector.addTo", function() {
+		it("should add the given vector to the calling vector", function() { // eslint-disable-line
+			const v1 = vec.create(5, 5);
+			const v2 = vec.create(5, 5);
+			v1.addTo(v2);
+			assert.deepEqual(vec.create(10, 10).state, v1.state);
+		});
+	});
 
+	describe("vector.subtractFrom", function() {
+		it("should subtract the given vector to the calling vector", function() { // eslint-disable-line
+			const v1 = vec.create(5, 5);
+			const v2 = vec.create(5, 5);
+			v1.subtractFrom(v2);
+			assert.deepEqual(vec.create(0, 0).state, v1.state);
+		});
+	});
+
+	describe("vector.divideBy", function() {
+		it("should multiply the given vector by the calling vector", function() {
+			const v1 = vec.create(5, 5);
+			const v2 = vec.create(5, 5);
+			v1.multiplyBy(v2);
+			assert.deepEqual(vec.create(25, 25).state, v1.state);
+		});
+	});
+
+	describe("vector.divideBy", function() {
+		it("should divide the given vector by the calling vector", function() {
+			const v1 = vec.create(5, 5);
+			const v2 = vec.create(5, 5);
+			v1.divideBy(v2);
+			assert.deepEqual(vec.create(1, 1).state, v1.state);
+		});
+	});
 });
