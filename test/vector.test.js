@@ -148,4 +148,20 @@ describe("#Vector", function() {
 			assert.deepEqual((v1["*"](v2)).state, (vec.create(4, 4)).state);
 		});
 	});
+
+	describe("vector.divide", function() {
+		it("should return a vector divided by vector2", function() {
+			const v1 = vec.create(2, 2);
+			const v2 = vec.create(2, 2);
+			assert.deepEqual((v1.divide(v2)).state, (vec.create(1, 1)).state);
+		});
+
+		it("should have alias '*'", function() {
+			const v1 = vec.create(2, 2);
+			const v2 = vec.create(2, 2);
+			assert.deepEqual((v1["/"](v2)).state, (vec.create(1, 1)).state);
+		});
+	});
+
+
 });

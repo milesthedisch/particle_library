@@ -173,24 +173,44 @@ Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
 	)();
 };
 
+/**
+ * Adds to current state the state of v2
+ * @param {Vector} [v2] - A vector that contains state.
+ * @return {Object} [state] - Key value pair of coordinates
+ */
 Vector.prototype.addTo = function(v2) {
 	this.state.x += v2.state.x;
 	this.state.y += v2.state.y;
 	return this.state;
 };
 
+/**
+ * Subtracts from current state the state of v2
+ * @param {Vector} [v2] - A vector that contains state.
+ * @return {Object} [state] - Key value pair of coordinates
+ */
 Vector.prototype.subtractFrom = function(v2) {
 	this.state.x += v2.state.x;
 	this.state.y += v2.state.y;
 	return this.state;
 };
 
+/**
+ * mulitplies by current state the state of v2
+ * @param {Vector} [v2] - A vector that contains state.
+ * @return {Object} [state] - Key value pair of coordinates
+ */
 Vector.prototype.multiplyBy = function(v2) {
 	this.state.x *= v2.state.x;
 	this.state.y *= v2.state.y;
 	return this.state;
 };
 
+/**
+ * Divides by current state the state of v2
+ * @param {Vector} [v2] - A vector that contains state.
+ * @return {Object} [state] - Key value pair of coordinates
+ */
 Vector.prototype.divideBy = function(v2) {
 	this.state.x /= v2.state.x;
 	this.state.y /= v2.state.y;
