@@ -1,3 +1,5 @@
+const babelPolyfill = require("babel-polyfill"); // eslint-disable-line
+
 const INITIAL_STATE = {
 	x: 0,
 	y: 1,
