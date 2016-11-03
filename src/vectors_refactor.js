@@ -100,6 +100,7 @@ Vector.prototype.add = Vector.prototype["+"] = function(v2) {
 	const self = this;
 
 	if (v2.constructor.name === "Array" && v2.length) {
+		// Refactor to make more effecient //
 		const vecs = v2.map((v) => ({x: v.state.x, y: v.state.y}))
 		.reduce((v0, vn) =>
 			({x: v0.x + vn.x, y: v0.y + vn.y}),
@@ -126,6 +127,7 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 	const self = this;
 
 	if (v2.constructor.name === "Array" && v2.length) {
+		// Refactor to make more effecient //
 		const vecs = v2.map((v) => ({x: v.state.x, y: v.state.y}))
 		.reduce((v0, vn) =>
 			({x: v0.x - vn.x, y: v0.y - vn.y}),
@@ -153,7 +155,7 @@ Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
 		this,
 		this.state.x * v2.state.x,
 		this.state.y * v2.state.y
-	);
+	)();
 };
 
 /**
@@ -164,11 +166,35 @@ Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
  * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
-	return this.create.apply(
+	return this.create.bind(
 		this,
 		this.state.x / v2.state.x,
 		this.state.y / v2.state.y
-	);
+	)();
+};
+
+Vector.prototype.addTo = function(v2) {
+	this.state.x += v2.state.x;
+	this.state.y += v2.state.y;
+	return this.state;
+};
+
+Vector.prototype.subtractFrom = function(v2) {
+	this.state.x += v2.state.x;
+	this.state.y += v2.state.y;
+	return this.state;
+};
+
+Vector.prototype.multiplyBy = function(v2) {
+	this.state.x *= v2.state.x;
+	this.state.y *= v2.state.y;
+	return this.state;
+};
+
+Vector.prototype.divideBy = function(v2) {
+	this.state.x /= v2.state.x;
+	this.state.y /= v2.state.y;
+	return this.state;
 };
 
 module.exports = Vector;

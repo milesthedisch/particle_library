@@ -131,7 +131,21 @@ describe("#Vector", function() {
 		it("should have alias '-'", function() {
 			const v1 = vec.create(1, 1);
 			const v2 = vec.create(1, 1);
-			assert.deepEqual((v1["+"](v2)).state, (vec.create(2, 2)).state);
+			assert.deepEqual((v1["-"](v2)).state, (vec.create(0, 0)).state);
+		});
+	});
+
+	describe("vector.mulitply", function() {
+		it("should return a vector multiplied by vector2", function() {
+			const v1 = vec.create(2, 2);
+			const v2 = vec.create(2, 2);
+			assert.deepEqual((v1.multiply(v2)).state, (vec.create(4, 4)).state);
+		});
+
+		it("should have alias '*'", function() {
+			const v1 = vec.create(2, 2);
+			const v2 = vec.create(2, 2);
+			assert.deepEqual((v1["*"](v2)).state, (vec.create(4, 4)).state);
 		});
 	});
 });
