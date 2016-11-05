@@ -9,7 +9,8 @@ module.exports = {
 	],
 	output: {
 		path: __dirname,
-		filename: "./dist/bundle.js",
+		filename: "./dist/[name].bundle.js",
+		chunkFileName: "./dist/chunks/[id].bundle.js"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -27,4 +28,5 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin(),
 	],
+	target: "	web"	,
 };
