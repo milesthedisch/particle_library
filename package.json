@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "mocha test/**/*.test.js* -R spec --compilers js:babel-core/register --recursive",
-    "build": "node webpack"
+    "build": "webpack --config webpack.prod",
+    "dev": "webpack --watch --progress --config webpack.dev"
   },
   "keywords": [
     "particles",
@@ -28,6 +29,7 @@
     "chai": "^3.5.0",
     "eslint": "^3.8.1",
     "eslint-config-google": "^0.7.0",
+    "handlebars": "^4.0.5",
     "mocha": "^3.1.2",
     "webpack": "^1.13.2"
   },
