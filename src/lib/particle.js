@@ -27,15 +27,16 @@ function Particle(state=INITIAL_STATE) {
  * @param  {Object} 	opts 	optional state values to pass to create.
  * @return {Particle}     	returns a particle
  */
-Particle.prototype.create = function(opts) {
+Particle.prototype.create = function(opts=INITIAL_STATE) {
 	// A really basic flat level extend.
-	for (property in INITIAL_STATE) {
-		if (opts.hasOwnProperty(property)) {
-			INTITAL_STATE[property] = opts[property];
+	const obj = {};
+	for (let property in opts) {
+		if (!INITIAL_STATE.hasOwnProperty(property)) {
+			obj[property] = opts[property];
 		}
 	}
 
-	return new Particle();
+	return new Particle(obj);
 };
 
 /**
