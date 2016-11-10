@@ -2,8 +2,8 @@ window.onload = function() {
 	// When using id's the variable is exposed
 	const canvas = a;
 	const ctx = a.getContext("2d");
-	const w = canvas.width = window.innerWidth;
-	const h = canvas.height = window.innerHeight;
+	let w = canvas.width = window.innerWidth;
+	let h = canvas.height = window.innerHeight;
 
 	for (let i = 0; i < 100; i += 1) {
 		ctx.beginPath();

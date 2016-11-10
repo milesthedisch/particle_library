@@ -44,7 +44,7 @@ Vector.prototype.set = function set(prop, val) {
 
 /**
  * setAngle - Plot the corrdinates based on radians given.
- * @param {radians} rad
+ * @param {Radians}	rad A floating point number.
  */
 Vector.prototype.setAngle = function(rad) {
 	// TODO: Add check rad is number
@@ -180,7 +180,7 @@ Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.addTo = function(v2) {
+Vector.prototype.addTo = Vector.prototype["+="] = function(v2) {
 	this.state.x += v2.state.x;
 	this.state.y += v2.state.y;
 	return this.state;
@@ -191,7 +191,7 @@ Vector.prototype.addTo = function(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.subtractFrom = function(v2) {
+Vector.prototype.subtractFrom = Vector.prototype["-="] = function(v2) {
 	this.state.x -= v2.state.x;
 	this.state.y -= v2.state.y;
 	return this.state;
@@ -202,7 +202,7 @@ Vector.prototype.subtractFrom = function(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.multiplyBy = function(v2) {
+Vector.prototype.multiplyBy = Vector.prototype["*="] = function(v2) {
 	this.state.x *= v2.state.x;
 	this.state.y *= v2.state.y;
 	return this.state;
@@ -213,7 +213,7 @@ Vector.prototype.multiplyBy = function(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.divideBy = function(v2) {
+Vector.prototype.divideBy = Vector.prototype["/="] = function(v2) {
 	this.state.x /= v2.state.x;
 	this.state.y /= v2.state.y;
 	return this.state;

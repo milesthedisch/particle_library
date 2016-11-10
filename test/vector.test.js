@@ -1,4 +1,4 @@
-const Vector = require("../src/vectors_refactor.js");
+const Vector = require("../src/lib/vectors.js");
 const assert = require("chai").assert;
 
 describe("#Vector", function() {
