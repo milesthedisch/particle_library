@@ -45,6 +45,17 @@ describe("#Vector", function() {
 		});
 	});
 
+	describe("vector.get", function() {
+		it("should get the property asked for on the vector.", function() {
+			vec.set("x", 1);
+			assert.equal(vec.get("x"), 1);
+		});
+
+		it("should return undefined when asked to return a unexsistant value", function() { // eslint-disable-line
+			assert.equal(vec.get("abc"), undefined);
+		});
+	});
+
 	describe("vector.setAngle", function() {
 		it("should return -1 for Y and 0 for X", function() {
 			// Move upwards.

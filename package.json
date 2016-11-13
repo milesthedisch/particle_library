@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha test/**/*.test.js -R spec --compilers js:babel-core/register --recursive",
     "build": "webpack --config webpack.prod",
-    "dev": "webpack --watch --progress --config webpack.dev"
+    "dev": "webpack --watch --progress --config webpack.dev && node bin/build"
   },
   "keywords": [
     "particles",

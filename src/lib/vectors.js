@@ -42,6 +42,10 @@ Vector.prototype.set = function set(prop, val) {
 	return false;
 };
 
+Vector.prototype.get = function get(prop, val) {
+	return this.state[prop];
+};
+
 /**
  * setAngle - Plot the corrdinates based on radians given.
  * @param {Radians}	rad A floating point number.
@@ -181,6 +185,7 @@ Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.addTo = Vector.prototype["+="] = function(v2) {
+	console.log(v2);
 	this.state.x += v2.state.x;
 	this.state.y += v2.state.y;
 	return this.state;

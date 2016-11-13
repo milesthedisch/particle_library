@@ -1,4 +1,5 @@
 const Particle = require("../src/lib/particle.js");
+const Vector = require("../src/lib/vectors.js");
 const assert = require("chai").assert;
 
 describe("#Particle", function() {
@@ -48,6 +49,18 @@ describe("#Particle", function() {
 				radius: 0,
 				mass: 1,
 			});
+		});
+	});
+
+	describe.only("#accelerate", function() {
+		it("should change the velocity of a particle every time its called", function() { // eslint-disable-line
+			const particle = new Particle();
+			const vector = new Vector();
+			const p1 = particle.create();
+
+			p1.state.velocity = vector.create(1, 1);
+			p1.accelerate(p1.state.velocity);
+			assert.deepEqual(p1.state.velocity.state, {x: 2, y: 2});
 		});
 	});
 });

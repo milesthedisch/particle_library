@@ -1,6 +1,3 @@
-const particle = require("particle");
-const vector = require("vector");
-
 window.onload = function() {
 	// When using id's the variable is exposed
 	const canvas = a;

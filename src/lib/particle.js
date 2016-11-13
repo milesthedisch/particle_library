@@ -22,6 +22,16 @@ function Particle(state=INITIAL_STATE) {
 	this.state = state;
 }
 
+	// TODO:
+
+	// Particle.prototype.get = function get() {
+
+	// };
+
+	// Particle.prototype.set = function set() {
+
+	// };
+
 /**
  * Create constructor
  * @param  {Object} 	opts 	optional state values to pass to create.
@@ -39,6 +49,8 @@ Particle.prototype.create = function(opts=INITIAL_STATE) {
  * @return {Value} 	state of the particle after accelerating.
  */
 Particle.prototype.accelerate = function accelerate(accel) {
+	console.log(accel);
+	console.log("velocity", this.state.velocity);
 	this.state.velocity.addTo(accel);
 	return this.state;
 };
@@ -57,7 +69,10 @@ Particle.prototype.update = function update(grav=this.state.gravity) {
 };
 
 Particle.prototype.angleTo = function angelTo(p2) {
-
+	return Math.atan2.apply(this,
+		p2.position.get("y") - this.position.get("y"),
+		p2.position.get("x") - this.position.get("x")
+	);
 };
 
 module.exports = Particle;

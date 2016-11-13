@@ -3,17 +3,6 @@ const path = require("path");
 const webpack = require("webpack");
 const extend = require("extend");
 const gutil = require("gutil");
-// All example js files.
-const examples = glob.sync(path.resolve(__dirname, "../src/examples/*/*.js"));
-const defaultConfig = {
-	entry: examples,
-	output: {
-		path: path.resolve(__dirname, "../dist/examples"),
-		filename: "[name].example.js",
-	},
-	target: "web",
-	devtool: "#inline-source-map",
-};
 
 /**
  * mapEntries - We need to create keys for each file
@@ -33,7 +22,22 @@ function mapEntries(entries) {
 	return obj;
 };
 
+// All example js files.
+const examples = glob.sync(path.resolve(__dirname, "../src/examples/*/*.js"));
 const entries = mapEntries(examples);
+const defaultConfig = {
+	entry: examples,
+	output: {
+		path: path.resolve(__dirname, "../dist/examples"),
+		filename: "[name].example.js",
+	},
+	externals: {
+		"vectors": "../dist/vectors.bundle",
+		"particle": "../dist/particle.bundle",
+	},
+	target: "web",
+	devtool: "#inline-source-map",
+};
 
 // Extend all the entries on to the entry object
 // So that the files are bundled individualy.
@@ -50,3 +54,4 @@ webpack(config, function(err, stats) {
 		colors: true,
 	}));
 });
+
