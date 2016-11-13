@@ -88,6 +88,10 @@ Particle.prototype.angleTo = function angelTo(p2) {
 	);
 };
 
+Particle.prototype.distanceTo = function distanceTo() {
+
+};
+
 module.exports = Particle;
 
 var particle = {

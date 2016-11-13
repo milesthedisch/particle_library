@@ -1,3 +1,4 @@
+/* eslint max-len: 0  */
 const Particle = require("../src/lib/particle.js");
 const Vector = require("../src/lib/vectors.js");
 const assert = require("chai").assert;
@@ -52,7 +53,7 @@ describe("#Particle", function() {
 		});
 	});
 
-	describe.only("#set", function() {
+	describe("#set", function() {
 		it("should set the state with the given value and return true", function() {
 			const particle = new Particle();
 			assert.equal(particle.set("position", {x: 1, y: 1}), true);
@@ -60,11 +61,27 @@ describe("#Particle", function() {
 			assert.equal(particle.get("position").y, 1);
 		});
 
-		// it("should ")
+		it("should set the state and return false if the property dosent exsist", function() {
+			const particle = new Particle();
+			assert.equal(particle.set("apples", "apples"), false);
+		});
+	});
+
+	describe("#get", function() {
+		it("should return the state of a property", function() {
+			const particle = new Particle();
+			particle.set("position", {x: 1, y: 1});
+			assert.deepEqual(particle.get("position"), {x: 1, y: 1});
+		});
+
+		it("should return undefined when asked to for a prop that does not exsist", function() {
+			const particle = new Particle();
+			assert.equal(particle.get("apple"), undefined);
+		});
 	});
 
 	describe("#accelerate", function() {
-		it("should change the velocity of a particle every time its called", function() { // eslint-disable-line
+		it("should change the velocity of a particle every time its called", function() {
 			const particle = new Particle();
 			const vector = new Vector();
 			const p1 = particle.create();
