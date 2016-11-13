@@ -52,6 +52,17 @@ describe("#Particle", function() {
 		});
 	});
 
+	describe.only("#set", function() {
+		it("should set the state with the given value and return true", function() {
+			const particle = new Particle();
+			assert.equal(particle.set("position", {x: 1, y: 1}), true);
+			assert.equal(particle.get("position").x, 1);
+			assert.equal(particle.get("position").y, 1);
+		});
+
+		// it("should ")
+	});
+
 	describe("#accelerate", function() {
 		it("should change the velocity of a particle every time its called", function() { // eslint-disable-line
 			const particle = new Particle();
