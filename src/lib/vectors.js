@@ -42,7 +42,12 @@ Vector.prototype.set = function set(prop, val) {
 	return false;
 };
 
-Vector.prototype.get = function get(prop, val) {
+/**
+ * get - A getter for the vector class.
+ * @param  {String} prop 	The prop to set on state.
+ * @return {Value} 				The value assosiated with the prop.
+ */
+Vector.prototype.get = function get(prop) {
 	return this.state[prop];
 };
 
@@ -79,8 +84,8 @@ Vector.prototype.setLength = function setLength(length) {
  * @return {Integer} - Cooridinates.
  */
 Vector.prototype.getLength = function getLength() {
-	const x = this.state.x;
-	const y = this.state.y;
+	const x = this.get("x");
+	const y = this.get("y");
 	return Math.sqrt((x * x) + (y * y));
 };
 
@@ -89,8 +94,8 @@ Vector.prototype.getLength = function getLength() {
  * @return {Integer} - Cooridinates.
  */
 Vector.prototype.getAngle = function getAngle() {
-	const x = this.state.x;
-	const y = this.state.y;
+	const x = this.get("x");
+	const y = this.get("y");
 	return Math.atan2(y, x);
 };
 
@@ -107,7 +112,7 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
 
 	if (v2.constructor.name === "Array" && v2.length) {
 		// Refactor to make more effecient //
-		const vecs = v2.map((v) => ({x: v.state.x, y: v.state.y}))
+		const vecs = v2.map((v) => ({x: v.get("x"), y: v.get("y")}))
 		.reduce((v0, vn) =>
 			({x: v0.x + vn.x, y: v0.y + vn.y}),
 		self.state);
@@ -116,8 +121,8 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
 	}
 
 	return this.create(
-		self.state.x + v2.state.x,
-		self.state.y + v2.state.y
+		self.get("x") + v2.get("x"),
+		self.get("y") + v2.get("y")
 	);
 };
 
@@ -134,7 +139,7 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 
 	if (v2.constructor.name === "Array" && v2.length) {
 		// Refactor to make more effecient //
-		const vecs = v2.map((v) => ({x: v.state.x, y: v.state.y}))
+		const vecs = v2.map((v) => ({x: v.get("x"), y: v.get("y")}))
 		.reduce((v0, vn) =>
 			({x: v0.x - vn.x, y: v0.y - vn.y}),
 		self.state);
@@ -143,8 +148,8 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 	}
 
 	return this.create(
-		self.state.x - v2.state.x,
-		self.state.y - v2.state.y
+		self.get("x") - v2.get("x"),
+		self.get("y") - v2.get("y")
 	);
 };
 
@@ -159,8 +164,8 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
 	return this.create.bind(
 		this,
-		this.state.x * v2.state.x,
-		this.state.y * v2.state.y
+		this.get("x") * v2.get("x"),
+		this.get("y") * v2.get("y")
 	)();
 };
 
@@ -174,8 +179,8 @@ Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
 Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
 	return this.create.bind(
 		this,
-		this.state.x / v2.state.x,
-		this.state.y / v2.state.y
+		this.get("x") / v2.get("x"),
+		this.get("y") / v2.get("y")
 	)();
 };
 
@@ -185,7 +190,6 @@ Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.addTo = Vector.prototype["+="] = function(v2) {
-	console.log(v2);
 	this.state.x += v2.state.x;
 	this.state.y += v2.state.y;
 	return this.state;

@@ -52,7 +52,7 @@ describe("#Particle", function() {
 		});
 	});
 
-	describe.only("#accelerate", function() {
+	describe("#accelerate", function() {
 		it("should change the velocity of a particle every time its called", function() { // eslint-disable-line
 			const particle = new Particle();
 			const vector = new Vector();

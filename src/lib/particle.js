@@ -22,15 +22,30 @@ function Particle(state=INITIAL_STATE) {
 	this.state = state;
 }
 
-	// TODO:
+/**
+ * get - A getter for the particles state.
+ * @param  {String} prop
+ * @return {Value}  A value assosiated with the property.
+ */
+Particle.prototype.get = function get(prop) {
+	return this.state[prop];
+};
 
-	// Particle.prototype.get = function get() {
+/**
+ * set - A setter for the particles state.
+ * @param {[type]} prop [description]
+ * @param {[type]} val  [description]
+ * @return {Boolean} 		A boolean to tell wether the property
+ *                      exsist on the inital state
+ */
+Particle.prototype.set = function set(prop, val) {
+	if (this.state.hasOwnProperty(prop)) {
+		this.state[prop] = val;
+		return true;
+	}
 
-	// };
-
-	// Particle.prototype.set = function set() {
-
-	// };
+	return false;
+};
 
 /**
  * Create constructor
@@ -49,10 +64,8 @@ Particle.prototype.create = function(opts=INITIAL_STATE) {
  * @return {Value} 	state of the particle after accelerating.
  */
 Particle.prototype.accelerate = function accelerate(accel) {
-	console.log(accel);
-	console.log("velocity", this.state.velocity);
-	this.state.velocity.addTo(accel);
-	return this.state;
+	this.get("velocity").addTo(accel);
+	return this.get("velocity");
 };
 
 /**
