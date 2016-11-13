@@ -8,10 +8,11 @@ const examples = glob.sync(path.resolve(__dirname, "../src/examples/*/*.js"));
 const defaultConfig = {
 	entry: examples,
 	output: {
-		path: path.resolve(__dirname, "../dist"),
+		path: path.resolve(__dirname, "../dist/examples"),
 		filename: "[name].example.js",
 	},
 	target: "web",
+	devtool: "#inline-source-map",
 };
 
 /**
@@ -27,7 +28,7 @@ function mapEntries(entries) {
 	entries.forEach(function(entry) {
 		// Grab each parent dir name.
 		const dir = path.parse(path.parse(entry).dir).name;
-		obj[dir] = entry;
+		obj[dir] = ["babel-polyfill", entry];
 	});
 	return obj;
 };

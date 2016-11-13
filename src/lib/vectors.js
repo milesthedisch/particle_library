@@ -46,7 +46,7 @@ Vector.prototype.set = function set(prop, val) {
  * setAngle - Plot the corrdinates based on radians given.
  * @param {Radians}	rad A floating point number.
  */
-Vector.prototype.setAngle = function(rad) {
+Vector.prototype.setAngle = function setAngle(rad) {
 	// TODO: Add check rad is number
 	// 1. Create utils.isNumber function.
 
@@ -60,7 +60,7 @@ Vector.prototype.setAngle = function(rad) {
  * setLength - Takes a length and sets coordinate.
  * @param {Integer} length
  */
-Vector.prototype.setLength = function(length) {
+Vector.prototype.setLength = function setLength(length) {
 	// TODO: Add check rad is number
 	// 1. Create utils.isNumber function.
 
@@ -74,7 +74,7 @@ Vector.prototype.setLength = function(length) {
  * getLength - Gets length of the coordinates from center plane.
  * @return {Integer} - Cooridinates.
  */
-Vector.prototype.getLength = function() {
+Vector.prototype.getLength = function getLength() {
 	const x = this.state.x;
 	const y = this.state.y;
 	return Math.sqrt((x * x) + (y * y));
@@ -84,7 +84,7 @@ Vector.prototype.getLength = function() {
  * getAngle - Get the angle of coordinates from center plane.
  * @return {Integer} - Cooridinates.
  */
-Vector.prototype.getAngle = function() {
+Vector.prototype.getAngle = function getAngle() {
 	const x = this.state.x;
 	const y = this.state.y;
 	return Math.atan2(y, x);
@@ -95,10 +95,10 @@ Vector.prototype.getAngle = function() {
  * @name add
  * @override ["+"]
  * @param {Vector} - A given vector to add.
- * @return {[Vector]} - A vector with cooridnates, or multiple vectors.
+ * @return {Vector} - A vector with cooridnates, or multiple vectors.
  */
 
-Vector.prototype.add = Vector.prototype["+"] = function(v2) {
+Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
 	const self = this;
 
 	if (v2.constructor.name === "Array" && v2.length) {
@@ -146,7 +146,7 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
 
 /**
  * Mulitplying vectors together
- * ie: {x: 2, y: 2} * {x: 2, y: 2} = {x: 3, y: 3}
+ * ie: {x: 2, y: 2} * {x: 2, y: 2} = {x: 4, y: 4}
  * @name multiply
  * @override ["*"]
  * @param  {Vector} v2 A vector that contains state.

@@ -4,14 +4,13 @@ const path = require("path");
 
 module.exports = {
 	entry: {
-		polyfill: "babel-polyfill",
-		vectors: path.join(__dirname, "src/lib/vectors.js"),
-		particle: path.join(__dirname, "src/lib/particle.js"),
+		vectors: ["babel-polyfill", path.join(__dirname, "src/lib/vectors.js")],
+		particle: ["babel-polyfill", path.join(__dirname, "src/lib/particle.js")],
 	}, 	
 	output: {
 		path: __dirname,
-		filename: "./dist/[name].bundle.js",
-		chunkFileName: "./dist/[id].chunk.js"
+		filename: "./dist/lib/[name].bundle.js",
+		chunkFileName: "./dist/lib/[id].chunk.js"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -25,9 +24,6 @@ module.exports = {
 			},
 		],
 	},
-	devtool: "source-map",
-	plugins: [
-		// new webpack.optimize.UglifyJsPlugin(),
-	],
+	devtool: "#inline-source-map",
 	target: "web",
 };

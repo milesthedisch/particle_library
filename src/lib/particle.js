@@ -3,9 +3,9 @@
  * they are not extremely accurate but still represent
  * and feel like physical movments.
  */
+const extend = require("extend");
 
-// The default state a particle starts with.
-// It should not move.
+// The default state a particle starts with It should not move.
 const INITIAL_STATE = {
 	position: null,
 	velocity: null,
@@ -25,18 +25,12 @@ function Particle(state=INITIAL_STATE) {
 /**
  * Create constructor
  * @param  {Object} 	opts 	optional state values to pass to create.
- * @return {Particle}     	returns a particle
+ * @return {Particle}     		returns a particle
  */
 Particle.prototype.create = function(opts=INITIAL_STATE) {
 	// A really basic flat level extend.
-	const obj = {};
-	for (let property in opts) {
-		if (!INITIAL_STATE.hasOwnProperty(property)) {
-			obj[property] = opts[property];
-		}
-	}
-
-	return new Particle(obj);
+	opts = extend(true, INITIAL_STATE, opts);
+	return new Particle(opts);
 };
 
 /**
@@ -60,6 +54,10 @@ Particle.prototype.update = function update(grav=this.state.gravity) {
 	this.state.velocity.addTo(this.state.gravity);
 	this.state.position.addTo(this.state.velocity);
 	return this.state;
+};
+
+Particle.prototype.angleTo = function angelTo(p2) {
+
 };
 
 module.exports = Particle;

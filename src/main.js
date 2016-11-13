@@ -3,4 +3,5 @@ const Particle = require("./lib/particle");
 const vec = new Vector();
 const p = new Particle();
 
-console.log(vec, p);
+module.exports.particle = p;
+module.exports.vector = vec; 
