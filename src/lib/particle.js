@@ -70,15 +70,16 @@ Particle.prototype.accelerate = function accelerate(accel) {
 
 /**
  * Update - A update a position of a particle
- * based on its gravity
+ * based on its gravity. Gravity is usually a acceleration
+ * vector.
  *
  * @param  {Vector} grav gravity given.
- * @return {State}       state of the particle
+ * @return {State}       state of position
  */
-Particle.prototype.update = function update(grav=this.state.gravity) {
-	this.state.velocity.addTo(this.state.gravity);
-	this.state.position.addTo(this.state.velocity);
-	return this.state;
+Particle.prototype.update = function update(grav=this.get("gravity")) {
+	const velocity = this.accelerate(grav);
+	const position = this.get("position").addTo(velocity);
+	return position;
 };
 
 Particle.prototype.angleTo = function angelTo(p2) {

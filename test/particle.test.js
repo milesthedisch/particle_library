@@ -91,4 +91,16 @@ describe("#Particle", function() {
 			assert.deepEqual(p1.state.velocity.state, {x: 2, y: 2});
 		});
 	});
+
+	describe.only("#update", function() {
+		it("should change the velocity by the gravity", function() {
+			const particle = new Particle();
+			const vector = new Vector();
+			particle.set("velocity", vector);
+			particle.set("gravity", vector);
+			particle.set("position", vector);
+			particle.update();
+			console.log(particle.state);
+		});
+	});
 });
