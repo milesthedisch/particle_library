@@ -82,65 +82,61 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
 	return position;
 };
 
+/**
+ * angleTo - Asumming we know where
+ * the other particle is on the canvas. can use
+ * the angle formulae to figure out the angle
+ * between two particle. Using arctangent is fine.
+ * but because the corrdinate plane is filped on the
+ * Y axis we use atan2 to get the right values. Explained
+ * in API Docs.
+ *
+ * @param  {Particle} p2 			A particle instance.
+ * @return {Integer}  Angle  	A angle.
+ */
 Particle.prototype.angleTo = function angelTo(p2) {
 	return Math.atan2.apply(this,
-		p2.position.get("y") - this.position.get("y"),
-		p2.position.get("x") - this.position.get("x")
+		[
+			p2.get("position").get("y") - this.get("position").get("y"),
+			p2.get("position").get("x") - this.get("position").get("x"),
+		]
 	);
 };
 
-Particle.prototype.distanceTo = function distanceTo() {
+/**
+ * distanceTo - particle.
+ * Assuming we know where both particle are on the canvas.
+ * we can use the distance formuale to figure out the distance
+ * between the two particles.
+ *
+ * @param  {Particle} p2 			A particle instance
+ * @return {Integer}  Angle  	A Distance
+ */
+Particle.prototype.distanceTo = function distanceTo(p2) {
+	const deltaX = p2.get("position").get("x") - this.get("position").get("x");
+	const deltaY = p2.get("position").get("y") - this.get("position").get("y");
+	return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+};
 
+/**
+ * gravitateTo - Creates a gravity vector if he
+ * @param  {Particle} p2     			A particle instance.
+ * @param  {Vector} 	vector 			A vector instance.
+ * @return {Vector}   veclocity 	The velocity of the current state.
+ */
+Particle.prototype.gravitateTo = function(p2, vector) {
+	const grav = this.get("gravity") === null ?
+		(vector.create(0, 0)) :
+			(this.get("gravity"));
+
+	const dist = this.distanceTo(p2);
+	const velocity = this.get("velocity");
+
+	grav.setLength(p2.mass / (dist * dist));
+	grav.setAngle(this.angleTo(p2));
+
+	velocity["+="](grav);
+	return velocity;
 };
 
 module.exports = Particle;
-
-var particle = {
-	
-	position: null,
-	velocity: null,
-	gravity: null,
-	radius: 0,
-	mass: 1,
-
-	create: function (x, y, speed, direction, grav) {
-		var obj = Object.create(this);
-		obj.position = vector.create(x, y);
-		obj.velocity = vector.create(0, 0);
-		obj.velocity.setLength(speed);
-		obj.velocity.setAngle(direction);
-		obj.gravity = vector.create(0, grav || 0);
-		return obj; 
-	},
-	
-	accelerate: function (accel) {
-		this.velocity.addTo(accel);
-	},
-
-	update: function () {
-		this.velocity.addTo(this.gravity);
-		this.position.addTo(this.velocity);
-	},
-
-	angleTo: function (p2) {
-		return Math.atan2(p2.position.getY() - this.position.getY(), p2.position.getX() - this.position.getX());
-	},
-
-	distanceTo: function (p2) {
-		var dx = p2.position.getX() - this.position.getX();
-				dy = p2.position.getY() - this.position.getY();
-
-		return Math.sqrt(dx * dx + dy * dy);
-	},
-
-	gravitateTo: function (p2) {
-		var grav = vector.create(0, 0),
-				dist = this.distanceTo(p2);
-
-		grav.setLength(p2.mass / (dist * dist));  
-		grav.setAngle(this.angleTo(p2));
-
-		this.velocity.addTo(grav);
-	} 
-
-};

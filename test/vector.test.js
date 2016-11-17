@@ -176,7 +176,7 @@ describe("#Vector", function() {
 	});
 
 	describe("vector.addTo", function() {
-		it("should add the given vector to the calling vector", function() { // eslint-disable-line
+		it("should add the given vector to the calling vector", function() {
 			const v1 = vec.create(5, 5);
 			const v2 = vec.create(5, 5);
 			v1.addTo(v2);
@@ -185,7 +185,7 @@ describe("#Vector", function() {
 	});
 
 	describe("vector.subtractFrom", function() {
-		it("should subtract the given vector to the calling vector", function() { // eslint-disable-line
+		it("should subtract the given vector to the calling vector", function() {
 			const v1 = vec.create(5, 5);
 			const v2 = vec.create(5, 5);
 			v1.subtractFrom(v2);

@@ -190,8 +190,8 @@ Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.addTo = Vector.prototype["+="] = function(v2) {
-	this.state.x += v2.state.x;
-	this.state.y += v2.state.y;
+	this.state.x = this.get("x") + v2.get("x");
+	this.state.y = this.get("y") + v2.get("y");
 	return this.state;
 };
 
@@ -201,8 +201,8 @@ Vector.prototype.addTo = Vector.prototype["+="] = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.subtractFrom = Vector.prototype["-="] = function(v2) {
-	this.state.x -= v2.state.x;
-	this.state.y -= v2.state.y;
+	this.state.x = this.get("x") - v2.get("x");
+	this.state.y = this.get("y") - v2.get("y");
 	return this.state;
 };
 
@@ -212,8 +212,8 @@ Vector.prototype.subtractFrom = Vector.prototype["-="] = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.multiplyBy = Vector.prototype["*="] = function(v2) {
-	this.state.x *= v2.state.x;
-	this.state.y *= v2.state.y;
+	this.state.x = this.get("x") * v2.get("x");
+	this.state.y = this.get("y") * v2.get("y");
 	return this.state;
 };
 
@@ -223,8 +223,8 @@ Vector.prototype.multiplyBy = Vector.prototype["*="] = function(v2) {
  * @return {Object} [state] - Key value pair of coordinates
  */
 Vector.prototype.divideBy = Vector.prototype["/="] = function(v2) {
-	this.state.x /= v2.state.x;
-	this.state.y /= v2.state.y;
+	this.state.x = this.get("x") / v2.get("x");
+	this.state.y = this.get("y") / v2.get("y");
 	return this.state;
 };
 

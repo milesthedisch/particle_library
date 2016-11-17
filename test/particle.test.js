@@ -1,4 +1,4 @@
-/* eslint max-len: 0  */
+/* eslint max-len: 0*/
 const Particle = require("../src/lib/particle.js");
 const Vector = require("../src/lib/vectors.js");
 const assert = require("chai").assert;
@@ -92,15 +92,55 @@ describe("#Particle", function() {
 		});
 	});
 
-	describe.only("#update", function() {
-		it("should change the velocity by the gravity", function() {
+	describe("#update", function() {
+		it("should change the velocity with the given gravity", function() {
 			const particle = new Particle();
 			const vector = new Vector();
-			particle.set("velocity", vector);
-			particle.set("gravity", vector);
-			particle.set("position", vector);
+			particle.set("gravity", vector.create(0, 1));
+			particle.set("velocity", vector.create(0, 0));
+			particle.set("position", vector.create(0, 0));
 			particle.update();
-			console.log(particle.state);
+
+			assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
+			assert.deepEqual(particle.get("velocity").state, {x: 0, y: 1});
+			assert.deepEqual(particle.get("position").state, {x: 0, y: 1});
+
+			particle.update();
+			assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
+			assert.deepEqual(particle.get("velocity").state, {x: 0, y: 2});
+			assert.deepEqual(particle.get("position").state, {x: 0, y: 3});
+		});
+	});
+
+	describe("#angleTo", function() {
+		let particle;
+		let vector;
+		let p1;
+		let p2;
+
+		beforeEach(function() {
+			particle = new Particle();
+			vector = new Vector();
+			p1 = particle.create();
+			p2 = particle.create();
+		});
+
+		it("should return 0 given two coordinates that are in the same position", function() {
+			p1.set("position", vector.create(0, 0));
+			p2.set("position", vector.create(0, 0));
+			assert.equal(p1.angleTo(p2), 0);
+		});
+
+		it("should return > given a coordiante that is verically aligned but not horizontally", function() {
+			p1.set("position", vector.create(0, 0));
+			p2.set("position", vector.create(0, 1));
+			// is greater than the angleTo. something like that im tired....
+		});
+	});
+
+	describe.skip("#distanceTo", function() {
+		it("...", function() {
+			return;
 		});
 	});
 });
