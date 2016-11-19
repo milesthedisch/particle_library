@@ -193,7 +193,7 @@ describe("#Vector", function() {
 		});
 	});
 
-	describe("vector.divideBy", function() {
+	describe("vector.multiplyBy", function() {
 		it("should multiply the given vector by the calling vector", function() {
 			const v1 = vec.create(5, 5);
 			const v2 = vec.create(5, 5);

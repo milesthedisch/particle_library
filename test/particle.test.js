@@ -131,14 +131,20 @@ describe("#Particle", function() {
 			assert.equal(p1.angleTo(p2), 0);
 		});
 
-		it("should return > given a coordiante that is verically aligned but not horizontally", function() {
+		it("should return a close to one", function() {
 			p1.set("position", vector.create(0, 0));
 			p2.set("position", vector.create(0, 1));
-			// is greater than the angleTo. something like that im tired....
+			// Watch the coding Math video on tracking mouse and getting the opposite direction.
 		});
 	});
 
 	describe.skip("#distanceTo", function() {
+		it("...", function() {
+			return;
+		});
+	});
+
+	describe.skip("#gravitateTo", function() {
 		it("...", function() {
 			return;
 		});
