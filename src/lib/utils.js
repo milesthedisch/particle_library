@@ -24,7 +24,7 @@ function Utils() {
  * @return {Int} Int - The value represented in that range.
  */
 Utils.prototype.normalize = function normalize(val, max, min) {
-	return (val - max) / (max - min);
+	return (val - min) / (max - min);
 };
 
 /**

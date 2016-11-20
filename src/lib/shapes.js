@@ -11,12 +11,18 @@ function Shapes(ctx, document) {
 	this.document = document || window.document;
 };
 
-Shapes.prototype.circle = function drawCircle(x, y, r, color) {
-	color = color || "#000000";
+/**
+ * circle - Draws a simples circle
+ * @param  {Number} x     The x coordinate of the circle.
+ * @param  {Number} y     The y coordinate of the circle.
+ * @param  {Number} r     The radius of the circle.
+ * @param  {String} color The color of the circle.
+ */
+Shapes.prototype.circle = function drawCircle(x=4, y=4, r=2, color="#000000") {
 	this.ctx.fillStyle = color;
 	this.ctx.beginPath();
 	this.ctx.arc(x, y, r, 0, Math.PI * 2, false);
-	return this.ctx.fill();
+	this.ctx.fill();
 };
 
 module.exports = Shapes;
