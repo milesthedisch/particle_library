@@ -125,28 +125,58 @@ describe("#Particle", function() {
 			p2 = particle.create();
 		});
 
+		afterEach(function() {
+			particle = undefined;
+			vector = undefined;
+			p1 = undefined;
+			p2 = undefined;
+		});
+
 		it("should return 0 given two coordinates that are in the same position", function() {
 			p1.set("position", vector.create(0, 0));
 			p2.set("position", vector.create(0, 0));
 			assert.equal(p1.angleTo(p2), 0);
 		});
 
-		it("should return a close to one", function() {
-			p1.set("position", vector.create(0, 0));
-			p2.set("position", vector.create(0, 1));
-			// Watch the coding Math video on tracking mouse and getting the opposite direction.
+		it("should return 45 degress in radians when the triangle is a isoleces.", function() {
+			const vec1 = vector.create(0, 0);
+			const vec2 = vector.create(1, 1);
+			p1.set("position", vec1);
+			p2.set("position", vec2);
+			const degress = p1.angleTo(p2) * 180 / Math.PI;
+			assert.equal(degress, 45);
+		});
+
+		it("should return -90 degress given a point slightly above it", function() {
+			const vec1 = vector.create(0, 0);
+			const vec2 = vector.create(0, -1);
+			p1.set("position", vec1);
+			p2.set("position", vec2);
+			const degress = p1.angleTo(p2) * 180 / Math.PI;
+			assert.equal(degress, -90);
+		});
+
+		it("should return -135 degress given a point opposite 45 degress", function() {
+			const vec1 = vector.create(0, 0);
+			const vec2 = vector.create(-1, -1);
+			p1.set("position", vec1);
+			p2.set("position", vec2);
+			const degress = p1.angleTo(p2) * 180 / Math.PI;
+			assert.equal(degress, -135);
 		});
 	});
 
-	describe.skip("#distanceTo", function() {
-		it("...", function() {
-			return;
-		});
-	});
-
-	describe.skip("#gravitateTo", function() {
-		it("...", function() {
-			return;
+	describe("#distanceTo", function() {
+		it("should give the distance between two particles.", function() {
+			const vector = new Vector();
+			const particle = new Particle();
+			const vec1 = vector.create(2, 2);
+			const vec2 = vector.create(0, 0);
+			const p1 = particle.create();
+			const p2 = particle.create();
+			p1.set("position", vec1);
+			p2.set("position", vec2);
+			assert.equal(p1.distanceTo(p2), Math.hypot(2, 2));
 		});
 	});
 });

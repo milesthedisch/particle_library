@@ -86,7 +86,7 @@ Vector.prototype.setLength = function setLength(length) {
 Vector.prototype.getLength = function getLength() {
 	const x = this.get("x");
 	const y = this.get("y");
-	return Math.sqrt((x * x) + (y * y));
+	return Math.hypot(x, y);
 };
 
 /**
@@ -162,11 +162,10 @@ Vector.prototype.subtract = Vector.prototype["-"] = function(v2) {
  * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
-	return this.create.bind(
-		this,
+	return this.create(
 		this.get("x") * v2.get("x"),
 		this.get("y") * v2.get("y")
-	)();
+	);
 };
 
 /**
@@ -177,11 +176,10 @@ Vector.prototype.multiply = Vector.prototype["*"] = function(v2) {
  * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.divide = Vector.prototype["/"] = function(v2) {
-	return this.create.bind(
-		this,
+	return this.create(
 		this.get("x") / v2.get("x"),
 		this.get("y") / v2.get("y")
-	)();
+	);
 };
 
 /**

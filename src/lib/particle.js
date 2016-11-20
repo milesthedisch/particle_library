@@ -54,8 +54,9 @@ Particle.prototype.set = function set(prop, val) {
  */
 Particle.prototype.create = function(opts=INITIAL_STATE) {
 	// A really basic flat level extend.
-	opts = extend(true, INITIAL_STATE, opts);
-	return new Particle(opts);
+	opts = extend(true, {}, INITIAL_STATE, opts);
+	const particle = new Particle(opts);
+	return particle;
 };
 
 /**
@@ -95,12 +96,9 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
  * @return {Integer}  Angle  	A angle.
  */
 Particle.prototype.angleTo = function angelTo(p2) {
-	return Math.atan2.apply(this,
-		[
-			p2.get("position").get("y") - this.get("position").get("y"),
-			p2.get("position").get("x") - this.get("position").get("x"),
-		]
-	);
+	const dx = p2.get("position").get("x") - this.get("position").get("x");
+	const dy = p2.get("position").get("y") - this.get("position").get("y");
+	return Math.atan2(dy, dx);
 };
 
 /**
@@ -115,7 +113,7 @@ Particle.prototype.angleTo = function angelTo(p2) {
 Particle.prototype.distanceTo = function distanceTo(p2) {
 	const deltaX = p2.get("position").get("x") - this.get("position").get("x");
 	const deltaY = p2.get("position").get("y") - this.get("position").get("y");
-	return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+	return Math.hypot(deltaX, deltaY);
 };
 
 /**
