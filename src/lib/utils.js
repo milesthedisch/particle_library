@@ -1,20 +1,42 @@
-var utils = (function(window, document, cb){
+/**
+ * This module is composed of small function that
+ * should be used when needed. Most functions are pure
+ * and only return values. For more info read the docs.
+ */
 
-  window = window || this;
-  document = window.document === document ? window.document : this.document;
-  var canvas = document.querySelector('canvas');
-  var ctx = canvas.getContext("2d");
-  
-  return cb();
+/**
+ * Utils constructor
+ * @return {Self} it self
+ */
+function Utils() {
+	return this;
+};
 
-})(this, document, function () {
+/**
+ * normalize - Takes a max and min value and returns
+ * the a floating point number that when multiplied
+ * by one hundred represents a precentage of the range
+ * between max and min.
+ *
+ * @param  {Int} val - The value that lies in the range.
+ * @param  {Int} max - The maxium value in the range.
+ * @param  {Int} min - The minimum value in the range.
+ * @return {Int} Int - The value represented in that range.
+ */
+Utils.prototype.normalize = function normalize(val, max, min) {
+	return (val - max) / (max - min);
+};
 
-  var API = {
-    normalize: function (val, max, min) {
-      return (val - min) / (max - min);
-    }
-  };
+/**
+ * precent - Takes a value and returns a precentage.
+ * you can pass arbitrary large numbers in but thats not
+ * the intended purpose of this function.
+ *
+ * @param  {Float} val 	A value.
+ * @return {Percent}    A value.
+ */
+Utils.prototype.precent = function(val) {
+	return val * 100;
+};
 
-  return API;
-
-});
+module.exports = Utils;

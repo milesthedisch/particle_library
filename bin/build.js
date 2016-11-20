@@ -23,12 +23,13 @@ function mapEntries(entries) {
 };
 
 // All example js files.
-const examples = glob.sync(path.resolve(__dirname, "../src/examples/*/*.js"));
+const examples = glob.sync(path.resolve(__dirname, "../examples/*/*.js"));
 const entries = mapEntries(examples);
+
 const defaultConfig = {
 	entry: examples,
 	output: {
-		path: path.resolve(__dirname, "../dist/examples"),
+		path: path.resolve(__dirname, "../examples"),
 		filename: "[name].example.js",
 	},
 	externals: {
@@ -37,6 +38,14 @@ const defaultConfig = {
 	},
 	target: "web",
 	devtool: "#inline-source-map",
+	module: {
+		loaders: [
+			{
+				test: /\.handlebars$/,
+				loader: "handlebars-loader",
+			},
+		],
+	},
 };
 
 // Extend all the entries on to the entry object

@@ -10,7 +10,8 @@
   "scripts": {
     "test": "mocha test/**/*.test.js -R spec --compilers js:babel-core/register --recursive",
     "build": "webpack --config webpack.prod",
-    "dev": "webpack --watch --progress --config webpack.dev && node bin/build"
+    "dev": "webpack --watch --progress --config webpack.dev && node bin/build",
+    "start": "node server.dev.js"
   },
   "keywords": [
     "particles",
@@ -33,8 +34,10 @@
     "glob": "^7.1.1",
     "gutil": "^1.6.4",
     "handlebars": "^4.0.5",
+    "html-webpack-plugin": "^2.24.1",
     "mocha": "^3.1.2",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "extend": "^3.0.0"

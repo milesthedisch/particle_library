@@ -4,4 +4,4 @@ const vec = new Vector();
 const p = new Particle();
 
 module.exports.particle = p;
-module.exports.vector = vec; 
+module.exports.vector = vec;

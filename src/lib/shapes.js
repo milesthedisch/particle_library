@@ -1,30 +1,22 @@
-var shapes = (function(window, document, cb){
+/**
+ * Shapes constuctor
+ * @param {Object} ctx      Canvas context.
+ * @param {Object} document The document object.
+ */
+function Shapes(ctx, document) {
+	if (!ctx) {
+		throw new Error("Please provide a context argument [arg::1]");
+	}
+	this.ctx = ctx;
+	this.document = document || window.document;
+};
 
-  window = window || this;
-  document = window.document === document ? window.document : this.document;
-  var canvas = document.querySelector('canvas');
-  var ctx = canvas.getContext("2d");
-  
-  return cb(ctx);
+Shapes.prototype.circle = function drawCircle(x, y, r, color) {
+	color = color || "#000000";
+	this.ctx.fillStyle = color;
+	this.ctx.beginPath();
+	this.ctx.arc(x, y, r, 0, Math.PI * 2, false);
+	return this.ctx.fill();
+};
 
-})(this, document, function (ctx) {
-
-  if (!ctx) {
-    throw 'Needs ctx for canvas.';
-  }
-
-  var API = {
-
-    circle: function (x, y, r, color) {
-      color = color || '#000000';
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2, false);
-      return ctx.fill();
-    }
-
-  };
-
-  return API;
-
-});
+module.exports = Shapes;
