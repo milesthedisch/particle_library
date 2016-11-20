@@ -4,4 +4,5 @@ module.exports = Object.assign(common, {
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin(),
 	],
+	devtool: null,
 });

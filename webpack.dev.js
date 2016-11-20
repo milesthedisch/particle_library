@@ -1,5 +1,5 @@
-const common = require('./webpack.common.js');
+const common = require("./webpack.common.js");
 
 module.exports = Object.assign(common, {
-  // Dev stuff here.
+	devtool: "#inline-source-map",
 });

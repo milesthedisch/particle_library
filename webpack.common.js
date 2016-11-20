@@ -4,13 +4,15 @@ const path = require("path");
 
 module.exports = {
 	entry: {
-		vectors: ["babel-polyfill", path.join(__dirname, "src/lib/vectors.js")],
-		particle: ["babel-polyfill", path.join(__dirname, "src/lib/particle.js")],
+		vectors: path.join(__dirname, "src/lib/vectors.js"),
+		particle: path.join(__dirname, "src/lib/particle.js"),
+		utils: path.join(__dirname, "src/lib/utils.js"),
+		shapes: path.join(__dirname, "src/lib/shapes.js"),
+		bundle: path.join(__dirname, "src/lib/main.js"),
 	}, 	
 	output: {
 		path: __dirname,
 		filename: "./dist/lib/[name].bundle.js",
-		chunkFileName: "./dist/lib/[id].chunk.js"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -27,6 +29,5 @@ module.exports = {
 			},
 		],
 	},
-	devtool: "#inline-source-map",
 	target: "web",
 };
