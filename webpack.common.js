@@ -4,15 +4,17 @@ const path = require("path");
 
 module.exports = {
 	entry: {
-		vectors: path.join(__dirname, "src/lib/vectors.js"),
-		particle: path.join(__dirname, "src/lib/particle.js"),
-		utils: path.join(__dirname, "src/lib/utils.js"),
-		shapes: path.join(__dirname, "src/lib/shapes.js"),
-		bundle: path.join(__dirname, "src/lib/main.js"),
-	}, 	
+		main: path.join(__dirname, "src/main.js"),
+	},
+	externals: {
+		"./src/lib/particle": "particle",
+		"./src/lib/vector": "vector",
+		"./src/lib/utils": "utils",
+		"./src/lib/vectors": "vectors",
+	},
 	output: {
 		path: __dirname,
-		filename: "./dist/lib/[name].bundle.js",
+		filename: "./dist/lib/[name].bundle.js"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -23,10 +25,13 @@ module.exports = {
 	module: {
 		loaders: [
 			{
-				test: /\.js$/, // Transform all .js files required somewhere within an entry point... 
-				loader: "babel?presets[]=es2015", // ...with the specified loaders...
-				exclude: path.join(__dirname, "/node_modules/") // ...except for the node_modules folder.
-			},
+	      test: /\.js$/,
+	      exclude: /(node_modules|bower_components)/,
+	      loader: 'babel',
+	      query: {
+	        presets: ['es2015']
+	      },
+	    },
 		],
 	},
 	target: "web",

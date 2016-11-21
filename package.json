@@ -10,8 +10,9 @@
   "scripts": {
     "test": "mocha test/**/*.test.js -R spec --compilers js:babel-core/register --recursive",
     "build": "webpack --config webpack.prod",
-    "dev": "webpack --watch --progress --config webpack.dev && node bin/build",
-    "start": "node server.dev.js"
+    "dev": "webpack --progress --config webpack.dev && node bin/build",
+    "start": "node server.dev.js",
+    "serve": "node ./src/back/app.js"
   },
   "keywords": [
     "particles",
@@ -40,6 +41,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "express": "^4.14.0",
     "extend": "^3.0.0"
   }
 }
