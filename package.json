@@ -12,7 +12,7 @@
     "build": "webpack --config webpack.prod",
     "dev": "webpack --progress --config webpack.dev && node bin/build",
     "start": "node server.dev.js",
-    "serve": "node ./src/back/app.js"
+    "serve": "nodemon ./src/back/app.js --watch ./src/back"
   },
   "keywords": [
     "particles",
@@ -37,6 +37,7 @@
     "handlebars": "^4.0.5",
     "html-webpack-plugin": "^2.24.1",
     "mocha": "^3.1.2",
+    "nodemon": "^1.11.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
