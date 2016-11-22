@@ -27,6 +27,10 @@ Utils.prototype.normalize = function normalize(val, max, min) {
 	return (val - min) / (max - min);
 };
 
+Utils.prototype.lerp = function lerp(val, min, max) {
+
+};
+
 /**
  * precent - Takes a value and returns a precentage.
  * you can pass arbitrary large numbers in but thats not

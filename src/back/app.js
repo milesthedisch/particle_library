@@ -1,13 +1,14 @@
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
+const serve = require("./helpers/serve");
+// const bodyParser = require("body-parser");
 const app = express();
 
+const routes = require("./router");
+
 app.use(express.static(path.join(__dirname, "../../examples")));
+app.use(cors());
+app.use("/", routes(app));
 
-app.get("/", (req, res) => {
-	res.send("Hello World!");
-});
-
-app.listen(3000, () => {
-	console.log("Example app listening on port 3000!");
-});
+serve(app, 3000);

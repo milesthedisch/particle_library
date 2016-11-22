@@ -35,7 +35,6 @@
     "glob": "^7.1.1",
     "gutil": "^1.6.4",
     "handlebars": "^4.0.5",
-    "html-webpack-plugin": "^2.24.1",
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
     "webpack": "^1.13.2",
@@ -43,6 +42,9 @@
   },
   "dependencies": {
     "express": "^4.14.0",
-    "extend": "^3.0.0"
+    "extend": "^3.0.0",
+    "bunyan": "^1.4.0",
+    "cors": "^2.7.1",
+    "body-parser": "^1.15.2" 
   }
 }

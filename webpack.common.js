@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
 	entry: {
-		main: path.join(__dirname, "src/main.js"),
+		main: ['babel-polyfill', path.join(__dirname, "src/main.js")],
 	},
 	externals: {
 		"./src/lib/particle": "particle",
