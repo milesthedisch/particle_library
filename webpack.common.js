@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const path = require("path");
 
 const paths = {
-	main: path.join(__dirname, "src/front/main.js")
+	main: path.join(__dirname, "src/main.js")
 }
 
 module.exports = {
@@ -11,14 +11,15 @@ module.exports = {
 		main: ['babel-polyfill', 'whatwg-fetch', paths.main],
 	},
 	externals: {
-		"./src/front/lib/": "particle",
-		"./src/front/lib/vector": "vector",
-		"./src/front/lib/utils": "utils",
-		"./src/front/lib/vectors": "vectors",
+		"./src/lib/": "particle",
+		"./src/lib/vector": "vector",
+		"./src/lib/utils": "utils",
+		"./src/lib/vectors": "vectors",
 	},
 	output: {
 		path: __dirname,
-		filename: "./dist/lib/[name].bundle.js"
+		filename: "./dist/lib/[name].bundle.js",
+		library: "particle"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
