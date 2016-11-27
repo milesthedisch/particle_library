@@ -20,10 +20,10 @@ Much of the inspiration for this library has come from http://www.codingmath.com
 
 # Nice to haves
 
-1. [] Performant collision detection.
-2. [] Configurable examples like three.js examples.
-3. [] Small game example.
-4. [] React components as examples.
+1. [ ] Performant collision detection.
+2. [ ] Configurable examples like three.js examples.
+3. [ ] Small game example.
+4. [ ] React components as examples.
 
 ---
 
