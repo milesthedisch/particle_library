@@ -1,7 +1,7 @@
-const Shapes = require("../src/lib/shapes.js");
+const Shapes = require("../../src/lib/shapes.js");
 const assert = require("assert");
 
-describe.only("#Shapes", function() {
+describe("#Shapes", function() {
 	let context = {
 		fillStyle: null,
 		beginPath: function beginPath() {

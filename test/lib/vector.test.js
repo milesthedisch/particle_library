@@ -1,5 +1,5 @@
 /* eslint max-len: 0  */
-const Vector = require("../src/lib/vectors.js");
+const Vector = require("../../src/lib/vectors.js");
 const assert = require("chai").assert;
 
 describe("#Vector", function() {

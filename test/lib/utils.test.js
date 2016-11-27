@@ -1,5 +1,5 @@
 /* eslint max-len: 0 */
-const Utils = require("../src/lib/Utils");
+const Utils = require("../../src/lib/Utils");
 const assert = require("assert");
 
 describe("#Util", function() {

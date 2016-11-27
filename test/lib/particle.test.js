@@ -1,6 +1,6 @@
 /* eslint max-len: 0*/
-const Particle = require("../src/lib/particle.js");
-const Vector = require("../src/lib/vectors.js");
+const Particle = require("../../src/lib/particle.js");
+const Vector = require("../../src/lib/vectors.js");
 const assert = require("chai").assert;
 
 describe("#Particle", function() {
