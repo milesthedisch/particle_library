@@ -5,7 +5,7 @@
  */
 function Shapes(ctx, document) {
 	if (!ctx) {
-		throw new Error("Please provide a context argument [arg::1]");
+		throw new Error("Shapes: Please provide a context argument [arg::1]");
 	}
 	this.ctx = ctx;
 	this.document = document || window.document;

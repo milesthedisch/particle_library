@@ -5,7 +5,7 @@ module.exports = function(app) {
 	const router = express.Router(app);
 
 	router.get("/", function(req, res) {
-		res.send("<h1>Homepage<h1>");
+		res.render("layout/main");
 	});
 
 	router.get("/docs", function(req, res) {
@@ -13,6 +13,7 @@ module.exports = function(app) {
 	});
 
 	router.get("/examples/:id", function(req, res) {
+		res.render("layout/main", { testContext: "lalalala", someText: 100000 + "n" });
 		// 1. Grab the appropriate template.
 		// 2. compileTemplate
 		// 3. sendTemplate.

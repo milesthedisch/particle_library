@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <style>
+    body, html {
+      margin: 0;
+      background: transparent;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+    <canvas id="a">
+    </canvas>
+    {{> (lookup . 'exampleJsFile') }}
+</body>
+</html>

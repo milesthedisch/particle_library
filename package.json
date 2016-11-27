@@ -10,9 +10,8 @@
   "scripts": {
     "test": "mocha test/**/*.test.js -R spec --compilers js:babel-core/register --recursive",
     "build": "webpack --config webpack.prod",
-    "dev": "webpack --progress --config webpack.dev && node bin/build",
-    "start": "node server.dev.js",
-    "serve": "nodemon ./src/back/app.js --watch ./src/back"
+    "dev": "webpack --watch --progress --config webpack.dev",
+    "serve": "nodemon -e js,hbs,json, --watch ./src/back --watch views server.js"
   },
   "keywords": [
     "particles",
@@ -34,17 +33,18 @@
     "extend": "^3.0.0",
     "glob": "^7.1.1",
     "gutil": "^1.6.4",
-    "handlebars": "^4.0.5",
     "mocha": "^3.1.2",
     "nodemon": "^1.11.0",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "bunyan": "^1.8.5",
+    "cors": "^2.7.1",
     "express": "^4.14.0",
     "extend": "^3.0.0",
-    "bunyan": "^1.4.0",
-    "cors": "^2.7.1",
-    "body-parser": "^1.15.2" 
+    "hbs": "^4.0.1",
+    "whatwg-fetch": "^2.0.1"
   }
 }
