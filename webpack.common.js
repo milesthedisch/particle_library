@@ -8,7 +8,7 @@ const paths = {
 
 module.exports = {
 	entry: {
-		main: ['babel-polyfill', 'whatwg-fetch', paths.main],
+		main: ['babel-polyfill', paths.main],
 	},
 	externals: {
 		"./src/lib/": "particle",

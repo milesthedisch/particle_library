@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test/**/*.test.js -R spec --compilers js:babel-core/register --recursive",
-    "build": "webpack --config webpack.prod",
+    "build": "webpack --progress --config webpack.prod",
     "dev": "webpack --watch --progress --config webpack.dev"
   },
   "keywords": [
