@@ -18,9 +18,9 @@ module.exports = {
 	},
 	output: {
 		path: __dirname,
-		filename: "./dist/lib/[name].bundle.js",
+		filename: "main.js",
 		library: "particle",
-		libraryTarget: "commonjs2"
+		libraryTarget: "var"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
