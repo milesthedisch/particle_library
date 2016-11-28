@@ -40,5 +40,5 @@ module.exports = {
 	    },
 		],
 	},
-	target: "node",
+	target: "web",
 };
