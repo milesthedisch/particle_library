@@ -9,7 +9,7 @@
  * @return {Self} it self
  */
 function Utils() {
-	return this;
+  return this;
 };
 
 /**
@@ -24,7 +24,7 @@ function Utils() {
  * @return {Int} Int - The value represented in that range.
  */
 Utils.prototype.normalize = function normalize(val, max, min) {
-	return (val - min) / (max - min);
+  return (val - min) / (max - min);
 };
 
 Utils.prototype.lerp = function lerp(val, min, max) {
@@ -40,7 +40,7 @@ Utils.prototype.lerp = function lerp(val, min, max) {
  * @return {Percent}    A value.
  */
 Utils.prototype.precent = function(val) {
-	return val * 100;
+  return val * 100;
 };
 
 module.exports = Utils;

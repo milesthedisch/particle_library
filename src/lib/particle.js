@@ -7,11 +7,11 @@ const extend = require("extend");
 
 // The default state a particle starts with It should not move.
 const INITIAL_STATE = {
-	position: null,
-	velocity: null,
-	gravity: null,
-	radius: 0,
-	mass: 1,
+  position: null,
+  velocity: null,
+  gravity: null,
+  radius: 0,
+  mass: 1,
 };
 
 /**
@@ -19,7 +19,7 @@ const INITIAL_STATE = {
  * @param {state} state initial state to pass the constructor
  */
 function Particle(state=INITIAL_STATE) {
-	this.state = state;
+  this.state = state;
 }
 
 /**
@@ -28,7 +28,7 @@ function Particle(state=INITIAL_STATE) {
  * @return {Value}  A value assosiated with the property.
  */
 Particle.prototype.get = function get(prop) {
-	return this.state[prop];
+  return this.state[prop];
 };
 
 /**
@@ -39,12 +39,12 @@ Particle.prototype.get = function get(prop) {
  *                      exsist on the inital state
  */
 Particle.prototype.set = function set(prop, val) {
-	if (this.state.hasOwnProperty(prop)) {
-		this.state[prop] = val;
-		return true;
-	}
+  if (this.state.hasOwnProperty(prop)) {
+    this.state[prop] = val;
+    return true;
+  }
 
-	return false;
+  return false;
 };
 
 /**
@@ -54,9 +54,9 @@ Particle.prototype.set = function set(prop, val) {
  */
 Particle.prototype.create = function(opts=INITIAL_STATE) {
 	// A really basic flat level extend.
-	opts = extend(true, {}, INITIAL_STATE, opts);
-	const particle = new Particle(opts);
-	return particle;
+  opts = extend(true, {}, INITIAL_STATE, opts);
+  const particle = new Particle(opts);
+  return particle;
 };
 
 /**
@@ -65,8 +65,8 @@ Particle.prototype.create = function(opts=INITIAL_STATE) {
  * @return {Value} 	state of the particle after accelerating.
  */
 Particle.prototype.accelerate = function accelerate(accel) {
-	this.get("velocity").addTo(accel);
-	return this.get("velocity");
+  this.get("velocity").addTo(accel);
+  return this.get("velocity");
 };
 
 /**
@@ -78,9 +78,9 @@ Particle.prototype.accelerate = function accelerate(accel) {
  * @return {State}       state of position
  */
 Particle.prototype.update = function update(grav=this.get("gravity")) {
-	const velocity = this.accelerate(grav);
-	const position = this.get("position").addTo(velocity);
-	return position;
+  const velocity = this.accelerate(grav);
+  const position = this.get("position").addTo(velocity);
+  return position;
 };
 
 /**
@@ -96,9 +96,9 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
  * @return {Integer}  Angle  	A angle.
  */
 Particle.prototype.angleTo = function angelTo(p2) {
-	const dx = p2.get("position").get("x") - this.get("position").get("x");
-	const dy = p2.get("position").get("y") - this.get("position").get("y");
-	return Math.atan2(dy, dx);
+  const dx = p2.get("position").get("x") - this.get("position").get("x");
+  const dy = p2.get("position").get("y") - this.get("position").get("y");
+  return Math.atan2(dy, dx);
 };
 
 /**
@@ -111,9 +111,9 @@ Particle.prototype.angleTo = function angelTo(p2) {
  * @return {Integer}  Angle  	A Distance
  */
 Particle.prototype.distanceTo = function distanceTo(p2) {
-	const deltaX = p2.get("position").get("x") - this.get("position").get("x");
-	const deltaY = p2.get("position").get("y") - this.get("position").get("y");
-	return Math.hypot(deltaX, deltaY);
+  const deltaX = p2.get("position").get("x") - this.get("position").get("x");
+  const deltaY = p2.get("position").get("y") - this.get("position").get("y");
+  return Math.hypot(deltaX, deltaY);
 };
 
 /**
@@ -123,18 +123,18 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
  * @return {Vector}   veclocity 	The velocity of the current state.
  */
 Particle.prototype.gravitateTo = function(p2, vector) {
-	const grav = this.get("gravity") === null ?
+  const grav = this.get("gravity") === null ?
 		(vector.create(0, 0)) :
 			(this.get("gravity"));
 
-	const dist = this.distanceTo(p2);
-	const velocity = this.get("velocity");
+  const dist = this.distanceTo(p2);
+  const velocity = this.get("velocity");
 
-	grav.setLength(p2.mass / (dist * dist));
-	grav.setAngle(this.angleTo(p2));
+  grav.setLength(p2.mass / (dist * dist));
+  grav.setAngle(this.angleTo(p2));
 
-	velocity["+="](grav);
-	return velocity;
+  velocity["+="](grav);
+  return velocity;
 };
 
 module.exports = Particle;

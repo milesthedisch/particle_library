@@ -4,11 +4,11 @@
  * @param {Object} document The document object.
  */
 function Shapes(ctx, document) {
-	if (!ctx) {
-		throw new Error("Shapes: Please provide a context argument [arg::1]");
-	}
-	this.ctx = ctx;
-	this.document = document || window.document;
+  if (!ctx) {
+    throw new Error("Shapes: Please provide a context argument [arg::1]");
+  }
+  this.ctx = ctx;
+  this.document = document || window.document;
 };
 
 /**
@@ -19,10 +19,10 @@ function Shapes(ctx, document) {
  * @param  {String} color The color of the circle.
  */
 Shapes.prototype.circle = function drawCircle(x=4, y=4, r=2, color="#000000") {
-	this.ctx.fillStyle = color;
-	this.ctx.beginPath();
-	this.ctx.arc(x, y, r, 0, Math.PI * 2, false);
-	this.ctx.fill();
+  this.ctx.fillStyle = color;
+  this.ctx.beginPath();
+  this.ctx.arc(x, y, r, 0, Math.PI * 2, false);
+  this.ctx.fill();
 };
 
 module.exports = Shapes;
