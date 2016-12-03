@@ -20,7 +20,7 @@ module.exports = {
 		path: __dirname,
 		filename: "main.js",
 		library: "particle",
-		libraryTarget: "var"
+		libraryTarget: "umd"
 	},
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
