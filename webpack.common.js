@@ -8,7 +8,7 @@ const paths = {
 
 module.exports = {
 	entry: {
-		main: ['babel-polyfill', paths.main],
+		main: [paths.main],
 	},
 	externals: {
 		"./src/lib/": "particle",
