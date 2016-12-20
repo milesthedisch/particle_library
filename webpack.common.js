@@ -3,7 +3,8 @@ const webpack = require("webpack");
 const path = require("path");
 
 const paths = {
-	main: path.join(__dirname, "src/main.js")
+	main: path.join(__dirname, "src/main.js"),
+	lib: path.resolve("./src/lib"),
 }
 
 module.exports = {
@@ -26,7 +27,10 @@ module.exports = {
     root: path.join(__dirname, 'node_modules')
   },
 	resolve: {
-		extensions: ['', '.js', '.jsx'],
+		extensions: ['.js'],
+		root: [
+			path.lib
+		]
 	},
 	module: {
 		loaders: [

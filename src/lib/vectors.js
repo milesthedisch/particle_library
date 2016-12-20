@@ -1,3 +1,5 @@
+const utils = require("./utils.js");
+
 const INITIAL_STATE = {
   x: 0,
   y: 1,
@@ -226,13 +228,13 @@ Vector.prototype.divideBy = Vector.prototype["/="] = function divideBy(v2) {
 
 /**
  * random generate a vector with random states.
- * @param {Number} min - A min clamp on the random vector state.
- * @param {Number} max - A max clamp on the random vector state.
+ * @param {Number} min - A min range on the random vector state.
+ * @param {Number} max - A max range on the random vector state.
  * @return {Vector}
  */
 Vector.prototype.random = function randomVector(min=1, max=10) {
-  const x = Math.floor(Math.random() * (max - min + 1)) + min;
-  const y = Math.floor(Math.random() * (max - min + 1)) + min;
+  const x = Math.floor(utils.lerp(min, max, Math.random()));
+  const y = Math.floor(utils.lerp(min, max, Math.random()));
   return this.create(x, y);
 };
 

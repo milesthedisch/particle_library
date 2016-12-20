@@ -14,7 +14,7 @@ function Utils() {
 
 /**
  * normalize - Takes a max and min value and returns
- * the a floating point number that when multiplied
+ * a floating point number, that when multiplied
  * by one hundred represents a precentage of the range
  * between max and min.
  *
@@ -27,8 +27,16 @@ Utils.prototype.normalize = function normalize(val, max, min) {
   return (val - min) / (max - min);
 };
 
+/**
+ * lerp - linear interpolation takes a range and a given normalized value
+ * and returns a value that represents that normalized value in that range.
+ * @param  {Interger} val
+ * @param  {Interger} min
+ * @param  {Interger} max
+ * @return {Interger}
+ */
 Utils.prototype.lerp = function lerp(val, min, max) {
-
+  return (max - min) * val + min;
 };
 
 /**
