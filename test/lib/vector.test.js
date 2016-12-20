@@ -210,4 +210,23 @@ describe("#Vector", function() {
       assert.deepEqual(vec.create(1, 1).state, v1.state);
     });
   });
+
+  describe.only("vector.random", function() {
+    it("should provide a random vector when called with no arguments", function() {
+      const randomVector = vec.random();
+      assert.isAbove(randomVector.state.x, 0);
+      assert.isBelow(randomVector.state.x, 11);
+      assert.isAbove(randomVector.state.y, 0);
+      assert.isBelow(randomVector.state.y, 11);
+    });
+    it("should give a random vector with in range of the the two arguments", function() {
+      const min = 1;
+      const max = 10000;
+      const randomVector = vec.random(min, max);
+      assert.isAbove(randomVector.state.x, min);
+      assert.isBelow(randomVector.state.x, max);
+      assert.isAbove(randomVector.state.y, min);
+      assert.isBelow(randomVector.state.y, max);
+    });
+  });
 });
