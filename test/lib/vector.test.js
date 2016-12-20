@@ -211,7 +211,7 @@ describe("#Vector", function() {
     });
   });
 
-  describe.only("vector.random", function() {
+  describe("vector.random", function() {
     it("should provide a random vector when called with no arguments", function() {
       const randomVector = vec.random();
       assert.isAbove(randomVector.state.x, 0);
