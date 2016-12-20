@@ -11,5 +11,4 @@ module.exports = Object.assign(common, {
     library: "particle",
     libraryTarget: "var",
   },
-  devtool: "#inline-source-map",
 });

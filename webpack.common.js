@@ -5,17 +5,12 @@ const path = require("path");
 const paths = {
 	main: path.join(__dirname, "src/main.js"),
 	lib: path.resolve("./src/lib"),
+	src: path.resolve("./src")
 }
 
 module.exports = {
 	entry: {
 		main: [paths.main],
-	},
-	externals: {
-		"./src/lib/": "particle",
-		"./src/lib/vector": "vector",
-		"./src/lib/utils": "utils",
-		"./src/lib/vectors": "vectors",
 	},
 	output: {
 		path: __dirname,
@@ -27,9 +22,8 @@ module.exports = {
     root: path.join(__dirname, 'node_modules')
   },
 	resolve: {
-		extensions: ['.js'],
 		root: [
-			path.lib
+			paths.src,
 		]
 	},
 	module: {
