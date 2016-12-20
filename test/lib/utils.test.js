@@ -1,12 +1,12 @@
 /* eslint max-len: 0 */
-const Utils = require("../../src/lib/Utils");
+const utils = require("../../src/lib/utils");
 const assert = require("assert");
 
 describe("#Util", function() {
   let util;
 
   beforeEach(function() {
-    util = new Utils();
+    util = utils;
   });
 
   describe("#normalize", function() {

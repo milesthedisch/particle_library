@@ -1,5 +1,5 @@
 const utils = require("./utils.js");
-
+console.log(utils);
 const INITIAL_STATE = {
   x: 0,
   y: 1,

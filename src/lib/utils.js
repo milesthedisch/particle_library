@@ -51,4 +51,4 @@ Utils.prototype.precent = function(val) {
   return val * 100;
 };
 
-module.exports = Utils;
+module.exports = new Utils();
