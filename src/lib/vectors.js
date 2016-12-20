@@ -1,5 +1,5 @@
 const utils = require("./utils.js");
-console.log(utils);
+
 const INITIAL_STATE = {
   x: 0,
   y: 1,
@@ -233,8 +233,8 @@ Vector.prototype.divideBy = Vector.prototype["/="] = function divideBy(v2) {
  * @return {Vector}
  */
 Vector.prototype.random = function randomVector(min=1, max=10) {
-  const x = Math.floor(utils.lerp(min, max, Math.random()));
-  const y = Math.floor(utils.lerp(min, max, Math.random()));
+  const x = Math.floor(utils.lerp(Math.random(), min, max));
+  const y = Math.floor(utils.lerp(Math.random(), min, max));
   return this.create(x, y);
 };
 

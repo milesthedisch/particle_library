@@ -214,18 +214,20 @@ describe("#Vector", function() {
   describe("vector.random", function() {
     it("should provide a random vector thats between 0 and 10", function() {
       const randomVector = vec.random();
-      assert.isAbove(randomVector.state.x, -1);
-      assert.isBelow(randomVector.state.x, 11);
-      assert.isAbove(randomVector.state.y, -1);
-      assert.isBelow(randomVector.state.y, 11);
+      console.log(randomVector);
+      assert.isAbove(randomVector.state.x, 0);
+      assert.isBelow(randomVector.state.x, 10);
+      assert.isAbove(randomVector.state.y, 0);
+      assert.isBelow(randomVector.state.y, 10);
     });
     it("should give a random vector with in range of the two arguments", function() {
       const min = 1;
       const max = 10000;
       const randomVector = vec.random(min, max);
-      assert.isAbove(randomVector.state.x, min - 2);
+      console.log(randomVector);
+      assert.isAbove(randomVector.state.x, min);
       assert.isBelow(randomVector.state.x, max);
-      assert.isAbove(randomVector.state.y, min - 2);
+      assert.isAbove(randomVector.state.y, min);
       assert.isBelow(randomVector.state.y, max);
     });
   });

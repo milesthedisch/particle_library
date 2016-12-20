@@ -22,4 +22,10 @@ describe("#Util", function() {
       assert.equal(util.normalize(7.5, 10, 5), 0.5);
     });
   });
+
+  describe("#lerp", function() {
+    it("should return a value between a range", function() {
+      assert.equal(util.lerp(0.5, 0, 10), 5);
+    });
+  });
 });
