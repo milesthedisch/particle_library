@@ -7,7 +7,7 @@
     "lib": "./src/lib"
   },
   "scripts": {
-    "test": "mocha test/**/*.test.js -R spec --compilers js:babel-core/register --recursive",
+    "test": "npm run coverage",
     "build": "npm test && webpack --progress --config webpack.prod",
     "dev": "webpack --watch --progress --config webpack.dev",
     "coverage": "nyc mocha test/**/*.test.js"
