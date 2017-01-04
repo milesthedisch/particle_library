@@ -214,7 +214,6 @@ describe("#Vector", function() {
   describe("vector.random", function() {
     it("should provide a random vector thats between 0 and 10", function() {
       const randomVector = vec.random();
-      console.log(randomVector);
       assert.isAbove(randomVector.state.x, 0);
       assert.isBelow(randomVector.state.x, 10);
       assert.isAbove(randomVector.state.y, 0);
@@ -224,7 +223,6 @@ describe("#Vector", function() {
       const min = 1;
       const max = 10000;
       const randomVector = vec.random(min, max);
-      console.log(randomVector);
       assert.isAbove(randomVector.state.x, min);
       assert.isBelow(randomVector.state.x, max);
       assert.isAbove(randomVector.state.y, min);
