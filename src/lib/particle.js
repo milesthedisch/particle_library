@@ -4,17 +4,18 @@
  * and feel like physical movments.
  */
 const extend = require("extend");
+const Vector = require("../../src/lib/vectors.js");
+const vector = new Vector();
 
 // The default state a particle starts with It should not move.
 const INITIAL_STATE = {
-  position: null,
-  velocity: null,
-  gravity: null,
+  position: vector.create(),
+  velocity: vector.create(),
+  gravity: vector.create(),
+  speed: 0,
   radius: 0,
   mass: 1,
   direction: Math.PI * 2,
-  x: 10,
-  y: 10,
 };
 
 /**
@@ -57,20 +58,19 @@ Particle.prototype.set = function set(prop, val) {
  */
 Particle.prototype.create = function(opts=INITIAL_STATE) {
   opts = extend(true, {}, INITIAL_STATE, opts);
-
   const particle = new Particle(opts);
 
   // Set up vectors.
-  particle.set("position", vector.create(opts.x, opts.y));
-  particle.set("velocity", vector.create(0, 0));
+  particle.position = opts.position;
+  particle.velocity = opts.velocity;
 
   // Create the magnitude and angle of a vector.
   // These are the basic building blocks of vectors.
-  particle.get("velocity").setLength(opts.velocity);
+  particle.get("velocity").setLength(opts.speed);
   particle.get("velocity").setAngle(opts.direction);
 
   // Create a gravity vector.
-  particle.set("gravity", vector.create(0, opts.grav || 0)); 
+  particle.gravity = opts.gravity;
 
   return particle;
 };

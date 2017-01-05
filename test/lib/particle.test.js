@@ -1,9 +1,23 @@
 /* eslint max-len: 0*/
-const Particle = require("../../src/lib/particle.js");
-const Vector = require("../../src/lib/vectors.js");
+const extend = require("extend");
 const assert = require("chai").assert;
 
+const Particle = require("../../src/lib/particle.js");
+const Vector = require("../../src/lib/vectors.js");
+
+const vector = new Vector();
+
 describe("#Particle", function() {
+  const deafultParticleState = {
+    direction: 6.283185307179586,
+    position: vector.create(),
+    velocity: vector.create(),
+    gravity: vector.create(),
+    speed: 0,
+    radius: 0,
+    mass: 1,
+  };
+
   it("should create a new particle with the initial state", function() {
     const p = new Particle({});
     assert.deepEqual(p.state, {});
@@ -11,46 +25,39 @@ describe("#Particle", function() {
 
   it("should create a new particle with default state", function() {
     const p = new Particle();
-    assert.deepEqual(p.state, {
-      position: null,
-      velocity: null,
-      gravity: null,
-      radius: 0,
-      mass: 1,
-    });
+    assert.deepEqual(p.state, deafultParticleState);
   });
 
   describe("#create", function() {
     it("should return a default particle state", function() {
       const p = new Particle();
       const p1 = p.create();
-      assert.deepEqual(p1.state, {
-        position: null,
-        velocity: null,
-        gravity: null,
+      const createState = extend(true, deafultParticleState, {
+        velocity: vector.create(0, -0),
+      });
+      assert.deepEqual(p1.state, createState);
+    });
+
+    it("should return extend particle state that has been passed in", function() { // eslint-disable-line
+      const p = new Particle();
+
+      const p1 = p.create({
+        position: vector.create(1, 1),
+        velocity: vector.create(1, 1),
+        gravity: vector.create(1, 1),
         radius: 0,
+      });
+
+      assert.deepEqual(p1.state, {
+        position: vector.create(1, 1),
+        velocity: vector.create(0, -0),
+        gravity: vector.create(1, 1),
+        radius: 0,
+        speed: 0,
+        direction: 6.283185307179586,
         mass: 1,
       });
     });
-
-		/* eslint-disable */
-		it("should return extend particle state that has been passed in", function() { 
-		/* eslint-enable */
-  const p = new Particle();
-  const p1 = p.create({
-    position: 1,
-    velocity: 1,
-    gravity: 1,
-    radius: 0,
-  });
-  assert.deepEqual(p1.state, {
-    position: 1,
-    velocity: 1,
-    gravity: 1,
-    radius: 0,
-    mass: 1,
-  });
-});
   });
 
   describe("#set", function() {

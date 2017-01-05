@@ -19,7 +19,7 @@ function Vector(state=INITIAL_STATE) {
  * @param  {Int} y
  * @return {Vector}   A object inheriting from Vector.
  */
-Vector.prototype.create = function create(x, y) {
+Vector.prototype.create = function create(x=0, y=0) {
   const vec = new Vector({x, y});
   return vec;
 };
