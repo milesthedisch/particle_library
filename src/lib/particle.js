@@ -12,6 +12,9 @@ const INITIAL_STATE = {
   gravity: null,
   radius: 0,
   mass: 1,
+  direction: Math.PI * 2,
+  x: 10,
+  y: 10,
 };
 
 /**
@@ -53,9 +56,22 @@ Particle.prototype.set = function set(prop, val) {
  * @return {Particle}     		returns a particle
  */
 Particle.prototype.create = function(opts=INITIAL_STATE) {
-	// A really basic flat level extend.
   opts = extend(true, {}, INITIAL_STATE, opts);
+
   const particle = new Particle(opts);
+
+  // Set up vectors.
+  particle.set("position", vector.create(opts.x, opts.y));
+  particle.set("velocity", vector.create(0, 0));
+
+  // Create the magnitude and angle of a vector.
+  // These are the basic building blocks of vectors.
+  particle.get("velocity").setLength(opts.velocity);
+  particle.get("velocity").setAngle(opts.direction);
+
+  // Create a gravity vector.
+  particle.set("gravity", vector.create(0, opts.grav || 0)); 
+
   return particle;
 };
 
@@ -123,12 +139,9 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
  * @return {Vector}   veclocity 	The velocity of the current state.
  */
 Particle.prototype.gravitateTo = function(p2, vector) {
-  const grav = this.get("gravity") === null ?
-		(vector.create(0, 0)) :
-			(this.get("gravity"));
-
-  const dist = this.distanceTo(p2);
+  const grav = this.get("gravity");
   const velocity = this.get("velocity");
+  const dist = this.distanceTo(p2);
 
   grav.setLength(p2.mass / (dist * dist));
   grav.setAngle(this.angleTo(p2));
