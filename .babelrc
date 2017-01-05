@@ -1,8 +1,6 @@
 { 
 	"presets": [ "es2015" ],
-	"env": {
-	    "test": {
-	      "plugins": [ "istanbul" ]
-	    }
-	}
+  "env": {
+    "nyc": { "plugins": ["istanbul"] }
+  }
 }
