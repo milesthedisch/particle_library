@@ -247,8 +247,8 @@ Vector.prototype.divideBy = Vector.prototype["/="] = function divideBy(v2) {
  * @return {Vector}
  */
 Vector.prototype.random = function randomVector(min=1, max=10) {
-  const x = Math.floor(utils.lerp(Math.random(), min, max));
-  const y = Math.floor(utils.lerp(Math.random(), min, max));
+  const x = utils.lerp(Math.random(), min, max);
+  const y = utils.lerp(Math.random(), min, max);
   return this.create(x, y);
 };
 
