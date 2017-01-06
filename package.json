@@ -1,6 +1,6 @@
 {
   "name": "particle_library",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A light weight particle library.",
   "main": "main.js",
   "directories": {
