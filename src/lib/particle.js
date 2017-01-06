@@ -1,13 +1,15 @@
-/***
- * The particle libary is used for physics animations.
- * they are not extremely accurate but still represent
- * and feel like physical movments.
- */
+/*
+* The particle libary is used for physics animations.
+* they are not extremely accurate but still represent
+* and feel like physical movments.
+*/
+
 const extend = require("extend");
 const Vector = require("../../src/lib/vectors.js");
 const vector = new Vector();
 
-// The default state a particle starts with It should not move.
+/* The default state a particle starts with It should not move. */
+
 const INITIAL_STATE = {
   position: vector.create(),
   velocity: vector.create(),
