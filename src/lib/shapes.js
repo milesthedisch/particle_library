@@ -1,5 +1,5 @@
 /**
- * Shapes constuctor
+ * @class Shapes
  * @param {Object} ctx      Canvas context.
  * @param {Object} document The document object.
  */
@@ -12,11 +12,11 @@ function Shapes(ctx, document) {
 };
 
 /**
- * circle - Draws a simples circle
- * @param  {Number} x     The x coordinate of the circle.
- * @param  {Number} y     The y coordinate of the circle.
- * @param  {Number} r     The radius of the circle.
- * @param  {String} color The color of the circle.
+ * @memberOf Shapes
+ * @param {Integer} x     The x coordinate of the circle.
+ * @param {Integer} y     The y coordinate of the circle.
+ * @param {Integer} r     The radius of the circle.
+ * @param {String} color The color of the circle.
  */
 Shapes.prototype.circle = function drawCircle(x=4, y=4, r=2, color="#000000") {
   this.ctx.fillStyle = color;
