@@ -13,7 +13,7 @@ describe("#Particle", function() {
     position: vector.create(),
     velocity: vector.create(),
     gravity: vector.create(),
-    speed: 0,
+    magnitude: 0,
     radius: 0,
     mass: 1,
   };
@@ -53,7 +53,7 @@ describe("#Particle", function() {
         velocity: vector.create(0, -0),
         gravity: vector.create(1, 1),
         radius: 0,
-        speed: 0,
+        magnitude: 0,
         direction: 6.283185307179586,
         mass: 1,
       });

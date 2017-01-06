@@ -5,6 +5,7 @@
 */
 
 const extend = require("extend");
+const clone = require("lodash/cloneDeep");
 const Vector = require("../../src/lib/vectors.js");
 const vector = new Vector();
 
@@ -14,7 +15,7 @@ const INITIAL_STATE = {
   position: vector.create(),
   velocity: vector.create(),
   gravity: vector.create(),
-  speed: 0,
+  magnitude: 0,
   radius: 0,
   mass: 1,
   direction: Math.PI * 2,
@@ -60,21 +61,21 @@ Particle.prototype.set = function set(prop, val) {
  * @param  {Object} 	opts 	optional state values to pass to create.
  * @return {Particle}     		returns a particle
  */
-Particle.prototype.create = function(opts=INITIAL_STATE) {
-  opts = extend(true, {}, INITIAL_STATE, opts);
+Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
+  opts = extend(true, clone(INITIAL_STATE), opts);
   const particle = new Particle(opts);
 
   // Set up vectors.
-  particle.position = opts.position;
-  particle.velocity = opts.velocity;
+  particle.state.position = opts.position;
+  particle.state.velocity = opts.velocity;
 
   // Create the magnitude and angle of a vector.
   // These are the basic building blocks of vectors.
-  particle.get("velocity").setLength(opts.speed);
+  particle.get("velocity").setLength(opts.magnitude);
   particle.get("velocity").setAngle(opts.direction);
 
   // Create a gravity vector.
-  particle.gravity = opts.gravity;
+  particle.state.gravity = opts.gravity;
 
   return particle;
 };
