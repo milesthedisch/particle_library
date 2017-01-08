@@ -102,8 +102,8 @@ Particle.prototype.accelerate = function accelerate(accel) {
  * @return {State}       state of position
  */
 Particle.prototype.update = function update(grav=this.get("gravity")) {
-  const velocity = this.accelerate(grav);
-  const position = this.get("position").addTo(velocity);
+  const gravity = this.accelerate(grav);
+  const position = this.get("position").addTo(gravity);
   return position;
 };
 
