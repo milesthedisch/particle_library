@@ -186,4 +186,8 @@ describe("#Particle", function() {
       assert.equal(p1.distanceTo(p2), Math.hypot(2, 2));
     });
   });
+
+  // describe("#gravitateTo", function() {
+  //   it("should ")
+  // });
 });

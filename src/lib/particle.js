@@ -155,7 +155,7 @@ Particle.prototype.gravitateTo = function(p2, vector) {
   const velocity = this.get("velocity");
   const dist = this.distanceTo(p2);
 
-  grav.setLength(p2.mass / (dist * dist));
+  grav.setLength(p2.get("mass") / (dist * dist));
   grav.setAngle(this.angleTo(p2));
 
   velocity["+="](grav);
