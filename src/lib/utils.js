@@ -24,7 +24,7 @@ function Utils() {
  * @param  {Int} min - The minimum value in the range.
  * @return {Int} Int - The value represented in that range.
  */
-Utils.prototype.normalize = function normalize(val, max, min) {
+Utils.prototype.normalize = function normalize(val, min, max) {
   return (val - min) / (max - min);
 };
 
@@ -49,7 +49,7 @@ Utils.prototype.lerp = function lerp(val, min, max) {
  * @param  {Float} val 	A value.
  * @return {Percent}    A value.
  */
-Utils.prototype.precent = function(val) {
+Utils.prototype.percent = function(val) {
   return val * 100;
 };
 

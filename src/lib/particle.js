@@ -66,8 +66,8 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
   const particle = new Particle(opts);
 
   // Set up vectors.
-  particle.state.position = opts.position;
-  particle.state.velocity = opts.velocity;
+  particle.set("position", opts.position);
+  particle.set("velocity", opts.velocity);
 
   // Create the magnitude and angle of a vector.
   // These are the basic building blocks of vectors.
@@ -75,7 +75,7 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
   particle.get("velocity").setAngle(opts.direction);
 
   // Create a gravity vector.
-  particle.state.gravity = opts.gravity;
+  particle.set("gravity", opts.gravity);
 
   return particle;
 };

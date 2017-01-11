@@ -187,7 +187,12 @@ describe("#Particle", function() {
     });
   });
 
-  // describe("#gravitateTo", function() {
-  //   it("should ")
-  // });
+  describe("#gravitateTo", function() {
+    const HEAVY = 100000;
+    const LIGHT = 100;
+
+    it("should gravitate towards the heavier mass", function() {
+      const particle = new Particle({mass: HEAVY});
+    });
+  });
 });
