@@ -187,12 +187,20 @@ describe("#Particle", function() {
     });
   });
 
-  describe("#gravitateTo", function() {
-    const HEAVY = 100000;
+  describe.only("#gravitateTo", function() {
+    const HEAVY = 100;
     const LIGHT = 100;
 
     it("should gravitate towards the heavier mass", function() {
-      const particle = new Particle({mass: HEAVY});
+      const p = new Particle();
+      const v = new Vector();
+      const heavy = p.create({mass: HEAVY, position: v.create(1000, 1000)});
+      const light = p.create({mass: LIGHT, position: v.create(1000, 100)});
+
+      light.gravitateTo(heavy);
+      light.update();
+
+      assert.isAbove(light.get("position").get("y"), 100);
     });
   });
 });

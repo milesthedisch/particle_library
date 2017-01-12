@@ -153,6 +153,7 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
 Particle.prototype.gravitateTo = function(p2, vector) {
   const grav = this.get("gravity");
   const velocity = this.get("velocity");
+
   const dist = this.distanceTo(p2);
 
   grav.setLength(p2.get("mass") / (dist * dist));
