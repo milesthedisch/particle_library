@@ -187,7 +187,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#gravitateTo", function() {
+  describe("#gravitateTo", function() {
     const HEAVY = 100;
     const LIGHT = 100;
 
