@@ -58,8 +58,8 @@ Particle.prototype.set = function set(prop, val) {
 
 /**
  * @memberOf Particle
- * @param  {Object} 	opts 	optional state values to pass to create.
- * @return {Particle}     		returns a particle
+ * @param  {Object} 	opts optional state values to pass to create.
+ * @return {Particle} returns a particle
  */
 Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
   opts = extend(true, clone(INITIAL_STATE), opts);
@@ -147,10 +147,9 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
  *
  * @memberOf Particle
  * @param  {Particle} p2     			A particle instance.
- * @param  {Vector} 	vector 			A vector instance.
  * @return {Vector}   veclocity 	The velocity of the current state.
  */
-Particle.prototype.gravitateTo = function(p2, vector) {
+Particle.prototype.gravitateTo = function(p2) {
   const grav = this.get("gravity");
   const velocity = this.get("velocity");
 
@@ -162,5 +161,38 @@ Particle.prototype.gravitateTo = function(p2, vector) {
   velocity["+="](grav);
   return velocity;
 };
+
+/**
+ * generate
+ * @param  {Number}                     num       The maximum amount of generated particles needed.
+ * @param  {Object}                     opts      Options to pass each particle
+ * @param  {Particle~generatorCallback} callback  Function to allow mapping.
+ * @return {Particle[]}
+ */
+Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
+  opts = clone(opts);
+  const particles = [];
+
+  if (typeof callback === "function") {
+    for(let i = 0; i < num; i++) {
+      let p = callback(this.create(opts));
+      this.push(p);
+    }
+  }
+
+  if (!callback) {
+    for(let i = 0; i < num; i++) {
+      this.push(this.create(opts));
+    }
+  }
+
+  return particles;
+};
+
+/**
+ * Generator callback
+ * @callback Particle~generatorCallback
+ * @param {Particle}
+ */
 
 module.exports = Particle;
