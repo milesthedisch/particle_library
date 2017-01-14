@@ -13,7 +13,7 @@
     "build:docs": "jsdoc -r ./src/lib -d ./docs",
     "dev": "webpack --bail --watch --progress --config webpack.dev",
     "cov": "./node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover node_modules/mocha/bin/_mocha -- test/**/*.test.js",
-    "prepublish": "npm test && npm run cov && npm run build:production && npm run build:dev"
+    "prepublish": "jsdoc -r ./src/lib -d ./docs && npm test && npm run cov && npm run build:production && npm run build:dev"
   },
   "keywords": [
     "particles",

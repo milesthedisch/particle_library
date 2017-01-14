@@ -1,6 +1,7 @@
 /* eslint max-len: 0*/
 const extend = require("extend");
 const assert = require("chai").assert;
+const clone = require("lodash/cloneDeep");
 
 const Particle = require("../../src/lib/particle.js");
 const Vector = require("../../src/lib/vectors.js");
@@ -8,15 +9,19 @@ const Vector = require("../../src/lib/vectors.js");
 const vector = new Vector();
 
 describe("#Particle", function() {
-  const defaultParticleState = {
-    direction: 6.283185307179586,
-    position: vector.create(),
-    velocity: vector.create(),
-    gravity: vector.create(),
-    magnitude: 0,
-    radius: 0,
-    mass: 1,
-  };
+  let defaultParticleState;
+
+  beforeEach(function() {
+    defaultParticleState = {
+      direction: 6.283185307179586,
+      position: vector.create(),
+      velocity: vector.create(),
+      gravity: vector.create(),
+      magnitude: 0,
+      radius: 0,
+      mass: 1,
+    };
+  });
 
   it("should create a new particle with the initial state", function() {
     const p = new Particle({});
@@ -63,9 +68,9 @@ describe("#Particle", function() {
   describe("#set", function() {
     it("should set the state with the given value and return true", function() {
       const particle = new Particle();
-      assert.equal(particle.set("position", {x: 1, y: 1}), true);
-      assert.equal(particle.get("position").x, 1);
-      assert.equal(particle.get("position").y, 1);
+      assert.equal(particle.set("position", vector.create(1, 1)), true);
+      assert.equal(particle.get("position").get("x"), 1);
+      assert.equal(particle.get("position").get("y"), 1);
     });
 
     it("should set the state and return false if the property dosent exsist", function() {
@@ -77,8 +82,8 @@ describe("#Particle", function() {
   describe("#get", function() {
     it("should return the state of a property", function() {
       const particle = new Particle();
-      particle.set("position", {x: 1, y: 1});
-      assert.deepEqual(particle.get("position"), {x: 1, y: 1});
+      assert.equal(particle.set("position", vector.create(1, 1)), true);
+      assert.deepEqual(particle.get("position"), vector.create(1, 1));
     });
 
     it("should return undefined when asked to for a prop that does not exsist", function() {
@@ -93,8 +98,8 @@ describe("#Particle", function() {
       const vector = new Vector();
       const p1 = particle.create();
 
-      p1.state.velocity = vector.create(1, 1);
-      p1.accelerate(p1.state.velocity);
+      p1.set("velocity", vector.create(1, 1));
+      p1.accelerate(p1.get("velocity"));
       assert.deepEqual(p1.state.velocity.state, {x: 2, y: 2});
     });
   });
@@ -204,7 +209,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#generator", function() {
+  describe("#generator", function() {
     it("should generate default particles", function() {
       const p = new Particle();
       const particles = p.generator(1);
@@ -232,8 +237,8 @@ describe("#Particle", function() {
       });
 
       assert.equal(particles.length, 2);
-      assert.deepEqual(particles[0].state, defaultParticleState);
-      assert.deepEqual(particles[1].state, defaultParticleState);
+      assert.deepEqual(particles[0].state, defaultParticleState, "particle 1: ");
+      assert.deepEqual(particles[1].state, defaultParticleState, "particle 2: ");
     });
 
     it("should use opts passed in to each particle and extended.", function() {
@@ -242,6 +247,7 @@ describe("#Particle", function() {
 
       extend(true, defaultParticleState, {
         a: 1,
+        velocity: vector.create(0, -0),
       });
 
       assert.equal(particles.length, 2);
@@ -258,6 +264,7 @@ describe("#Particle", function() {
 
       extend(true, defaultParticleState, {
         a: 2,
+        velocity: vector.create(0, -0),
       });
 
       assert.equal(particles.length, 2);

@@ -25,7 +25,7 @@ const INITIAL_STATE = {
  * @class Particle
  * @param {state} state initial state to pass the constructor
  */
-function Particle(state=INITIAL_STATE) {
+function Particle(state=clone(INITIAL_STATE)) {
   this.state = state;
 }
 
