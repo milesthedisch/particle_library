@@ -8,7 +8,7 @@ const Vector = require("../../src/lib/vectors.js");
 const vector = new Vector();
 
 describe("#Particle", function() {
-  const deafultParticleState = {
+  const defaultParticleState = {
     direction: 6.283185307179586,
     position: vector.create(),
     velocity: vector.create(),
@@ -25,14 +25,14 @@ describe("#Particle", function() {
 
   it("should create a new particle with default state", function() {
     const p = new Particle();
-    assert.deepEqual(p.state, deafultParticleState);
+    assert.deepEqual(p.state, defaultParticleState);
   });
 
   describe("#create", function() {
     it("should return a default particle state", function() {
       const p = new Particle();
       const p1 = p.create();
-      const createState = extend(true, deafultParticleState, {
+      const createState = extend(true, defaultParticleState, {
         velocity: vector.create(0, -0),
       });
       assert.deepEqual(p1.state, createState);
@@ -201,6 +201,68 @@ describe("#Particle", function() {
       light.update();
 
       assert.isAbove(light.get("position").get("y"), 100);
+    });
+  });
+
+  describe.only("#generator", function() {
+    it("should generate default particles", function() {
+      const p = new Particle();
+      const particles = p.generator(1);
+
+      // When we create a particle the velocity gets setLength and setAngle called. And because the
+      // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
+      // to 0, -0
+      extend(true, defaultParticleState, {
+        velocity: vector.create(0, -0),
+      });
+
+      assert.equal(particles.length, 1);
+      assert.deepEqual(particles[0].state, defaultParticleState);
+    });
+
+    it("should generate multiple particles", function() {
+      const p = new Particle();
+      const particles = p.generator(2);
+
+      // When we create a particle the velocity gets setLength and setAngle called. And because the
+      // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
+      // to 0, -0
+      extend(true, defaultParticleState, {
+        velocity: vector.create(0, -0),
+      });
+
+      assert.equal(particles.length, 2);
+      assert.deepEqual(particles[0].state, defaultParticleState);
+      assert.deepEqual(particles[1].state, defaultParticleState);
+    });
+
+    it("should use opts passed in to each particle and extended.", function() {
+      const p = new Particle();
+      const particles = p.generator(2, {a: 1});
+
+      extend(true, defaultParticleState, {
+        a: 1,
+      });
+
+      assert.equal(particles.length, 2);
+      assert.deepEqual(particles[0].state, defaultParticleState);
+      assert.deepEqual(particles[1].state, defaultParticleState);
+    });
+
+    it("should use callback if the third arguments is defined as a fn.", function() {
+      const p = new Particle();
+      const particles = p.generator(2, {a: 1}, function(_p) {
+        _p.set("a", _p.get("a") + 1);
+        return _p;
+      });
+
+      extend(true, defaultParticleState, {
+        a: 2,
+      });
+
+      assert.equal(particles.length, 2);
+      assert.deepEqual(particles[0].state, defaultParticleState);
+      assert.deepEqual(particles[1].state, defaultParticleState);
     });
   });
 });

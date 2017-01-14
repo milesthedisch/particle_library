@@ -176,13 +176,13 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
   if (typeof callback === "function") {
     for(let i = 0; i < num; i++) {
       let p = callback(this.create(opts));
-      this.push(p);
+      particles.push(p);
     }
   }
 
   if (!callback) {
     for(let i = 0; i < num; i++) {
-      this.push(this.create(opts));
+      particles.push(this.create(opts));
     }
   }
 
