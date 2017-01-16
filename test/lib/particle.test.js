@@ -17,6 +17,7 @@ describe("#Particle", function() {
       position: vector.create(),
       velocity: vector.create(),
       gravity: vector.create(),
+      friction: vector.create(1, 1),
       magnitude: 0,
       radius: 0,
       mass: 1,
@@ -53,15 +54,11 @@ describe("#Particle", function() {
         radius: 0,
       });
 
-      assert.deepEqual(p1.state, {
+      assert.deepEqual(p1.state, extend(defaultParticleState, {
         position: vector.create(1, 1),
         velocity: vector.create(0, -0),
         gravity: vector.create(1, 1),
-        radius: 0,
-        magnitude: 0,
-        direction: 6.283185307179586,
-        mass: 1,
-      });
+      }));
     });
   });
 
