@@ -19,6 +19,7 @@ const INITIAL_STATE = {
   radius: 0,
   mass: 1,
   direction: Math.PI * 2,
+  friction: vector.create(1, 1),
 };
 
 /**
@@ -102,6 +103,7 @@ Particle.prototype.accelerate = function accelerate(accel) {
  * @return {State}       state of position
  */
 Particle.prototype.update = function update(grav=this.get("gravity")) {
+  (this.get("velocity")).multiplyBy(this.get("friction"));
   const gravity = this.accelerate(grav);
   const position = this.speed(gravity);
   return position;
@@ -198,10 +200,16 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
 /**
  * @description Add a vector to the position.
  * @name speed
- * @param  {Vector} vector 
+ * @param  {Vector} vector
  * @return {Vector}
  */
-Particle.prototype.speed = function (vector) {
+Particle.prototype.speed = function(vector) {
+  if (!vector) {
+    let velocity = this.get("velocity");
+    this.get("position").addTo(velocity);
+    return this.get("position");
+  }
+
   this.get("position").addTo(vector);
   return this.get("position");
 };
