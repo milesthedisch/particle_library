@@ -103,7 +103,7 @@ Particle.prototype.accelerate = function accelerate(accel) {
  */
 Particle.prototype.update = function update(grav=this.get("gravity")) {
   const gravity = this.accelerate(grav);
-  const position = this.get("position").addTo(gravity);
+  const position = this.speed(gravity);
   return position;
 };
 
@@ -194,5 +194,16 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
  * @callback Particle~generatorCallback
  * @param {Particle}
  */
+
+/**
+ * @description Add a vector to the position.
+ * @name speed
+ * @param  {Vector} vector 
+ * @return {Vector}
+ */
+Particle.prototype.speed = function (vector) {
+  this.get("position").addTo(vector);
+  return this.get("position");
+};
 
 module.exports = Particle;
