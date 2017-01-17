@@ -5,6 +5,7 @@ const clone = require("lodash/cloneDeep");
 
 const Particle = require("../../src/lib/particle.js");
 const Vector = require("../../src/lib/vectors.js");
+const utils = require("../../src/lib/utils.js");
 
 const vector = new Vector();
 
@@ -296,6 +297,20 @@ describe("#Particle", function() {
       p.speed();
       p.speed();
       assert.deepEqual(p.get("position"), vec.create(2, 2));
+    });
+  });
+
+  describe("#distanceFrom", function() {
+    it("should calculate the distance from one particles center to another", function() {
+      const particle1 = new Particle({"position": vector.create(10, 10)});
+      const particle2 = new Particle({"position": vector.create(0, 0)});
+      assert.equal(particle1.distanceFrom(particle2), Math.sqrt(200));
+    });
+
+    it("should calculate the distance from one particles center to another", function() {
+      const particle1 = new Particle({"position": vector.create(10, 0)});
+      const particle2 = new Particle({"position": vector.create(0, 0)});
+      assert.equal(particle1.distanceFrom(particle2), 10);
     });
   });
 });

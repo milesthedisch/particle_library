@@ -7,6 +7,7 @@
 const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 const Vector = require("../../src/lib/vectors.js");
+const utils = require("../../src/lib/utils.js");
 const vector = new Vector();
 
 /* The default state a particle starts with It should not move. */
@@ -212,6 +213,18 @@ Particle.prototype.speed = function(vector) {
 
   this.get("position").addTo(vector);
   return this.get("position");
+};
+
+/**
+ * @description Calculate the distance between two paticles centers.
+ * @name  distanceFrom
+ * @param  {[type]} p2 [description]
+ * @return {[type]}    [description]
+ */
+Particle.prototype.distanceFrom = function(p2) {
+  const pos1 = p2.get("position");
+  const pos2 = this.get("position");
+  return utils.distanceVec(pos1, pos2);
 };
 
 module.exports = Particle;
