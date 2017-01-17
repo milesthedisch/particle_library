@@ -1,12 +1,14 @@
 /* eslint max-len: 0 */
 const utils = require("../../src/lib/utils");
+const Vector = require("../../src/lib/vectors");
 const assert = require("assert");
 
 describe("#Util", function() {
   let util;
-
+  let vector;
   beforeEach(function() {
     util = utils;
+    vector = new Vector();
   });
 
   describe("#normalize", function() {
@@ -47,13 +49,27 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("distanceXY", function() {
+  describe("#distanceXY", function() {
     it("should return the distance between to particles", function() {
       assert.equal(util.distanceXY(0, 0, 0, 1), 1);
     });
 
-    it("should return the distance between two diagnole points", function() {
+    it("should return the distance between two diagonal points", function() {
       assert.equal(util.distanceXY(0, 0, 1, 1), Math.sqrt(2));
+    });
+  });
+
+  describe.only("#distanceVec", function() {
+    it("should return the distance between two vectors", function() {
+      const vec1 = vector.create(0, 0);
+      const vec2 = vector.create(0, 1);
+      assert.equal(util.distanceVec(vec1, vec2), 1);
+    });
+
+    it("should return the distance between two diagonal vectors", function() {
+      const vec1 = vector.create(0, 0);
+      const vec2 = vector.create(1, 1);
+      assert.equal(util.distanceVec(vec1, vec2), Math.sqrt(2));
     });
   });
 });

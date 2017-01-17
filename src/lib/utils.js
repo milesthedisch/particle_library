@@ -76,7 +76,7 @@ Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
  * @return {Number}
  */
 Utils.prototype.distanceVec = function(v1, v2) {
-  const dVec = v1["-"](v2);
+  const dVec = (v1)["-"](v2);
   return Math.hypot(dVec.get("x"), dVec.get("y"));
 };
 
