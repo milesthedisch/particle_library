@@ -46,4 +46,14 @@ describe("#Util", function() {
       assert.equal(util.percent(0), 0);
     });
   });
+
+  describe.only("distanceXY", function() {
+    it("should return the distance between to particles", function() {
+      assert.equal(util.distanceXY(0, 0, 0, 1), 1);
+    });
+
+    it("should return the distance between two diagnole points", function() {
+      assert.equal(util.distanceXY(0, 0, 1, 1), Math.sqrt(2));
+    });
+  });
 });
