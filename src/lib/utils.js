@@ -93,4 +93,24 @@ Utils.prototype.collisionCircle = function(c1, c2) {
   return radi > distance;
 };
 
+
+/**
+ * @name  circlePointCollision
+ * @description Given a point and a circle return a boolean regarding wether they are colliding.
+ * @param  {[type]} x      [description]
+ * @param  {[type]} y      [description]
+ * @param  {[type]} circle [description]
+ * @return {[type]}        [description]
+ */
+Utils.prototype.collisionCirclePoint = function(x, y, circle) {
+  // TODO Write tests.
+  const dist = this.distanceXY(
+    x,
+    y,
+    circle.get("position").get("x"),
+    circle.get("position").get("y")
+  );
+  return circle.get("radius") > dist;
+};
+
 module.exports = new Utils();
