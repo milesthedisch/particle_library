@@ -26,7 +26,7 @@ describe("#Particle", function() {
 
   it("should create a new particle with the initial state", function() {
     const p = new Particle({});
-    assert.deepEqual(p.state, {});
+    assert.deepEqual(p.state, defaultParticleState);
   });
 
   it("should create a new particle with default state", function() {
@@ -267,6 +267,35 @@ describe("#Particle", function() {
       assert.equal(particles.length, 2);
       assert.deepEqual(particles[0].state, defaultParticleState);
       assert.deepEqual(particles[1].state, defaultParticleState);
+    });
+  });
+
+  describe("#speed", function() {
+    it("should add the vector to the position", function() {
+      const particle = new Particle();
+      const vector = new Vector();
+
+      const p = particle.create();
+      const vec = vector.create(1, 1);
+      p.speed(vec);
+      assert.deepEqual(p.get("position"), vector.create(1, 1));
+    });
+
+    it("should add the internal velocity vector to the position", function() {
+      const vec = new Vector();
+
+      const p = new Particle({"velocity": vec.create(1, 1)});
+      p.speed();
+      assert.deepEqual(p.get("position"), vec.create(1, 1));
+    });
+
+    it("should add the internal velocity twice if we call speed twice", function() {
+      const vec = new Vector();
+
+      const p = new Particle({"velocity": vec.create(1, 1)});
+      p.speed();
+      p.speed();
+      assert.deepEqual(p.get("position"), vec.create(2, 2));
     });
   });
 });

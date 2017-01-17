@@ -27,6 +27,7 @@ const INITIAL_STATE = {
  * @param {state} state initial state to pass the constructor
  */
 function Particle(state=clone(INITIAL_STATE)) {
+  state = extend(true, clone(INITIAL_STATE), state);
   this.state = state;
 }
 
@@ -68,7 +69,6 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
 
   // Set up vectors.
   particle.set("position", opts.position);
-  particle.set("velocity", opts.velocity);
 
   // Create the magnitude and angle of a vector.
   // These are the basic building blocks of vectors.
@@ -206,7 +206,7 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
 Particle.prototype.speed = function(vector) {
   if (!vector) {
     let velocity = this.get("velocity");
-    this.get("position").addTo(velocity);
+    (this.get("position")).addTo(velocity);
     return this.get("position");
   }
 
