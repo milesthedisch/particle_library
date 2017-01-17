@@ -301,7 +301,7 @@ describe("#Particle", function() {
   });
 
   describe("#distanceFrom", function() {
-    it("should calculate the distance from one particles center to another", function() {
+    it("should calculate the distance from one particles center to another (diagonal)", function() {
       const particle1 = new Particle({"position": vector.create(10, 10)});
       const particle2 = new Particle({"position": vector.create(0, 0)});
       assert.equal(particle1.distanceFrom(particle2), Math.sqrt(200));

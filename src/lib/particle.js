@@ -218,8 +218,8 @@ Particle.prototype.speed = function(vector) {
 /**
  * @description Calculate the distance between two paticles centers.
  * @name  distanceFrom
- * @param  {[type]} p2 [description]
- * @return {[type]}    [description]
+ * @param  {Particle} p2
+ * @return {Number}
  */
 Particle.prototype.distanceFrom = function(p2) {
   const pos1 = p2.get("position");
