@@ -7,11 +7,9 @@ const assert = require("assert");
 describe("#Util", function() {
   let util;
   let vector;
-  let particle;
   beforeEach(function() {
     util = utils;
     vector = new Vector();
-    particle = new Particle();
   });
 
   describe("#normalize", function() {
@@ -52,6 +50,10 @@ describe("#Util", function() {
     });
   });
 
+  describe("#inRange", function() {
+    //TODO...
+  });
+
   describe("#distanceXY", function() {
     it("should return the distance between to particles", function() {
       assert.equal(util.distanceXY(0, 0, 0, 1), 1);
@@ -76,7 +78,7 @@ describe("#Util", function() {
     });
   });
 
-  describe("#circleCollision", function() {
+  describe("#collisionCirlce", function() {
     it("should return true when the circles radi are greater than the distance", function() {
       const particle1 = new Particle({radius: 10, position: vector.create(0, 19.9)});
       const particle2 = new Particle({radius: 10, position: vector.create(0, 0)});
@@ -86,13 +88,39 @@ describe("#Util", function() {
     it("should return false when the circles radi are less than the distance", function() {
       const particle1 = new Particle({radius: 10, position: vector.create(0, 20)});
       const particle2 = new Particle({radius: 10, position: vector.create(0, 0)});
-      assert.equal(utils.collisionCircle(particle1, particle2), false);
+      assert.ok(!utils.collisionCircle(particle1, particle2));
     });
 
-    it("should return false when the circles radi are 0 and the distance is 0", function() {
+    it("should return true when the circles are in the same spot", function() {
       const particle1 = new Particle({radius: 0, position: vector.create(0, 0)});
       const particle2 = new Particle({radius: 0, position: vector.create(0, 0)});
-      assert.equal(utils.collisionCircle(particle1, particle2), false);
+      assert.ok(utils.collisionCircle(particle1, particle2));
+    });
+  });
+
+  describe("#collisionCirclePoint", function() {
+    it("should return false when the distance is greater than the circles radius", function() {
+      const p = new Particle({radius: 5, position: vector.create(0, 0)});
+      assert.ok(!utils.collisionCirclePoint(5, 0, p));
+    });
+
+    it("should return true when the distance is less than the radius", function() {
+      const p = new Particle({radius: 5, position: vector.create(0, 0)});
+      assert.ok(utils.collisionCirclePoint(4.9, 0, p));
+    });
+  });
+
+  describe.only("#collisionRectPoint", function() {
+    it("should return true when given a point inside the rect", function() {
+      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const point = vector.create(5, 5);
+      assert.ok(utils.collisionRectPoint(point.get("x"), point.get("y"), rect));
+    });
+
+    it.skip("should return false when given a point outside the rect", function() {
+      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const point = vector.create(5, 5);
+      utils.collisionRectPoint(point.get("x"), point.get("y"), rect);
     });
   });
 });

@@ -53,6 +53,10 @@ Utils.prototype.percent = function(val) {
   return val * 100;
 };
 
+Utils.prototype.clamp = function(value, min, max) {
+  return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
+};
+
 /**
  * @name  distanceXY
  * @description Given two coordinates return the distance between the two.
@@ -92,7 +96,7 @@ Utils.prototype.collisionCircle = function(c1, c2) {
   const distance = this.distanceVec(c1.get("position"), c2.get("position"));
 
   if (distance) {
-    return radi > distance;  
+    return radi > distance;
   }
   return true;
 };
@@ -101,10 +105,10 @@ Utils.prototype.collisionCircle = function(c1, c2) {
 /**
  * @name  circlePointCollision
  * @description Given a point and a circle return a boolean regarding wether they are colliding.
- * @param  {[type]} x      [description]
- * @param  {[type]} y      [description]
- * @param  {[type]} circle [description]
- * @return {[type]}        [description]
+ * @param  {Number}   x
+ * @param  {Number}   y
+ * @param  {Particle} circle
+ * @return {Boolean}
  */
 Utils.prototype.collisionCirclePoint = function(x, y, circle) {
   // TODO Write tests.
@@ -117,10 +121,42 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
   return circle.get("radius") > dist;
 };
 
+/**
+ * @name  collisionCircleVec
+ * @description detect a collision between circles a vector.
+ * @param  {Vector}   vec
+ * @param  {Particle} circle
+ * @return {Boolean}
+ */
+Utils.prototype.collisionCircleVec = function (vec, circle) {
+  return circle.get("radius") > this.distanceVec(vec, circle.get("position"));
+};
 
+/**
+ * @name  collisionRectPoint
+ * @description detect collision of a rectangle and a point.
+ * @param  {Number}   x
+ * @param  {Number}   y
+ * @param  {Particle} rect
+ * @return {Boolean}
+ */
 Utils.prototype.collisionRectPoint = function(x, y, rect) {
-  // TODO write tests.
-  
+  return (
+    this.inRange(x, rect.get("position").get("x"), rect.get("width")) &&
+    this.inRange(y, rect.get("position").get("y"), rect.get("height"))
+  );
+};
+
+/**
+ * @name  inRange
+ * @description given a number
+ * @param  {Number} val
+ * @param  {Number} min
+ * @param  {Number} max
+ * @return {Boolean}
+ */
+Utils.prototype.inRange = function(val, min, max) {
+  return (val <= Math.max(max, min)) && (Math.min(max, min) <= val);
 };
 
 module.exports = new Utils();
