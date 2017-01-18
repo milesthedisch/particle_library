@@ -51,7 +51,17 @@ describe("#Util", function() {
   });
 
   describe("#inRange", function() {
-    //TODO...
+    it("should return true if the number is in the range", function() {
+      assert.ok(utils.inRange(1, 0, 1));
+    });
+
+    it("should return true if the range is negative", function() {
+      assert.ok(utils.inRange(0, -10, 10));
+    });
+
+    it("should return false if the value is not in the range", function() {
+      assert.ok(!utils.inRange(1, 2, 10));
+    });
   });
 
   describe("#distanceXY", function() {
@@ -110,7 +120,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#collisionRectPoint", function() {
+  describe("#collisionRectPoint", function() {
     it("should return true when given a point inside the rect", function() {
       const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
       const point = vector.create(5, 5);
@@ -119,8 +129,8 @@ describe("#Util", function() {
 
     it.skip("should return false when given a point outside the rect", function() {
       const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
-      const point = vector.create(5, 5);
-      utils.collisionRectPoint(point.get("x"), point.get("y"), rect);
+      const point = vector.create(-1, -1);
+      assert.ok(!utils.collisionRectPoint(point.get("x"), point.get("y"), rect));
     });
   });
 });
