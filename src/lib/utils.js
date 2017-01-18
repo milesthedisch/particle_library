@@ -90,7 +90,11 @@ Utils.prototype.distanceVec = function(v1, v2) {
 Utils.prototype.collisionCircle = function(c1, c2) {
   const radi = (c1.get("radius") + c2.get("radius"));
   const distance = this.distanceVec(c1.get("position"), c2.get("position"));
-  return radi > distance;
+
+  if (distance) {
+    return radi > distance;  
+  }
+  return true;
 };
 
 
@@ -111,6 +115,12 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
     circle.get("position").get("y")
   );
   return circle.get("radius") > dist;
+};
+
+
+Utils.prototype.collisionRectPoint = function(x, y, rect) {
+  // TODO write tests.
+  
 };
 
 module.exports = new Utils();

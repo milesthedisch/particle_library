@@ -78,8 +78,21 @@ describe("#Util", function() {
 
   describe("#circleCollision", function() {
     it("should return true when the circles radi are greater than the distance", function() {
-      const particle1 = new Particle({radius: 10});
-      const particle2 = new Particle({radius: 10});
+      const particle1 = new Particle({radius: 10, position: vector.create(0, 19.9)});
+      const particle2 = new Particle({radius: 10, position: vector.create(0, 0)});
+      assert.ok(utils.collisionCircle(particle1, particle2));
+    });
+
+    it("should return false when the circles radi are less than the distance", function() {
+      const particle1 = new Particle({radius: 10, position: vector.create(0, 20)});
+      const particle2 = new Particle({radius: 10, position: vector.create(0, 0)});
+      assert.equal(utils.collisionCircle(particle1, particle2), false);
+    });
+
+    it("should return false when the circles radi are 0 and the distance is 0", function() {
+      const particle1 = new Particle({radius: 0, position: vector.create(0, 0)});
+      const particle2 = new Particle({radius: 0, position: vector.create(0, 0)});
+      assert.equal(utils.collisionCircle(particle1, particle2), false);
     });
   });
 });
