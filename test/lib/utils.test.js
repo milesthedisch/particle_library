@@ -40,6 +40,20 @@ describe("#Util", function() {
     });
   });
 
+  describe("#clamp", function() {
+    it("should return the value if the value lie in the range", function() {
+      assert.equal(util.clamp(1, 0, 10), 1);
+    });
+
+    it("should return the min if the value lies below the range", function() {
+      assert.equal(util.clamp(-10, 0, 10), 0);
+    });
+
+    it("should return the max if the value lies above the range", function() {
+      assert.equal(util.clamp(20, 0, 5), 5);
+    });
+  });
+
   describe("#percent", function() {
     it("should take a decimal number and multiply it by 100", function() {
       assert.equal(util.percent(0.5), 50);

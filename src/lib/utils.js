@@ -53,6 +53,15 @@ Utils.prototype.percent = function(val) {
   return val * 100;
 };
 
+/**
+ * @name  clamp
+ * @description Given a number and a range return the value between that range or the max number or 
+ * min number.
+ * @param  {Number} value
+ * @param  {Number} min
+ * @param  {Number} max
+ * @return {Number}
+ */
 Utils.prototype.clamp = function(value, min, max) {
   return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
 };
