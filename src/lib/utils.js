@@ -148,6 +148,18 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
 };
 
 /**
+ * @name  collisionRectVec
+ * @description Given a vector and a retangle check wether they collided.
+ * @param  {Vector}   vec
+ * @param  {Particle} rect [description]
+ * @return {Boolean}
+ */
+Utils.prototype.collisionRectVec = function(vec, rect) {
+  return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
+};
+
+
+/**
  * @name  inRange
  * @description given a number
  * @param  {Number} val

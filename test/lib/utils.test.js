@@ -127,10 +127,24 @@ describe("#Util", function() {
       assert.ok(utils.collisionRectPoint(point.get("x"), point.get("y"), rect));
     });
 
-    it.skip("should return false when given a point outside the rect", function() {
+    it("should return false when given a point outside the rect", function() {
       const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
       const point = vector.create(-1, -1);
       assert.ok(!utils.collisionRectPoint(point.get("x"), point.get("y"), rect));
+    });
+  });
+
+  describe("#collisionRectVec", function() {
+    it("should return true when given a point inside the rect", function() {
+      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const point = vector.create(5, 5);
+      assert.ok(utils.collisionRectVec(point, rect));
+    });
+
+    it("should return false when given a point outside the rect", function() {
+      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const point = vector.create(-1, -1);
+      assert.ok(!utils.collisionRectVec(point, rect));
     });
   });
 });
