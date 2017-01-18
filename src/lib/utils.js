@@ -150,9 +150,11 @@ Utils.prototype.collisionCircleVec = function (vec, circle) {
  * @return {Boolean}
  */
 Utils.prototype.collisionRectPoint = function(x, y, rect) {
+  const rectX = rect.get("position").get("x");
+  const rectY = rect.get("position").get("y");
   return (
-    this.inRange(x, rect.get("position").get("x"), rect.get("width")) &&
-    this.inRange(y, rect.get("position").get("y"), rect.get("height"))
+    this.inRange(x, rectX, rectX + rect.get("width")) &&
+    this.inRange(y, rectY, rectY + rect.get("height"))
   );
 };
 
