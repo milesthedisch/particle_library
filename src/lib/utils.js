@@ -183,12 +183,11 @@ Utils.prototype.inRange = function(val, min, max) {
 /**
  * @name  rangeIntersect
  * @description Given a two ranges see if both intersect each other.
- *
- * @param  {[type]} x1 [description]
- * @param  {[type]} y1 [description]
- * @param  {[type]} x2 [description]
- * @param  {[type]} y2 [description]
- * @return {[type]}    [description]
+ * @param  {Number} x0
+ * @param  {Number} y0
+ * @param  {Number} x1
+ * @param  {Number} y1
+ * @return {Boolean}
  */
 Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
   return (
@@ -199,6 +198,7 @@ Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
 
 /**
  * @name  collisionRect
+ * @description Given two rectange see if the intersect.
  * @param  {Particle} r0
  * @param  {Particle} r1
  * @return {Boolean}
