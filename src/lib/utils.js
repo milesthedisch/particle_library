@@ -197,6 +197,21 @@ Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
 };
 
 /**
+ * @name  vectorIntersect
+ * @description Given twos vectors see if they intersect.
+ * @param  {[type]} vec0 [description]
+ * @param  {[type]} vec1 [description]
+ * @return {[type]}      [description]
+ */
+Utils.prototype.vectorIntersect = function(vec0, vec1) {
+  const x0 = vec0.get("position").get("x");
+  const y0 = vec0.get("position").get("y");
+  const x1 = vec1.get("position").get("x");
+  const y1 = vec1.get("position").get("y");
+  return this.rangeIntersect(x0, y0, x1, y1);
+};
+
+/**
  * @name  collisionRect
  * @description Given two rectange see if the intersect.
  * @param  {Particle} r0
