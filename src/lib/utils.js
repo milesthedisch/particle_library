@@ -20,8 +20,8 @@ function Utils() {
  *
  * @memberOf Utils
  * @param  {Int} val - The value that lies in the range.
- * @param  {Int} max - The maxium value in the range.
- * @param  {Int} min - The minimum value in the range.
+ * @param  {Int} min - The maxium value in the range.
+ * @param  {Int} max - The minimum value in the range.
  * @return {Int} Int - The value represented in that range.
  */
 Utils.prototype.normalize = function normalize(val, min, max) {
@@ -110,7 +110,6 @@ Utils.prototype.collisionCircle = function(c1, c2) {
   return true;
 };
 
-
 /**
  * @name  circlePointCollision
  * @description Given a point and a circle return a boolean regarding wether they are colliding.
@@ -137,7 +136,7 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.prototype.collisionCircleVec = function (vec, circle) {
+Utils.prototype.collisionCircleVec = function(vec, circle) {
   return circle.get("radius") > this.distanceVec(vec, circle.get("position"));
 };
 
@@ -159,7 +158,7 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
 };
 
 /**
- * @name  collisionRectVec
+ * @name collisionRectVec
  * @description Given a vector and a retangle check wether they collided.
  * @param  {Vector}   vec
  * @param  {Particle} rect [description]
@@ -168,7 +167,6 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
 Utils.prototype.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
-
 
 /**
  * @name  inRange
@@ -180,6 +178,46 @@ Utils.prototype.collisionRectVec = function(vec, rect) {
  */
 Utils.prototype.inRange = function(val, min, max) {
   return (val <= Math.max(max, min)) && (Math.min(max, min) <= val);
+};
+
+/**
+ * @name  rangeIntersect
+ * @description Given a two ranges see if both intersect each other.
+ *
+ * @param  {[type]} x1 [description]
+ * @param  {[type]} y1 [description]
+ * @param  {[type]} x2 [description]
+ * @param  {[type]} y2 [description]
+ * @return {[type]}    [description]
+ */
+Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
+  return (
+    Math.max(max0, min0) >= Math.min(min1, max1) &&
+    Math.min(min0, max0) <= Math.max(max1, min1)
+  );
+};
+
+/**
+ * @name  collisionRect
+ * @param  {Particle} r0
+ * @param  {Particle} r1
+ * @return {Boolean}
+ */
+Utils.prototype.collisionRect = function(r0, r1) {
+  const r0x = r0.get("position").get("x");
+  const r0y = r0.get("position").get("y");
+  const r1x = r1x.get("position").get("x");
+  const r1y = r1y.get("position").get("y");
+
+  const r0w = r0x + r0x.get("width");
+  const r0h = r0y + r0y.get("height");
+  const r1w = r1x + r1x.get("width");
+  const r1h = r1y + r1y.get("height");
+
+  return (
+    this.rangeIntersect(r0x, r0w, r1x, r1w) &&
+    this.rangeIntersect(r0y, r0h, r1y, r1h)
+  );
 };
 
 module.exports = new Utils();

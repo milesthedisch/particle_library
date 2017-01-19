@@ -48,7 +48,7 @@ Shapes.prototype.rect = function drawRect(x, y, w, h, color="#000000") {
  */
 Shapes.prototype.pCircle = function particleCircle(p) {
   this.circle(
-    p.get("position").get("x"), 
+    p.get("position").get("x"),
     p.get("position").get("y"),
     p.get("radius"),
     p.get("color")

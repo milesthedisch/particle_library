@@ -182,7 +182,7 @@ Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
  * Divide vectors together.
  * @memberOf Vector
  * @name Divide
- * @alias ["/"]
+ * @namespace ["/"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */

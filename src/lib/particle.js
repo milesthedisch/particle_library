@@ -166,7 +166,8 @@ Particle.prototype.gravitateTo = function(p2) {
 };
 
 /**
- * generate
+ * @name  generator
+ * @description generate a bunch of particles.
  * @param  {Number}                     num       The maximum amount of generated particles needed.
  * @param  {Object}                     opts      Options to pass each particle
  * @param  {Particle~generatorCallback} callback  Function to allow mapping.
