@@ -189,7 +189,7 @@ Utils.prototype.inRange = function(val, min, max) {
  * @param  {Number} y1
  * @return {Boolean}
  */
-Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
+Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
   return (
     Math.max(max0, min0) >= Math.min(min1, max1) &&
     Math.min(min0, max0) <= Math.max(max1, min1)
@@ -204,10 +204,10 @@ Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
  * @return {[type]}      [description]
  */
 Utils.prototype.vectorIntersect = function(vec0, vec1) {
-  const x0 = vec0.get("position").get("x");
-  const y0 = vec0.get("position").get("y");
-  const x1 = vec1.get("position").get("x");
-  const y1 = vec1.get("position").get("y");
+  const x0 = vec0.get("x");
+  const y0 = vec0.get("y");
+  const x1 = vec1.get("x");
+  const y1 = vec1.get("y");
   return this.rangeIntersect(x0, y0, x1, y1);
 };
 

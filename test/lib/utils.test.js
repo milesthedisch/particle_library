@@ -78,6 +78,52 @@ describe("#Util", function() {
     });
   });
 
+  describe("#rangeIntersect", function() {
+    it("should return true if two ranges intersect each other", function() {
+      assert.ok(utils.rangeIntersect(0, 6, 5, 10));
+    });
+
+    it("should return false if the ranges do not intersect", function() {
+      assert.ok(!utils.rangeIntersect(0, 10, 20, 30));
+    });
+
+    it("should return correct intersection given negative numbers", function() {
+      assert.ok(utils.rangeIntersect(-10, -5, -5, -1));
+    });
+
+    it("should return false given no values", function() {
+      assert.ok(!utils.rangeIntersect());
+    });
+  });
+
+  describe.only("#vectorIntersect", function() {
+    it("should return true when the two vectors are intersecting", function() {
+      const vec0 = vector.create(1, 10);
+      const vec1 = vector.create(3, 6);
+      assert.ok(utils.vectorIntersect(vec0, vec1));
+    });
+
+    it("should return false when the two vectors are not intersecting", function() {
+      const vec0 = vector.create(1, 10);
+      const vec1 = vector.create(-10, 0);
+      assert.ok(!utils.vectorIntersect(vec0, vec1));
+    });
+
+    it("should return false when the two vectors are not intersecting", function() {
+      const vec0 = vector.create(-1, 10);
+      const vec1 = vector.create(-10, 0);
+      assert.ok(utils.vectorIntersect(vec0, vec1));
+    });
+
+    it("should return false when given no values", function() {
+      try {
+        utils.vectorIntersect();
+      } catch(e) {
+        assert.ok(e);
+      }
+    });
+  });
+
   describe("#distanceXY", function() {
     it("should return the distance between to particles", function() {
       assert.equal(util.distanceXY(0, 0, 0, 1), 1);
