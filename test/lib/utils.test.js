@@ -96,7 +96,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#vectorIntersect", function() {
+  describe("#vectorIntersect", function() {
     it("should return true when the two vectors are intersecting", function() {
       const vec0 = vector.create(1, 10);
       const vec1 = vector.create(3, 6);
@@ -117,7 +117,7 @@ describe("#Util", function() {
 
     it("should return false when given no values", function() {
       try {
-        utils.vectorIntersect();
+        utils.vectorIntersect(); 
       } catch(e) {
         assert.ok(e);
       }
