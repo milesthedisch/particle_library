@@ -117,7 +117,7 @@ describe("#Util", function() {
 
     it("should return false when given no values", function() {
       try {
-        utils.vectorIntersect(); 
+        utils.vectorIntersect();
       } catch(e) {
         assert.ok(e);
       }

@@ -221,8 +221,8 @@ Utils.prototype.vectorIntersect = function(vec0, vec1) {
 Utils.prototype.collisionRect = function(r0, r1) {
   const r0x = r0.get("position").get("x");
   const r0y = r0.get("position").get("y");
-  const r1x = r1x.get("position").get("x");
-  const r1y = r1y.get("position").get("y");
+  const r1x = r1.get("position").get("x");
+  const r1y = r1.get("position").get("y");
 
   const r0w = r0x + r0x.get("width");
   const r0h = r0y + r0y.get("height");
