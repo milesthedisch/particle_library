@@ -208,7 +208,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#collisionRect", function() {
+  describe("#collisionRect", function() {
     it("should return true when to rectanges are in range of each other", function() {
       const rect1 = new Particle({position: vector.create(0, 0), width: 10, height: 10});
       const rect2 = new Particle({position: vector.create(10, 10), width: 10, height: 10});
