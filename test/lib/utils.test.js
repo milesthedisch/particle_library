@@ -207,4 +207,22 @@ describe("#Util", function() {
       assert.ok(!utils.collisionRectVec(point, rect));
     });
   });
+
+  describe.only("#collisionRect", function() {
+    it("should return true when to rectanges are in range of each other", function() {
+      const rect1 = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const rect2 = new Particle({position: vector.create(10, 10), width: 10, height: 10});
+      const rect3 = new Particle({position: vector.create(5, 5), width: 10, height: 10});
+      assert.ok(utils.collisionRect(rect1, rect2));
+      assert.ok(utils.collisionRect(rect1, rect3));
+    });
+
+    it("should return fales when given rectangles that arent in the same region. ", function() {
+      const rect1 = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const rect2 = new Particle({position: vector.create(11, 11), width: 10, height: 10});
+      const rect3 = new Particle({position: vector.create(-11, -11), width: 10, height: 10});
+      assert.ok(!utils.collisionRect(rect1, rect2));
+      assert.ok(!utils.collisionRect(rect1, rect3));
+    });
+  });
 });

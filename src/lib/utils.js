@@ -94,6 +94,73 @@ Utils.prototype.distanceVec = function(v1, v2) {
 };
 
 /**
+ * @name  inRange
+ * @description given a number
+ * @param  {Number} val
+ * @param  {Number} min
+ * @param  {Number} max
+ * @return {Boolean}
+ */
+Utils.prototype.inRange = function(val, min, max) {
+  return (val <= Math.max(max, min)) && (Math.min(max, min) <= val);
+};
+
+/**
+ * @name  rangeIntersect
+ * @description Given a two ranges see if both intersect each other.
+ * @param  {Number} x0
+ * @param  {Number} y0
+ * @param  {Number} x1
+ * @param  {Number} y1
+ * @return {Boolean}
+ */
+Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
+  return (
+    Math.max(max0, min0) >= Math.min(min1, max1) &&
+    Math.min(min0, max0) <= Math.max(max1, min1)
+  );
+};
+
+/**
+ * @name  vectorIntersect
+ * @description Given twos vectors see if they intersect.
+ * @param  {[type]} vec0 [description]
+ * @param  {[type]} vec1 [description]
+ * @return {[type]}      [description]
+ */
+Utils.prototype.vectorIntersect = function(vec0, vec1) {
+  const x0 = vec0.get("x");
+  const y0 = vec0.get("y");
+  const x1 = vec1.get("x");
+  const y1 = vec1.get("y");
+  return this.rangeIntersect(x0, y0, x1, y1);
+};
+
+/**
+ * @name  collisionRect
+ * @description Given two rectange see if the intersect.
+ * @param  {Particle} r0
+ * @param  {Particle} r1
+ * @return {Boolean}
+ */
+Utils.prototype.collisionRect = function(r0, r1) {
+  const r0x = r0.get("position").get("x");
+  const r0y = r0.get("position").get("y");
+  const r1x = r1.get("position").get("x");
+  const r1y = r1.get("position").get("y");
+
+  const r0w = r0x + r0.get("width");
+  const r0h = r0y + r0.get("height");
+  const r1w = r1x + r1.get("width");
+  const r1h = r1y + r1.get("height");
+
+  return (
+    this.rangeIntersect(r0x, r0w, r1x, r1w) &&
+    this.rangeIntersect(r0y, r0h, r1y, r1h)
+  );
+};
+
+/**
  * @name  collisionCircle
  * @description Given to particle with radi return wether they collide are not
  * @param  {Particle} c1
@@ -168,71 +235,5 @@ Utils.prototype.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
-/**
- * @name  inRange
- * @description given a number
- * @param  {Number} val
- * @param  {Number} min
- * @param  {Number} max
- * @return {Boolean}
- */
-Utils.prototype.inRange = function(val, min, max) {
-  return (val <= Math.max(max, min)) && (Math.min(max, min) <= val);
-};
-
-/**
- * @name  rangeIntersect
- * @description Given a two ranges see if both intersect each other.
- * @param  {Number} x0
- * @param  {Number} y0
- * @param  {Number} x1
- * @param  {Number} y1
- * @return {Boolean}
- */
-Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
-  return (
-    Math.max(max0, min0) >= Math.min(min1, max1) &&
-    Math.min(min0, max0) <= Math.max(max1, min1)
-  );
-};
-
-/**
- * @name  vectorIntersect
- * @description Given twos vectors see if they intersect.
- * @param  {[type]} vec0 [description]
- * @param  {[type]} vec1 [description]
- * @return {[type]}      [description]
- */
-Utils.prototype.vectorIntersect = function(vec0, vec1) {
-  const x0 = vec0.get("x");
-  const y0 = vec0.get("y");
-  const x1 = vec1.get("x");
-  const y1 = vec1.get("y");
-  return this.rangeIntersect(x0, y0, x1, y1);
-};
-
-/**
- * @name  collisionRect
- * @description Given two rectange see if the intersect.
- * @param  {Particle} r0
- * @param  {Particle} r1
- * @return {Boolean}
- */
-Utils.prototype.collisionRect = function(r0, r1) {
-  const r0x = r0.get("position").get("x");
-  const r0y = r0.get("position").get("y");
-  const r1x = r1.get("position").get("x");
-  const r1y = r1.get("position").get("y");
-
-  const r0w = r0x + r0x.get("width");
-  const r0h = r0y + r0y.get("height");
-  const r1w = r1x + r1x.get("width");
-  const r1h = r1y + r1y.get("height");
-
-  return (
-    this.rangeIntersect(r0x, r0w, r1x, r1w) &&
-    this.rangeIntersect(r0y, r0h, r1y, r1h)
-  );
-};
 
 module.exports = new Utils();
