@@ -61,7 +61,7 @@ Shapes.prototype.pCircle = function particleCircle(p) {
  * @param  {Particle} p
  * @return {Particle}
  */
-Shapes.prototype.pRect = function particleCircle(p) {
+Shapes.prototype.pRect = function particleRect(p) {
   this.rect(
     p.get("position").get("x"),
     p.get("position").get("y"),
@@ -70,6 +70,34 @@ Shapes.prototype.pRect = function particleCircle(p) {
     p.get("color")
   );
   return p;
+};
+
+/**
+ * @name  drawLineXY
+ * @description Draw a line between these two points.
+ * @param  {Number} x0
+ * @param  {Number} y0
+ * @param  {Number} x1
+ * @param  {Number} y1
+ * @return {Void}
+ */
+Shapes.prototype.drawLineXY = function(x0, y0, x1, y1) {
+  this.ctx.beginPath();
+  this.ctx.moveTo(x0, y0);
+  this.ctx.lineTo(x1, y1);
+  this.ctx.stroke();
+  return void(0);
+};
+
+/**
+ * @name drawLineVec
+ * @param  {Vector} vec0
+ * @param  {Vector} vec1
+ * @return {Void}
+ */
+Shapes.prototype.drawLineVec = function(vec0, vec1) {
+  this.drawLineXY(vec0.get("x"), vec0.get("y"), vec1.get("x"), vec1.get("y"));
+  return void(0);
 };
 
 module.exports = Shapes;

@@ -139,7 +139,6 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
  * @memberOf Vector
  * @example {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
  * @name subtract
- * @alias ["-"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector} A vector that contains a reduced state.
  */
@@ -167,7 +166,6 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
  * @memberOf Vector
  * @example {x: 2, y: 2} * {x: 2, y: 2} = {x: 4, y: 4}
  * @name multiply
- * @alias ["*"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
@@ -182,7 +180,6 @@ Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
  * Divide vectors together.
  * @memberOf Vector
  * @name Divide
- * @namespace ["/"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */

@@ -108,10 +108,10 @@ Utils.prototype.inRange = function(val, min, max) {
 /**
  * @name  rangeIntersect
  * @description Given a two ranges see if both intersect each other.
- * @param  {Number} x0
- * @param  {Number} y0
- * @param  {Number} x1
- * @param  {Number} y1
+ * @param  {Number} min0
+ * @param  {Number} max0
+ * @param  {Number} min1
+ * @param  {Number} max1
  * @return {Boolean}
  */
 Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
