@@ -182,6 +182,7 @@ describe("#Vector", function() {
       v1.addTo(v2);
       assert.deepEqual(vec.create(10, 10).state, v1.state);
     });
+    it("should take no arg and do the vector operation with one arg.");
   });
 
   describe("vector.subtractFrom", function() {
@@ -191,6 +192,7 @@ describe("#Vector", function() {
       v1.subtractFrom(v2);
       assert.deepEqual(vec.create(0, 0).state, v1.state);
     });
+    it("should take no arg and do the vector operation with one arg.");
   });
 
   describe("vector.multiplyBy", function() {
@@ -200,6 +202,7 @@ describe("#Vector", function() {
       v1.multiplyBy(v2);
       assert.deepEqual(vec.create(25, 25).state, v1.state);
     });
+    it("should take no arg and do the vector operation with one arg.");
   });
 
   describe("vector.divideBy", function() {
@@ -209,6 +212,7 @@ describe("#Vector", function() {
       v1.divideBy(v2);
       assert.deepEqual(vec.create(1, 1).state, v1.state);
     });
+    it("should take no arg and do the vector operation with one arg.");
   });
 
   describe("vector.random", function() {
