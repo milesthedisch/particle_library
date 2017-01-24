@@ -69,10 +69,18 @@ Utils.prototype.clamp = function(value, min, max) {
 };
 
 /**
- * @name randomRange
- * @description 
- * @memberOf Utils
+ * @memberOf  Utils
+ * @description Given two numbers return a random number between the two.
+ * @name  randomRange
+ * @param  {[type]} x [description]
+ * @param  {[type]} y [description]
+ * @return {[type]}   [description]
  */
+Utils.prototype.randomRange = function(x, y) {
+  let min = Math.min(x, y);
+  let max = Math.max(x, y);
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
 /**
  * @name  distanceXY

@@ -225,4 +225,23 @@ describe("#Util", function() {
       assert.ok(!utils.collisionRect(rect1, rect3));
     });
   });
+
+  describe("#randomRange", function() {
+    it("should return a value in between the given range", function() {
+      let max = 1000000;
+      let min = 0;
+      for (let i = min; i <= max; i++) {
+        let actualVal = utils.randomRange(min, max);
+        assert.ok((min < actualVal) && (actualVal < max), `${actualVal} is not in range of ${min} and ${max}`);
+      }
+    });
+    it("should return a value in between the given range when one number is negative", function() {
+      let max = 0;
+      let min = -1000000;
+      for (let i = min; i <= max; i++) {
+        let actualVal = utils.randomRange(min, max);
+        assert.ok((min < actualVal) && (actualVal < max), `${actualVal} is not in range of ${min} and ${max}`);
+      }
+    });
+  });
 });
