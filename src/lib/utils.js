@@ -47,6 +47,7 @@ Utils.prototype.lerp = function lerp(val, min, max) {
  * the intended purpose of this function.
  *
  * @param  {Float} val 	A value.
+ * @memberOf Utils
  * @return {Percent}    A value.
  */
 Utils.prototype.percent = function(val) {
@@ -57,6 +58,7 @@ Utils.prototype.percent = function(val) {
  * @name  clamp
  * @description Given a number and a range return the value between that range or the max number or 
  * min number.
+ * @memberOf Utils
  * @param  {Number} value
  * @param  {Number} min
  * @param  {Number} max
@@ -67,8 +69,15 @@ Utils.prototype.clamp = function(value, min, max) {
 };
 
 /**
+ * @name randomRange
+ * @description 
+ * @memberOf Utils
+ */
+
+/**
  * @name  distanceXY
  * @description Given two coordinates return the distance between the two.
+ * @memberOf Utils
  * @param  {Number} x0
  * @param  {Number} y0
  * @param  {Number} x1
@@ -84,6 +93,7 @@ Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
 /**
  * @name  distanceVec
  * @description Given two vectors return the distance between the two.
+ * @memberOf Utils
  * @param  {Vector} v1
  * @param  {Vector} v2
  * @return {Number}
@@ -96,6 +106,7 @@ Utils.prototype.distanceVec = function(v1, v2) {
 /**
  * @name  inRange
  * @description given a number
+ * @memberOf Utils
  * @param  {Number} val
  * @param  {Number} min
  * @param  {Number} max
@@ -108,6 +119,7 @@ Utils.prototype.inRange = function(val, min, max) {
 /**
  * @name  rangeIntersect
  * @description Given a two ranges see if both intersect each other.
+ * @memberOf Utils
  * @param  {Number} min0
  * @param  {Number} max0
  * @param  {Number} min1
@@ -124,6 +136,7 @@ Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
 /**
  * @name  vectorIntersect
  * @description Given twos vectors see if they intersect.
+ * @memberOf Utils
  * @param  {[type]} vec0 [description]
  * @param  {[type]} vec1 [description]
  * @return {[type]}      [description]
@@ -139,6 +152,7 @@ Utils.prototype.vectorIntersect = function(vec0, vec1) {
 /**
  * @name  collisionRect
  * @description Given two rectange see if the intersect.
+ * @memberOf Utils
  * @param  {Particle} r0
  * @param  {Particle} r1
  * @return {Boolean}
@@ -163,6 +177,7 @@ Utils.prototype.collisionRect = function(r0, r1) {
 /**
  * @name  collisionCircle
  * @description Given to particle with radi return wether they collide are not
+ * @memberOf Utils
  * @param  {Particle} c1
  * @param  {Particle} c2
  * @return {Boolean}
@@ -180,6 +195,7 @@ Utils.prototype.collisionCircle = function(c1, c2) {
 /**
  * @name  circlePointCollision
  * @description Given a point and a circle return a boolean regarding wether they are colliding.
+ * @memberOf Utils
  * @param  {Number}   x
  * @param  {Number}   y
  * @param  {Particle} circle
@@ -199,6 +215,7 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
 /**
  * @name  collisionCircleVec
  * @description detect a collision between circles a vector.
+ * @memberOf Utils
  * @param  {Vector}   vec
  * @param  {Particle} circle
  * @return {Boolean}
@@ -210,6 +227,7 @@ Utils.prototype.collisionCircleVec = function(vec, circle) {
 /**
  * @name  collisionRectPoint
  * @description detect collision of a rectangle and a point.
+ * @memberOf Utils
  * @param  {Number}   x
  * @param  {Number}   y
  * @param  {Particle} rect
@@ -227,6 +245,7 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
 /**
  * @name collisionRectVec
  * @description Given a vector and a retangle check wether they collided.
+ * @memberOf Utils
  * @param  {Vector}   vec
  * @param  {Particle} rect [description]
  * @return {Boolean}
