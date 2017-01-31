@@ -33,8 +33,8 @@ Vector.prototype.create = function create(x=0, y=0) {
  * @return {Boolean} Is the prop your passing in exsist.
  */
 Vector.prototype.set = function set(prop, val) {
-	// TODO: Add check val is number
-	// 1. Create utils.isNumber function.
+  // TODO: Add check val is number
+  // 1. Create utils.isNumber function.
 
   if (this.state.hasOwnProperty(prop)) {
     this.state[prop] = val;
@@ -47,8 +47,8 @@ Vector.prototype.set = function set(prop, val) {
 /**
  * get - A getter for the vector class.
  * @memberOf Vector
- * @param  {String} prop 	The prop to set on state.
- * @return {Value} 				The value assosiated with the prop.
+ * @param  {String} prop  The prop to set on state.
+ * @return {Value}        The value assosiated with the prop.
  */
 Vector.prototype.get = function get(prop) {
   return this.state[prop];
@@ -57,11 +57,11 @@ Vector.prototype.get = function get(prop) {
 /**
  * setAngle - Plot the corrdinates based on radians given.
  * @memberOf Vector
- * @param {Radians}	rad A floating point number.
+ * @param {Radians} rad A floating point number.
  */
 Vector.prototype.setAngle = function setAngle(rad) {
-	// TODO: Add check rad is number
-	// 1. Create utils.isNumber function.
+  // TODO: Add check rad is number
+  // 1. Create utils.isNumber function.
 
   const length = this.getLength();
 
@@ -75,8 +75,8 @@ Vector.prototype.setAngle = function setAngle(rad) {
  * @param {Integer} length
  */
 Vector.prototype.setLength = function setLength(length) {
-	// TODO: Add check rad is number
-	// 1. Create utils.isNumber function.
+  // TODO: Add check rad is number
+  // 1. Create utils.isNumber function.
 
   const rad = this.getAngle();
 
@@ -119,19 +119,18 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
   const self = this;
 
   if (v2.constructor.name === "Array" && v2.length) {
-		// Refactor to make more effecient //
-    const vecs = v2.map((v) => ({x: v.get("x"), y: v.get("y")}))
-		.reduce((v0, vn) =>
-			({x: v0.x + vn.x, y: v0.y + vn.y}),
-		self.state);
+    // Refactor to make more effecient //
+    const vecs = v2
+      .map((v) => ({x: v.get("x"), y: v.get("y")}))
+      .reduce((v0, vn) => ({x: v0.x + vn.x, y: v0.y + vn.y}), self.state);
 
     return self.create(vecs.x, vecs.y);
   }
 
   return this.create(
-		self.get("x") + v2.get("x"),
-		self.get("y") + v2.get("y")
-	);
+    self.get("x") + v2.get("x"),
+    self.get("y") + v2.get("y")
+  );
 };
 
 /**
@@ -146,19 +145,19 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
   const self = this;
 
   if (v2.constructor.name === "Array" && v2.length) {
-		// Refactor to make more effecient //
+    // Refactor to make more effecient //
     const vecs = v2.map((v) => ({x: v.get("x"), y: v.get("y")}))
-		.reduce((v0, vn) =>
-			({x: v0.x - vn.x, y: v0.y - vn.y}),
-		self.state);
+    .reduce((v0, vn) =>
+      ({x: v0.x - vn.x, y: v0.y - vn.y}),
+    self.state);
 
     return self.create(vecs.x, vecs.y);
   }
 
   return this.create(
-		self.get("x") - v2.get("x"),
-		self.get("y") - v2.get("y")
-	);
+    self.get("x") - v2.get("x"),
+    self.get("y") - v2.get("y")
+  );
 };
 
 /**
@@ -171,9 +170,9 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
  */
 Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
   return this.create(
-		this.get("x") * v2.get("x"),
-		this.get("y") * v2.get("y")
-	);
+    this.get("x") * v2.get("x"),
+    this.get("y") * v2.get("y")
+  );
 };
 
 /**
@@ -185,9 +184,9 @@ Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
  */
 Vector.prototype.divide = Vector.prototype["/"] = function divide(v2) {
   return this.create(
-		this.get("x") / v2.get("x"),
-		this.get("y") / v2.get("y")
-	);
+    this.get("x") / v2.get("x"),
+    this.get("y") / v2.get("y")
+  );
 };
 
 /**

@@ -75,10 +75,10 @@ describe("#Vector", function() {
 
   describe("vector.setLength", function() {
 		it('given the length it should set cooridnates according to angle ', function() { // eslint-disable-line
-  vec.setLength(1);
-  assert.equal(~~vec.state.x, 0);
-  assert.equal(vec.state.y, 1);
-});
+      vec.setLength(1);
+      assert.equal(~~vec.state.x, 0);
+      assert.equal(vec.state.y, 1);
+    });
   });
 
   describe("vector.getLength", function() {

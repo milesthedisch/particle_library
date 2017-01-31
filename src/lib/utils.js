@@ -42,10 +42,10 @@ Utils.prototype.lerp = function lerp(val, min, max) {
 };
 
 /**
- * precent - Takes a value and returns a precentage.
- * you can pass arbitrary large numbers in but thats not
- * the intended purpose of this function.
- *
+ * @name  precent
+ * @description Takes a value and returns a precentage.
+ *              you can pass arbitrary large numbers in but thats not
+ *              the intended purpose of this function.
  * @param  {Float} val 	A value.
  * @memberOf Utils
  * @return {Percent}    A value.
@@ -56,8 +56,8 @@ Utils.prototype.percent = function(val) {
 
 /**
  * @name  clamp
- * @description Given a number and a range return the value between that range or the max number or 
- * min number.
+ * @description Given a number and a range return the
+ *              value between that range or the max number or min number.
  * @memberOf Utils
  * @param  {Number} value
  * @param  {Number} min
