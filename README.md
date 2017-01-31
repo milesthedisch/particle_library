@@ -5,7 +5,7 @@ Much of the inspiration for this library has come from http://www.codingmath.com
 
 # For more info please go to:
 
-[https://github.com/milesthedisch/particle_docs](particle_docs)
+[https://github.com/milesthedisch/particle_docs](https://github.com/milesthedisch/particle_docs)
 
 ---
 
