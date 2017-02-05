@@ -47,7 +47,7 @@ Particle.prototype.get = function get(prop) {
  * @memberOf Particle
  * @param   {Object} prop
  * @param   {Object} val
- * @return  {Boolean} 		A boolean to tell wether the property
+ * @return  {Boolean}     A boolean to tell wether the property
  *                        exsist on the inital state
  */
 Particle.prototype.set = function set(prop, val) {
@@ -61,7 +61,7 @@ Particle.prototype.set = function set(prop, val) {
 
 /**
  * @memberOf Particle
- * @param  {Object} 	opts optional state values to pass to create.
+ * @param  {Object}   opts optional state values to pass to create.
  * @return {Particle} returns a particle
  */
 Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
@@ -87,7 +87,7 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
  *
  * @memberOf Particle
  * @param  {Vector} accel The change in distance / time
- * @return {Value} 	state of the particle after accelerating.
+ * @return {Value}  state of the particle after accelerating.
  */
 Particle.prototype.accelerate = function accelerate(accel) {
   this.get("velocity").addTo(accel);
@@ -120,8 +120,8 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
  * in API Docs.
  *
  * @memberOf Particle
- * @param  {Particle} p2 			A particle instance.
- * @return {Integer}  Angle  	A angle.
+ * @param  {Particle} p2      A particle instance.
+ * @return {Integer}  Angle   A angle.
  */
 Particle.prototype.angleTo = function angelTo(p2) {
   const dx = p2.get("position").get("x") - this.get("position").get("x");
@@ -136,8 +136,8 @@ Particle.prototype.angleTo = function angelTo(p2) {
  * between the two particles.
  *
  * @memberOf Particle
- * @param  {Particle} p2 			A particle instance
- * @return {Integer}  Angle  	A Distance
+ * @param  {Particle} p2      A particle instance
+ * @return {Integer}  Angle   A Distance
  */
 Particle.prototype.distanceTo = function distanceTo(p2) {
   const deltaX = p2.get("position").get("x") - this.get("position").get("x");
@@ -149,8 +149,8 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
  * gravitateTo - Creates a gravity vector if he
  *
  * @memberOf Particle
- * @param  {Particle} p2     			A particle instance.
- * @return {Vector}   veclocity 	The velocity of the current state.
+ * @param  {Particle} p2          A particle instance.
+ * @return {Vector}   veclocity   The velocity of the current state.
  */
 Particle.prototype.gravitateTo = function(p2) {
   const grav = this.get("gravity");
@@ -226,6 +226,50 @@ Particle.prototype.distanceFrom = function(p2) {
   const pos1 = p2.get("position");
   const pos2 = this.get("position");
   return utils.distanceVec(pos1, pos2);
+};
+
+/**
+ * @name spring
+ * @description Given two particles calculate the
+ * velocity applied to both of them particles.
+ * @param  {Particle} p1
+ * @param  {Particle} p2
+ * @param  {Integer}  offset  Given offset for the particles
+ * @param  {Integer}  spring  The spring coefficent
+ * @return {Particle[]}
+ */
+Particle.prototype.springParticle = function(p1, p2, offset=100, spring=0.05) {
+  const springVec = vector.create(spring, spring);
+  const distance = p1.get("position")["-"](p2.get("position"));
+
+  distance.setLength(distance.getLength() - offset);
+  const springForce = distance["*"](springVec);
+
+  p1.get("velocity")["+="](springForce);
+  p2.get("velocity")["-="](springForce);
+  return [p1, p2];
+};
+
+/**
+ * @name  springPoint
+ * @description Given a particle, a vector, and a spring coeffiencent accelerate
+ * the particle according to the distance its is from the point.
+ * @param  {Particle}   p1
+ * @param  {Vector}     point
+ * @param  {Number}     offset Offset from the spring
+ * @param  {Integer}    spring The spring coeffiecent the higher
+ *                      the value the more springy it gets.
+ * @return {Particle}
+ */
+Particle.prototype.springPoint = function(p1, point, offset=100, spring=0.05) {
+  const springVec = vector.create(spring, spring);
+  const distance = p1.get("position")["-"](point);
+
+  distance.setLength(distance.getLength() - offset);
+  const springForce = distance["*"](springVec);
+
+  p1.get("velocity")["+="](springForce);
+  return p1;
 };
 
 module.exports = Particle;

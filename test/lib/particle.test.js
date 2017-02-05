@@ -1,6 +1,7 @@
 /* eslint max-len: 0*/
 const extend = require("extend");
 const assert = require("chai").assert;
+const util = require("util");
 const clone = require("lodash/cloneDeep");
 
 const Particle = require("../../src/lib/particle.js");
@@ -271,6 +272,31 @@ describe("#Particle", function() {
     });
   });
 
+  describe("#spring", function() {
+    describe("#springParticle", function() {
+      it("it should fail if not given two particles and the first arguments", function() {
+        const particle = new Particle();
+        try {
+          particle.springParticle(undefined, undefined, 100);
+        } catch (e) {
+          assert.equal(e.constructor.name, "TypeError");
+        };
+      });
+
+      it("it should move the springed particle closer to its attracting point", function() {
+        const particle = new Particle();
+        const p1 = particle.create({
+          position: vector.create()
+        });
+        const p1 = particle.create();
+      });
+    });
+
+    describe("#springPoint", function() {
+      it("should fail if not given a particle, a vector and a spring coeffiencet");
+    });
+  });
+
   describe("#speed", function() {
     it("should add the vector to the position", function() {
       const particle = new Particle();
@@ -292,7 +318,6 @@ describe("#Particle", function() {
 
     it("should add the internal velocity twice if we call speed twice", function() {
       const vec = new Vector();
-
       const p = new Particle({"velocity": vec.create(1, 1)});
       p.speed();
       p.speed();
