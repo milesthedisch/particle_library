@@ -297,7 +297,7 @@ describe("#Particle", function() {
       });
     });
 
-    describe.only("#springPoint", function() {
+    describe("#springPoint", function() {
       it("should return an error if not given a point.", function() {
         const particle = new Particle();
         const p1 = particle.create({
@@ -305,7 +305,7 @@ describe("#Particle", function() {
         });
 
         try {
-          p1.springToPoint(undefined);  
+          p1.springToPoint(undefined);
         } catch (e) {
           assert.equal(e.message, "Cannot read property \'constructor\' of undefined");
         }
