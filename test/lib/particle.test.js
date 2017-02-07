@@ -272,24 +272,31 @@ describe("#Particle", function() {
     });
   });
 
-  describe("#spring", function() {
-    describe("#springParticle", function() {
-      it("it should fail if not given two particles and the first arguments", function() {
+  describe("#springs", function() {
+    describe("#springFromTo", function() {
+      it("it should fail if not given a particle as the first argument", function() {
         const particle = new Particle();
         try {
-          particle.springParticle(undefined, undefined, 100);
+          particle.springFromTo(undefined);
         } catch (e) {
-          assert.equal(e.constructor.name, "TypeError");
+          assert.equal(e.message, "Cannot read property \'get\' of undefined");
         };
       });
 
-      it("it should move the springed particle closer to its attracting point", function() {
+      it.only("it should move the springed particle scloser to its attracting point", function() {
         const particle = new Particle();
         const p1 = particle.create({
-          position: vector.create()
+          position: vector.create(100, 100),
         });
-        const p1 = particle.create();
+        const p2 = particle.create({
+          position: vector.create(100, 400),
+        });
+        p1.springFromTo(p2);
+        assert.equal(p1.get("velocity").get("y"), -10);
+        assert.equal(p2.get("velocity").get("y"), 10);
       });
+
+      it("it should move the springed particle closer");
     });
 
     describe("#springPoint", function() {

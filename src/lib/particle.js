@@ -229,47 +229,45 @@ Particle.prototype.distanceFrom = function(p2) {
 };
 
 /**
- * @name spring
+ * @name springFromTo
  * @description Given two particles calculate the
  * velocity applied to both of them particles.
- * @param  {Particle} p1
- * @param  {Particle} p2
+ * @param  {Particle} p
  * @param  {Integer}  offset  Given offset for the particles
  * @param  {Integer}  spring  The spring coefficent
  * @return {Particle[]}
  */
-Particle.prototype.springParticle = function(p1, p2, offset=100, spring=0.05) {
+Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
   const springVec = vector.create(spring, spring);
-  const distance = p1.get("position")["-"](p2.get("position"));
+  const distance = this.get("position")["-"](p.get("position"));
 
   distance.setLength(distance.getLength() - offset);
   const springForce = distance["*"](springVec);
 
-  p1.get("velocity")["+="](springForce);
-  p2.get("velocity")["-="](springForce);
-  return [p1, p2];
+  this.get("velocity")["+="](springForce);
+  p.get("velocity")["-="](springForce);
+  return [this, p];
 };
 
 /**
- * @name  springPoint
+ * @name  springToPoint
  * @description Given a particle, a vector, and a spring coeffiencent accelerate
  * the particle according to the distance its is from the point.
- * @param  {Particle}   p1
  * @param  {Vector}     point
  * @param  {Number}     offset Offset from the spring
  * @param  {Integer}    spring The spring coeffiecent the higher
  *                      the value the more springy it gets.
  * @return {Particle}
  */
-Particle.prototype.springPoint = function(p1, point, offset=100, spring=0.05) {
+Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
   const springVec = vector.create(spring, spring);
-  const distance = p1.get("position")["-"](point);
+  const distance = this.get("position")["-"](point);
 
   distance.setLength(distance.getLength() - offset);
   const springForce = distance["*"](springVec);
 
-  p1.get("velocity")["+="](springForce);
-  return p1;
+  this.get("velocity")["+="](springForce);
+  return this;
 };
 
 module.exports = Particle;
