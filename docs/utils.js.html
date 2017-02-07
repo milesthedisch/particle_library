@@ -70,11 +70,12 @@ Utils.prototype.lerp = function lerp(val, min, max) {
 };
 
 /**
- * precent - Takes a value and returns a precentage.
- * you can pass arbitrary large numbers in but thats not
- * the intended purpose of this function.
- *
+ * @name  precent
+ * @description Takes a value and returns a precentage.
+ *              you can pass arbitrary large numbers in but thats not
+ *              the intended purpose of this function.
  * @param  {Float} val 	A value.
+ * @memberOf Utils
  * @return {Percent}    A value.
  */
 Utils.prototype.percent = function(val) {
@@ -83,8 +84,9 @@ Utils.prototype.percent = function(val) {
 
 /**
  * @name  clamp
- * @description Given a number and a range return the value between that range or the max number or 
- * min number.
+ * @description Given a number and a range return the
+ *              value between that range or the max number or min number.
+ * @memberOf Utils
  * @param  {Number} value
  * @param  {Number} min
  * @param  {Number} max
@@ -95,8 +97,23 @@ Utils.prototype.clamp = function(value, min, max) {
 };
 
 /**
+ * @memberOf  Utils
+ * @description Given two numbers return a random number between the two.
+ * @name  randomRange
+ * @param  {[type]} x [description]
+ * @param  {[type]} y [description]
+ * @return {[type]}   [description]
+ */
+Utils.prototype.randomRange = function(x, y) {
+  let min = Math.min(x, y);
+  let max = Math.max(x, y);
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+/**
  * @name  distanceXY
  * @description Given two coordinates return the distance between the two.
+ * @memberOf Utils
  * @param  {Number} x0
  * @param  {Number} y0
  * @param  {Number} x1
@@ -112,6 +129,7 @@ Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
 /**
  * @name  distanceVec
  * @description Given two vectors return the distance between the two.
+ * @memberOf Utils
  * @param  {Vector} v1
  * @param  {Vector} v2
  * @return {Number}
@@ -122,8 +140,80 @@ Utils.prototype.distanceVec = function(v1, v2) {
 };
 
 /**
+ * @name  inRange
+ * @description given a number
+ * @memberOf Utils
+ * @param  {Number} val
+ * @param  {Number} min
+ * @param  {Number} max
+ * @return {Boolean}
+ */
+Utils.prototype.inRange = function(val, min, max) {
+  return (val &lt;= Math.max(max, min)) &amp;&amp; (Math.min(max, min) &lt;= val);
+};
+
+/**
+ * @name  rangeIntersect
+ * @description Given a two ranges see if both intersect each other.
+ * @memberOf Utils
+ * @param  {Number} min0
+ * @param  {Number} max0
+ * @param  {Number} min1
+ * @param  {Number} max1
+ * @return {Boolean}
+ */
+Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
+  return (
+    Math.max(max0, min0) >= Math.min(min1, max1) &amp;&amp;
+    Math.min(min0, max0) &lt;= Math.max(max1, min1)
+  );
+};
+
+/**
+ * @name  vectorIntersect
+ * @description Given twos vectors see if they intersect.
+ * @memberOf Utils
+ * @param  {[type]} vec0 [description]
+ * @param  {[type]} vec1 [description]
+ * @return {[type]}      [description]
+ */
+Utils.prototype.vectorIntersect = function(vec0, vec1) {
+  const x0 = vec0.get("x");
+  const y0 = vec0.get("y");
+  const x1 = vec1.get("x");
+  const y1 = vec1.get("y");
+  return this.rangeIntersect(x0, y0, x1, y1);
+};
+
+/**
+ * @name  collisionRect
+ * @description Given two rectange see if the intersect.
+ * @memberOf Utils
+ * @param  {Particle} r0
+ * @param  {Particle} r1
+ * @return {Boolean}
+ */
+Utils.prototype.collisionRect = function(r0, r1) {
+  const r0x = r0.get("position").get("x");
+  const r0y = r0.get("position").get("y");
+  const r1x = r1.get("position").get("x");
+  const r1y = r1.get("position").get("y");
+
+  const r0w = r0x + r0.get("width");
+  const r0h = r0y + r0.get("height");
+  const r1w = r1x + r1.get("width");
+  const r1h = r1y + r1.get("height");
+
+  return (
+    this.rangeIntersect(r0x, r0w, r1x, r1w) &amp;&amp;
+    this.rangeIntersect(r0y, r0h, r1y, r1h)
+  );
+};
+
+/**
  * @name  collisionCircle
  * @description Given to particle with radi return wether they collide are not
+ * @memberOf Utils
  * @param  {Particle} c1
  * @param  {Particle} c2
  * @return {Boolean}
@@ -141,6 +231,7 @@ Utils.prototype.collisionCircle = function(c1, c2) {
 /**
  * @name  circlePointCollision
  * @description Given a point and a circle return a boolean regarding wether they are colliding.
+ * @memberOf Utils
  * @param  {Number}   x
  * @param  {Number}   y
  * @param  {Particle} circle
@@ -160,6 +251,7 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
 /**
  * @name  collisionCircleVec
  * @description detect a collision between circles a vector.
+ * @memberOf Utils
  * @param  {Vector}   vec
  * @param  {Particle} circle
  * @return {Boolean}
@@ -171,6 +263,7 @@ Utils.prototype.collisionCircleVec = function(vec, circle) {
 /**
  * @name  collisionRectPoint
  * @description detect collision of a rectangle and a point.
+ * @memberOf Utils
  * @param  {Number}   x
  * @param  {Number}   y
  * @param  {Particle} rect
@@ -188,6 +281,7 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
 /**
  * @name collisionRectVec
  * @description Given a vector and a retangle check wether they collided.
+ * @memberOf Utils
  * @param  {Vector}   vec
  * @param  {Particle} rect [description]
  * @return {Boolean}
@@ -196,57 +290,6 @@ Utils.prototype.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
-/**
- * @name  inRange
- * @description given a number
- * @param  {Number} val
- * @param  {Number} min
- * @param  {Number} max
- * @return {Boolean}
- */
-Utils.prototype.inRange = function(val, min, max) {
-  return (val &lt;= Math.max(max, min)) &amp;&amp; (Math.min(max, min) &lt;= val);
-};
-
-/**
- * @name  rangeIntersect
- * @description Given a two ranges see if both intersect each other.
- * @param  {Number} x0
- * @param  {Number} y0
- * @param  {Number} x1
- * @param  {Number} y1
- * @return {Boolean}
- */
-Utils.prototype.rangeIntersect = function(x0, y0, x1, y1) {
-  return (
-    Math.max(max0, min0) >= Math.min(min1, max1) &amp;&amp;
-    Math.min(min0, max0) &lt;= Math.max(max1, min1)
-  );
-};
-
-/**
- * @name  collisionRect
- * @description Given two rectange see if the intersect.
- * @param  {Particle} r0
- * @param  {Particle} r1
- * @return {Boolean}
- */
-Utils.prototype.collisionRect = function(r0, r1) {
-  const r0x = r0.get("position").get("x");
-  const r0y = r0.get("position").get("y");
-  const r1x = r1x.get("position").get("x");
-  const r1y = r1y.get("position").get("y");
-
-  const r0w = r0x + r0x.get("width");
-  const r0h = r0y + r0y.get("height");
-  const r1w = r1x + r1x.get("width");
-  const r1h = r1y + r1y.get("height");
-
-  return (
-    this.rangeIntersect(r0x, r0w, r1x, r1w) &amp;&amp;
-    this.rangeIntersect(r0y, r0h, r1y, r1h)
-  );
-};
 
 module.exports = new Utils();
 </code></pre>
@@ -259,13 +302,13 @@ module.exports = new Utils();
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Namespaces</h3><ul><li><a href="Vector.%255B___%255D.html">"/"</a></li></ul><h3>Global</h3><ul><li><a href="global.html#circlePointCollision">circlePointCollision</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#collisionCircle">collisionCircle</a></li><li><a href="global.html#collisionCircleVec">collisionCircleVec</a></li><li><a href="global.html#collisionRect">collisionRect</a></li><li><a href="global.html#collisionRectPoint">collisionRectPoint</a></li><li><a href="global.html#collisionRectVec">collisionRectVec</a></li><li><a href="global.html#distanceFrom">distanceFrom</a></li><li><a href="global.html#distanceVec">distanceVec</a></li><li><a href="global.html#distanceXY">distanceXY</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#inRange">inRange</a></li><li><a href="global.html#rangeIntersect">rangeIntersect</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#speed">speed</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#distanceFrom">distanceFrom</a></li><li><a href="global.html#drawLineVec">drawLineVec</a></li><li><a href="global.html#drawLineXY">drawLineXY</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#springFromTo">springFromTo</a></li><li><a href="global.html#springToPoint">springToPoint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 19 2017 21:11:49 GMT+1100 (AEDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Feb 07 2017 15:08:59 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

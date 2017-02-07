@@ -61,8 +61,8 @@ Vector.prototype.create = function create(x=0, y=0) {
  * @return {Boolean} Is the prop your passing in exsist.
  */
 Vector.prototype.set = function set(prop, val) {
-	// TODO: Add check val is number
-	// 1. Create utils.isNumber function.
+  // TODO: Add check val is number
+  // 1. Create utils.isNumber function.
 
   if (this.state.hasOwnProperty(prop)) {
     this.state[prop] = val;
@@ -75,8 +75,8 @@ Vector.prototype.set = function set(prop, val) {
 /**
  * get - A getter for the vector class.
  * @memberOf Vector
- * @param  {String} prop 	The prop to set on state.
- * @return {Value} 				The value assosiated with the prop.
+ * @param  {String} prop  The prop to set on state.
+ * @return {Value}        The value assosiated with the prop.
  */
 Vector.prototype.get = function get(prop) {
   return this.state[prop];
@@ -85,11 +85,11 @@ Vector.prototype.get = function get(prop) {
 /**
  * setAngle - Plot the corrdinates based on radians given.
  * @memberOf Vector
- * @param {Radians}	rad A floating point number.
+ * @param {Radians} rad A floating point number.
  */
 Vector.prototype.setAngle = function setAngle(rad) {
-	// TODO: Add check rad is number
-	// 1. Create utils.isNumber function.
+  // TODO: Add check rad is number
+  // 1. Create utils.isNumber function.
 
   const length = this.getLength();
 
@@ -103,8 +103,8 @@ Vector.prototype.setAngle = function setAngle(rad) {
  * @param {Integer} length
  */
 Vector.prototype.setLength = function setLength(length) {
-	// TODO: Add check rad is number
-	// 1. Create utils.isNumber function.
+  // TODO: Add check rad is number
+  // 1. Create utils.isNumber function.
 
   const rad = this.getAngle();
 
@@ -147,19 +147,18 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
   const self = this;
 
   if (v2.constructor.name === "Array" &amp;&amp; v2.length) {
-		// Refactor to make more effecient //
-    const vecs = v2.map((v) => ({x: v.get("x"), y: v.get("y")}))
-		.reduce((v0, vn) =>
-			({x: v0.x + vn.x, y: v0.y + vn.y}),
-		self.state);
+    // Refactor to make more effecient //
+    const vecs = v2
+      .map((v) => ({x: v.get("x"), y: v.get("y")}))
+      .reduce((v0, vn) => ({x: v0.x + vn.x, y: v0.y + vn.y}), self.state);
 
     return self.create(vecs.x, vecs.y);
   }
 
   return this.create(
-		self.get("x") + v2.get("x"),
-		self.get("y") + v2.get("y")
-	);
+    self.get("x") + v2.get("x"),
+    self.get("y") + v2.get("y")
+  );
 };
 
 /**
@@ -167,7 +166,6 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
  * @memberOf Vector
  * @example {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
  * @name subtract
- * @alias ["-"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector} A vector that contains a reduced state.
  */
@@ -175,19 +173,19 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
   const self = this;
 
   if (v2.constructor.name === "Array" &amp;&amp; v2.length) {
-		// Refactor to make more effecient //
+    // Refactor to make more effecient //
     const vecs = v2.map((v) => ({x: v.get("x"), y: v.get("y")}))
-		.reduce((v0, vn) =>
-			({x: v0.x - vn.x, y: v0.y - vn.y}),
-		self.state);
+    .reduce((v0, vn) =>
+      ({x: v0.x - vn.x, y: v0.y - vn.y}),
+    self.state);
 
     return self.create(vecs.x, vecs.y);
   }
 
   return this.create(
-		self.get("x") - v2.get("x"),
-		self.get("y") - v2.get("y")
-	);
+    self.get("x") - v2.get("x"),
+    self.get("y") - v2.get("y")
+  );
 };
 
 /**
@@ -195,30 +193,28 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
  * @memberOf Vector
  * @example {x: 2, y: 2} * {x: 2, y: 2} = {x: 4, y: 4}
  * @name multiply
- * @alias ["*"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
   return this.create(
-		this.get("x") * v2.get("x"),
-		this.get("y") * v2.get("y")
-	);
+    this.get("x") * v2.get("x"),
+    this.get("y") * v2.get("y")
+  );
 };
 
 /**
  * Divide vectors together.
  * @memberOf Vector
  * @name Divide
- * @namespace ["/"]
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
 Vector.prototype.divide = Vector.prototype["/"] = function divide(v2) {
   return this.create(
-		this.get("x") / v2.get("x"),
-		this.get("y") / v2.get("y")
-	);
+    this.get("x") / v2.get("x"),
+    this.get("y") / v2.get("y")
+  );
 };
 
 /**
@@ -291,13 +287,13 @@ module.exports = Vector;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Namespaces</h3><ul><li><a href="Vector.%255B___%255D.html">"/"</a></li></ul><h3>Global</h3><ul><li><a href="global.html#circlePointCollision">circlePointCollision</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#collisionCircle">collisionCircle</a></li><li><a href="global.html#collisionCircleVec">collisionCircleVec</a></li><li><a href="global.html#collisionRect">collisionRect</a></li><li><a href="global.html#collisionRectPoint">collisionRectPoint</a></li><li><a href="global.html#collisionRectVec">collisionRectVec</a></li><li><a href="global.html#distanceFrom">distanceFrom</a></li><li><a href="global.html#distanceVec">distanceVec</a></li><li><a href="global.html#distanceXY">distanceXY</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#inRange">inRange</a></li><li><a href="global.html#rangeIntersect">rangeIntersect</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#speed">speed</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#distanceFrom">distanceFrom</a></li><li><a href="global.html#drawLineVec">drawLineVec</a></li><li><a href="global.html#drawLineXY">drawLineXY</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#springFromTo">springFromTo</a></li><li><a href="global.html#springToPoint">springToPoint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 19 2017 21:11:49 GMT+1100 (AEDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Feb 07 2017 15:08:59 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -75,7 +75,7 @@ Particle.prototype.get = function get(prop) {
  * @memberOf Particle
  * @param   {Object} prop
  * @param   {Object} val
- * @return  {Boolean} 		A boolean to tell wether the property
+ * @return  {Boolean}     A boolean to tell wether the property
  *                        exsist on the inital state
  */
 Particle.prototype.set = function set(prop, val) {
@@ -89,7 +89,7 @@ Particle.prototype.set = function set(prop, val) {
 
 /**
  * @memberOf Particle
- * @param  {Object} 	opts optional state values to pass to create.
+ * @param  {Object}   opts optional state values to pass to create.
  * @return {Particle} returns a particle
  */
 Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
@@ -115,7 +115,7 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
  *
  * @memberOf Particle
  * @param  {Vector} accel The change in distance / time
- * @return {Value} 	state of the particle after accelerating.
+ * @return {Value}  state of the particle after accelerating.
  */
 Particle.prototype.accelerate = function accelerate(accel) {
   this.get("velocity").addTo(accel);
@@ -148,8 +148,8 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
  * in API Docs.
  *
  * @memberOf Particle
- * @param  {Particle} p2 			A particle instance.
- * @return {Integer}  Angle  	A angle.
+ * @param  {Particle} p2      A particle instance.
+ * @return {Integer}  Angle   A angle.
  */
 Particle.prototype.angleTo = function angelTo(p2) {
   const dx = p2.get("position").get("x") - this.get("position").get("x");
@@ -164,8 +164,8 @@ Particle.prototype.angleTo = function angelTo(p2) {
  * between the two particles.
  *
  * @memberOf Particle
- * @param  {Particle} p2 			A particle instance
- * @return {Integer}  Angle  	A Distance
+ * @param  {Particle} p2      A particle instance
+ * @return {Integer}  Angle   A Distance
  */
 Particle.prototype.distanceTo = function distanceTo(p2) {
   const deltaX = p2.get("position").get("x") - this.get("position").get("x");
@@ -177,8 +177,8 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
  * gravitateTo - Creates a gravity vector if he
  *
  * @memberOf Particle
- * @param  {Particle} p2     			A particle instance.
- * @return {Vector}   veclocity 	The velocity of the current state.
+ * @param  {Particle} p2          A particle instance.
+ * @return {Vector}   veclocity   The velocity of the current state.
  */
 Particle.prototype.gravitateTo = function(p2) {
   const grav = this.get("gravity");
@@ -256,6 +256,48 @@ Particle.prototype.distanceFrom = function(p2) {
   return utils.distanceVec(pos1, pos2);
 };
 
+/**
+ * @name springFromTo
+ * @description Given two particles calculate the
+ * velocity applied to both of them particles.
+ * @param  {Particle} p
+ * @param  {Integer}  offset  Given offset for the particles
+ * @param  {Integer}  spring  The spring coefficent
+ * @return {Particle[]}
+ */
+Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
+  const springVec = vector.create(spring, spring);
+  const distance = this.get("position")["-"](p.get("position"));
+
+  distance.setLength(distance.getLength() - offset);
+  const springForce = distance["*"](springVec);
+
+  this.get("velocity")["+="](springForce);
+  p.get("velocity")["-="](springForce);
+  return [this, p];
+};
+
+/**
+ * @name  springToPoint
+ * @description Given a particle, a vector, and a spring coeffiencent accelerate
+ * the particle according to the distance its is from the point.
+ * @param  {Vector}     point
+ * @param  {Number}     offset Offset from the spring
+ * @param  {Integer}    spring The spring coeffiecent the higher
+ *                      the value the more springy it gets.
+ * @return {Particle}
+ */
+Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
+  const springVec = vector.create(spring, spring);
+  const distance = this.get("position")["-"](point);
+
+  distance.setLength(distance.getLength() - offset);
+  const springForce = distance["*"](springVec);
+
+  this.get("velocity")["+="](springForce);
+  return this;
+};
+
 module.exports = Particle;
 </code></pre>
         </article>
@@ -267,13 +309,13 @@ module.exports = Particle;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Namespaces</h3><ul><li><a href="Vector.%255B___%255D.html">"/"</a></li></ul><h3>Global</h3><ul><li><a href="global.html#circlePointCollision">circlePointCollision</a></li><li><a href="global.html#clamp">clamp</a></li><li><a href="global.html#collisionCircle">collisionCircle</a></li><li><a href="global.html#collisionCircleVec">collisionCircleVec</a></li><li><a href="global.html#collisionRect">collisionRect</a></li><li><a href="global.html#collisionRectPoint">collisionRectPoint</a></li><li><a href="global.html#collisionRectVec">collisionRectVec</a></li><li><a href="global.html#distanceFrom">distanceFrom</a></li><li><a href="global.html#distanceVec">distanceVec</a></li><li><a href="global.html#distanceXY">distanceXY</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#inRange">inRange</a></li><li><a href="global.html#rangeIntersect">rangeIntersect</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#speed">speed</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#distanceFrom">distanceFrom</a></li><li><a href="global.html#drawLineVec">drawLineVec</a></li><li><a href="global.html#drawLineXY">drawLineXY</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#springFromTo">springFromTo</a></li><li><a href="global.html#springToPoint">springToPoint</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Jan 19 2017 21:11:49 GMT+1100 (AEDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Feb 07 2017 15:08:59 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

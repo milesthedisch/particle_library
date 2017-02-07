@@ -72,9 +72,9 @@ Utils.prototype.clamp = function(value, min, max) {
  * @memberOf  Utils
  * @description Given two numbers return a random number between the two.
  * @name  randomRange
- * @param  {[type]} x [description]
- * @param  {[type]} y [description]
- * @return {[type]}   [description]
+ * @param  {Integer} x
+ * @param  {Integer} y
+ * @return {Integer}
  */
 Utils.prototype.randomRange = function(x, y) {
   let min = Math.min(x, y);
@@ -145,9 +145,9 @@ Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
  * @name  vectorIntersect
  * @description Given twos vectors see if they intersect.
  * @memberOf Utils
- * @param  {[type]} vec0 [description]
- * @param  {[type]} vec1 [description]
- * @return {[type]}      [description]
+ * @param  {Vector} vec0
+ * @param  {Vector} vec1
+ * @return {Boolean}
  */
 Utils.prototype.vectorIntersect = function(vec0, vec1) {
   const x0 = vec0.get("x");
