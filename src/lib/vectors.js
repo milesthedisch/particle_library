@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 const utils = require("./utils.js");
 
 const INITIAL_STATE = {

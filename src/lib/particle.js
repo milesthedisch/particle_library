@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 /*
 * The particle libary is used for physics animations.
 * they are not extremely accurate but still represent
@@ -239,12 +240,12 @@ Particle.prototype.distanceFrom = function(p2) {
  */
 Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
   const springVec = vector.create(spring, spring);
-  const distance = this.get("position")["-"](p.get("position"));
+  const distance = p.get("position")["-"](this.get("position"));
 
   distance.setLength(distance.getLength() - offset);
   const springForce = distance["*"](springVec);
 
-  this.get("velocity")["+="](springForce);
+  this.accelerate(springForce);
   p.get("velocity")["-="](springForce);
   return [this, p];
 };
@@ -261,13 +262,12 @@ Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
  */
 Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
   const springVec = vector.create(spring, spring);
-  const distance = this.get("position")["-"](point);
+  const distance = point["-"](this.get("position"));
 
   distance.setLength(distance.getLength() - offset);
   const springForce = distance["*"](springVec);
 
-  this.accelerate(springForce);
-  return this;
+  return this.accelerate(springForce);
 };
 
 module.exports = Particle;

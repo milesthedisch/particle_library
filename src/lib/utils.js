@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 /**
  * This module is composed of small function that
  * should be used when needed. Most functions are pure

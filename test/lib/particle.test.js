@@ -283,7 +283,7 @@ describe("#Particle", function() {
         };
       });
 
-      it("it should move the springed particle scloser to its attracting point", function() {
+      it("it should move the springed particle closer to its attracting point", function() {
         const particle = new Particle();
         const p1 = particle.create({
           position: vector.create(100, 100),
@@ -307,7 +307,7 @@ describe("#Particle", function() {
         try {
           p1.springToPoint(undefined);
         } catch (e) {
-          assert.equal(e.message, "Cannot read property \'constructor\' of undefined");
+          assert.ok(e.message);
         }
       });
       it("should move the springed particle scloser to its attracting point", function() {
@@ -318,9 +318,9 @@ describe("#Particle", function() {
         const point = vector.create(100, 400);
 
         p1.springToPoint(point, 100, 0.9);
-        assert.equal(p1.get("velocity").get("y"), -180);
+        assert.equal(p1.get("velocity").get("y"), 180);
         p1.springToPoint(point, 100, 0.9);
-        assert.equal(p1.get("velocity").get("y"), -360);
+        assert.equal(p1.get("velocity").get("y"), 360);
       });
     });
   });
