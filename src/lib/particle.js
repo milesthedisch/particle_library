@@ -266,7 +266,7 @@ Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
   distance.setLength(distance.getLength() - offset);
   const springForce = distance["*"](springVec);
 
-  this.get("velocity")["+="](springForce);
+  this.accelerate(springForce);
   return this;
 };
 
