@@ -14,9 +14,11 @@ const vector = new Vector();
 /* The default state a particle starts with It should not move. */
 
 const INITIAL_STATE = {
-  position: vector.create(),
-  velocity: vector.create(),
-  gravity: vector.create(),
+  x: 0,
+  y: 0,
+  vx: 0,
+  vy: 0,
+  gravity: 0,
   magnitude: 0,
   radius: 0,
   mass: 1,
