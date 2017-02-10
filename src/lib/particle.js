@@ -23,44 +23,16 @@ const INITIAL_STATE = {
   radius: 0,
   mass: 1,
   direction: Math.PI * 2,
-  friction: vector.create(1, 1),
+  friction: 1,
 };
 
 /**
  * @class Particle
  * @param {state} state initial state to pass the constructor
  */
-function Particle(state=clone(INITIAL_STATE)) {
-  state = extend(true, clone(INITIAL_STATE), state);
+function Particle(state=INITIAL_STATE) {
   this.state = state;
 }
-
-/**
- * get - A getter for the particles state.
- * @memberOf Particle
- * @param  {String} prop
- * @return {Value}  A value assosiated with the property.
- */
-Particle.prototype.get = function get(prop) {
-  return this.state[prop];
-};
-
-/**
- * set - A setter for the particles state.
- * @memberOf Particle
- * @param   {Object} prop
- * @param   {Object} val
- * @return  {Boolean}     A boolean to tell wether the property
- *                        exsist on the inital state
- */
-Particle.prototype.set = function set(prop, val) {
-  if (this.state.hasOwnProperty(prop)) {
-    this.state[prop] = val;
-    return true;
-  }
-
-  return false;
-};
 
 /**
  * @memberOf Particle
@@ -68,20 +40,23 @@ Particle.prototype.set = function set(prop, val) {
  * @return {Particle} returns a particle
  */
 Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
+  // Extend the optional state on to the default state.
   opts = extend(true, clone(INITIAL_STATE), opts);
+
+  // Create particle with the new options.
   const particle = new Particle(opts);
 
-  // Set up vectors.
-  particle.set("position", opts.position);
+  // Set length.
+  const angle = Math.atan2(this.state.vx, this.state.vy);
+  this.state.vx = Math.cos(angle) * opts.magnitude;
+  this.state.vy = Math.sin(angle) * opts.magnitude;
 
-  // Create the magnitude and angle of a vector.
-  // These are the basic building blocks of vectors.
-  particle.get("velocity").setLength(opts.magnitude);
-  particle.get("velocity").setAngle(opts.direction);
+  // Set angle.
+  const length = Math.hypot(this.state.vx, this.state.vy);
+  this.state.vx = Math.cos(opts.direction) * length;
+  this.state.vy = Math.sin(opts.direction) * length;
 
-  // Create a gravity vector.
-  particle.set("gravity", opts.gravity);
-
+  // Return new particle.
   return particle;
 };
 
@@ -89,12 +64,14 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
  * Accelerate - A change in velocity.
  *
  * @memberOf Particle
- * @param  {Vector} accel The change in distance / time
- * @return {Value}  state of the particle after accelerating.
+ * @param  {Integer} ax
+ * @param  {Integer} ay
+ * @return {Object} Acceleration vector.
  */
-Particle.prototype.accelerate = function accelerate(accel) {
-  this.get("velocity").addTo(accel);
-  return this.get("velocity");
+Particle.prototype.accelerate = function accelerate(ax, ay) {
+  this.state.vx += ax;
+  this.state.vy += ay;
+  return {ax, ay};
 };
 
 /**
@@ -107,15 +84,17 @@ Particle.prototype.accelerate = function accelerate(accel) {
  * @return {State}       state of position
  */
 Particle.prototype.update = function update(grav=this.get("gravity")) {
-  (this.get("velocity")).multiplyBy(this.get("friction"));
-  const gravity = this.accelerate(grav);
-  const position = this.speed(gravity);
+  // Apply fake fricition to velocity
+  this.state.vx *= this.state.friction;
+  this.state.vy *= this.state.friction;
+  const gravity = this.accelerate(0, grav);
+  const position = this.speed(gravity.ax, gravity.ay);
   return position;
 };
 
 /**
  * angleTo - Asumming we know where
- * the other particle is on the canvas. can use
+ * the other particle is on the canvas. We can use
  * the angle formulae to figure out the angle
  * between two particle. Using arctangent is fine.
  * but because the corrdinate plane is filped on the
@@ -127,8 +106,8 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
  * @return {Integer}  Angle   A angle.
  */
 Particle.prototype.angleTo = function angelTo(p2) {
-  const dx = p2.get("position").get("x") - this.get("position").get("x");
-  const dy = p2.get("position").get("y") - this.get("position").get("y");
+  const dx = p2.state.x - this.state.x;
+  const dy = p2.state.y - this.state.y;
   return Math.atan2(dy, dx);
 };
 
@@ -143,9 +122,9 @@ Particle.prototype.angleTo = function angelTo(p2) {
  * @return {Integer}  Angle   A Distance
  */
 Particle.prototype.distanceTo = function distanceTo(p2) {
-  const deltaX = p2.get("position").get("x") - this.get("position").get("x");
-  const deltaY = p2.get("position").get("y") - this.get("position").get("y");
-  return Math.hypot(deltaX, deltaY);
+  const dx = p2.state.x - this.state.x;
+  const dy = p2.state.y - this.state.y;
+  return Math.hypot(dx, dy);
 };
 
 /**
