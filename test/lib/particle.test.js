@@ -107,16 +107,23 @@ describe("#Particle", function() {
         gravity: 1,
       });
 
-      particle.update();
-      assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
-      assert.deepEqual(particle.get("velocity").state, {x: 0, y: 1});
-      assert.deepEqual(particle.get("position").state, {x: 0, y: 1});
+      p1.update();
+      assert.equal(p1.state.gravity, 1);
+      assert.equal(p1.state.vx, 0);
+      assert.equal(p1.state.vy, 1);
+      assert.equal(p1.state.x, 0);
+      assert.equal(p1.state.y, 1);
 
-      particle.update();
-      assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
-      assert.deepEqual(particle.get("velocity").state, {x: 0, y: 2});
-      assert.deepEqual(particle.get("position").state, {x: 0, y: 3});
+      p1.update();
+      assert.equal(p1.state.gravity, 1);
+      assert.equal(p1.state.vx, 0);
+      assert.equal(p1.state.vy, 2);
+      assert.equal(p1.state.x, 0);
+      assert.equal(p1.state.y, 3);
     });
+
+    it("should not change given no gravity");
+    it("should change given friction");
   });
 
   describe("#angleTo", function() {

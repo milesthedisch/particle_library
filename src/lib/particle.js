@@ -83,7 +83,7 @@ Particle.prototype.accelerate = function accelerate(ax, ay) {
  * @param  {Vector} grav gravity given.
  * @return {State}       state of position
  */
-Particle.prototype.update = function update(grav=this.get("gravity")) {
+Particle.prototype.update = function update(grav=this.state.gravity) {
   // Apply fake fricition to velocity
   this.state.vx *= this.state.friction;
   this.state.vy *= this.state.friction;
