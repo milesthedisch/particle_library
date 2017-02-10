@@ -82,54 +82,32 @@ describe("#Particle", function() {
     });
   });
 
-  describe("#set", function() {
-    it("should set the state with the given value and return true", function() {
-      const particle = new Particle();
-      assert.equal(particle.set("position", vector.create(1, 1)), true);
-      assert.equal(particle.get("position").get("x"), 1);
-      assert.equal(particle.get("position").get("y"), 1);
-    });
-
-    it("should set the state and return false if the property dosent exsist", function() {
-      const particle = new Particle();
-      assert.equal(particle.set("apples", "apples"), false);
-    });
-  });
-
-  describe("#get", function() {
-    it("should return the state of a property", function() {
-      const particle = new Particle();
-      assert.equal(particle.set("position", vector.create(1, 1)), true);
-      assert.deepEqual(particle.get("position"), vector.create(1, 1));
-    });
-
-    it("should return undefined when asked to for a prop that does not exsist", function() {
-      const particle = new Particle();
-      assert.equal(particle.get("apple"), undefined);
-    });
-  });
-
   describe("#accelerate", function() {
-    it("should change the velocity of a particle every time its called", function() {
+    it("should increase the velocity of a particle", function() {
       const particle = new Particle();
-      const vector = new Vector();
       const p1 = particle.create();
+      p1.accelerate(1, 1);
+      assert.equal(p1.state.vx, 1);
+      assert.equal(p1.state.vy, 1);
+    });
 
-      p1.set("velocity", vector.create(1, 1));
-      p1.accelerate(p1.get("velocity"));
-      assert.deepEqual(p1.state.velocity.state, {x: 2, y: 2});
+    it("should decrease the velocity of a particle", function() {
+      const particle = new Particle();
+      const p1 = particle.create();
+      p1.accelerate(-1, -1);
+      assert.equal(p1.state.vx, -1);
+      assert.equal(p1.state.vy, -1);
     });
   });
 
   describe("#update", function() {
     it("should change the velocity with the given gravity", function() {
       const particle = new Particle();
-      const vector = new Vector();
-      particle.set("gravity", vector.create(0, 1));
-      particle.set("velocity", vector.create(0, 0));
-      particle.set("position", vector.create(0, 0));
-      particle.update();
+      const p1 = particle.create({
+        gravity: 1,
+      });
 
+      particle.update();
       assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
       assert.deepEqual(particle.get("velocity").state, {x: 0, y: 1});
       assert.deepEqual(particle.get("position").state, {x: 0, y: 1});
