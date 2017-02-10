@@ -30,7 +30,7 @@ const INITIAL_STATE = {
  * @class Particle
  * @param {state} state initial state to pass the constructor
  */
-function Particle(state=INITIAL_STATE) {
+function Particle(state=clone(INITIAL_STATE)) {
   this.state = state;
 }
 
@@ -87,9 +87,12 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
   // Apply fake fricition to velocity
   this.state.vx *= this.state.friction;
   this.state.vy *= this.state.friction;
-  const gravity = this.accelerate(0, grav);
-  const position = this.speed(gravity.ax, gravity.ay);
-  return position;
+
+  // Accelerate due to gravity
+  this.accelerate(0, grav);
+
+  // Update position based on acceleration
+  return this.updatePos();
 };
 
 /**
@@ -187,15 +190,16 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
  * @param  {Vector} vector
  * @return {Vector}
  */
-Particle.prototype.speed = function(vector) {
-  if (!vector) {
-    let velocity = this.get("velocity");
-    (this.get("position")).addTo(velocity);
-    return this.get("position");
+Particle.prototype.updatePos = function(vx, vy) {
+  if (vx === undefined && vy === undefined) {
+    this.state.x += this.state.vx;
+    this.state.y += this.state.vy;
+    return {x: this.state.x, y: this.state.y};
   }
 
-  this.get("position").addTo(vector);
-  return this.get("position");
+  this.state.x += vx;
+  this.state.y += vy;
+  return {x: this.state.x, y: this.state.y};
 };
 
 /**

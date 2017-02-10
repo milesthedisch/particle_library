@@ -12,23 +12,39 @@ const vector = new Vector();
 
 describe("#Particle", function() {
   let defaultParticleState;
+  let createdParticleState;
 
   beforeEach(function() {
     defaultParticleState = {
-      direction: 6.283185307179586,
-      position: vector.create(),
-      velocity: vector.create(),
-      gravity: vector.create(),
-      friction: vector.create(1, 1),
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      gravity: 0,
       magnitude: 0,
       radius: 0,
       mass: 1,
+      direction: Math.PI * 2,
+      friction: 1,
+    };
+
+    createdParticleState = {
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      gravity: 0,
+      magnitude: 0,
+      radius: 0,
+      mass: 1,
+      direction: Math.PI * 2,
+      friction: 1,
     };
   });
 
-  it("should create a new particle with the initial state", function() {
+  it("should create a new particle with given state", function() {
     const p = new Particle({});
-    assert.deepEqual(p.state, defaultParticleState);
+    assert.deepEqual(p.state, {});
   });
 
   it("should create a new particle with default state", function() {
@@ -40,26 +56,28 @@ describe("#Particle", function() {
     it("should return a default particle state", function() {
       const p = new Particle();
       const p1 = p.create();
-      const createState = extend(true, defaultParticleState, {
-        velocity: vector.create(0, -0),
-      });
-      assert.deepEqual(p1.state, createState);
+      assert.deepEqual(p1.state, createdParticleState);
     });
 
     it("should return extend particle state that has been passed in", function() { // eslint-disable-line
       const p = new Particle();
 
       const p1 = p.create({
-        position: vector.create(1, 1),
-        velocity: vector.create(1, 1),
-        gravity: vector.create(1, 1),
-        radius: 0,
+        x: 1,
+        y: 1,
+        vx: 1,
+        vy: 1,
+        gravity: 1,
+        radius: 1,
       });
 
       assert.deepEqual(p1.state, extend(defaultParticleState, {
-        position: vector.create(1, 1),
-        velocity: vector.create(0, -0),
-        gravity: vector.create(1, 1),
+        x: 1,
+        y: 1,
+        vx: 1,
+        vy: 1,
+        gravity: 1,
+        radius: 1,
       }));
     });
   });
