@@ -100,7 +100,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe("#update", function() {
+  describe.only("#update", function() {
     it("should change the velocity with the given gravity", function() {
       const particle = new Particle();
       const p1 = particle.create({
@@ -122,8 +122,30 @@ describe("#Particle", function() {
       assert.equal(p1.state.y, 3);
     });
 
-    it("should not change given no gravity");
-    it("should change given friction");
+    it("should not change given no gravity", function() {
+      const particle = new Particle();
+      const p1 = particle.create();
+      p1.update();
+      assert.equal(p1.state.gravity, 0);
+      assert.equal(p1.state.vx, 0);
+      assert.equal(p1.state.vy, 0);
+      assert.equal(p1.state.x, 0);
+      assert.equal(p1.state.y, 0);
+    });
+
+    it("should change given friction and some velocity", function() {
+      const particle = new Particle();
+      const p1 = particle.create({
+        vx: 2,
+        vy: 2,     
+        friction: 0.95   
+      });
+      p1.update();
+      assert.equal(p1.state.vx, 1.9);
+      assert.equal(p1.state.vy, 1.9);
+      assert.equal(p1.state.x, 1.9);
+      assert.equal(p1.state.y, 1.9);
+    });
   });
 
   describe("#angleTo", function() {
