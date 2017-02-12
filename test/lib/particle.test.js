@@ -224,7 +224,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#gravitateTo", function() {
+  describe("#gravitateTo", function() {
     it("should gravitate towards the heavier mass", function() {
       const p = new Particle();
 
@@ -251,7 +251,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe("#generator", function() {
+  describe.only("#generator", function() {
     it("should generate default particles", function() {
       const p = new Particle();
       const particles = p.generator(1);
@@ -260,7 +260,8 @@ describe("#Particle", function() {
       // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
       // to 0, -0
       extend(true, defaultParticleState, {
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 1);
@@ -275,7 +276,8 @@ describe("#Particle", function() {
       // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
       // to 0, -0
       extend(true, defaultParticleState, {
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 2);
@@ -289,7 +291,8 @@ describe("#Particle", function() {
 
       extend(true, defaultParticleState, {
         a: 1,
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 2);
@@ -299,14 +302,15 @@ describe("#Particle", function() {
 
     it("should use callback if the third arguments is defined as a fn.", function() {
       const p = new Particle();
-      const particles = p.generator(2, {a: 1}, function(_p) {
-        _p.set("a", _p.get("a") + 1);
+      const particles = p.generator(2, {a: 1}, function map(_p) {
+        _p.state.a += 1;
         return _p;
       });
 
       extend(true, defaultParticleState, {
         a: 2,
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 2);
