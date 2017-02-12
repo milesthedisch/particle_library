@@ -100,7 +100,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#update", function() {
+  describe("#update", function() {
     it("should change the velocity with the given gravity", function() {
       const particle = new Particle();
       const p1 = particle.create({
@@ -137,8 +137,8 @@ describe("#Particle", function() {
       const particle = new Particle();
       const p1 = particle.create({
         vx: 2,
-        vy: 2,     
-        friction: 0.95   
+        vy: 2,
+        friction: 0.95,
       });
       p1.update();
       assert.equal(p1.state.vx, 1.9);
@@ -169,36 +169,42 @@ describe("#Particle", function() {
     });
 
     it("should return 0 given two coordinates that are in the same position", function() {
-      p1.set("position", vector.create(0, 0));
-      p2.set("position", vector.create(0, 0));
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = 0;
+      p2.state.y = 0;
       assert.equal(p1.angleTo(p2), 0);
     });
 
-    it("should return 45 degress in radians when the triangle is a isoleces.", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(1, 1);
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      const degress = p1.angleTo(p2) * 180 / Math.PI;
-      assert.equal(degress, 45);
+    it("should return 45 degrees in radians when the triangle is a isoleces.", function() {
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = 1;
+      p2.state.y = 1;
+
+      // Convert to degrees.
+      const degrees = p1.angleTo(p2) * 180 / Math.PI;
+      assert.equal(degrees, 45);
     });
 
-    it("should return -90 degress given a point slightly above it", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(0, -1);
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      const degress = p1.angleTo(p2) * 180 / Math.PI;
-      assert.equal(degress, -90);
+    it("should return -90 degrees given a point slightly above it", function() {
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = 0;
+      p2.state.y = -1;
+
+      const degrees = p1.angleTo(p2) * 180 / Math.PI;
+      assert.equal(degrees, -90);
     });
 
-    it("should return -135 degress given a point opposite 45 degress", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(-1, -1);
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      const degress = p1.angleTo(p2) * 180 / Math.PI;
-      assert.equal(degress, -135);
+    it("should return -135 degrees given a point opposite 45 degrees", function() {
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = -1;
+      p2.state.y = -1;
+
+      const degrees = p1.angleTo(p2) * 180 / Math.PI;
+      assert.equal(degrees, -135);
     });
   });
 
@@ -206,30 +212,29 @@ describe("#Particle", function() {
     it("should give the distance between two particles.", function() {
       const vector = new Vector();
       const particle = new Particle();
-      const vec1 = vector.create(2, 2);
-      const vec2 = vector.create(0, 0);
+
       const p1 = particle.create();
       const p2 = particle.create();
-      p1.set("position", vec1);
-      p2.set("position", vec2);
+
+      p1.state.x = 2;
+      p1.state.y = 2;
+      p2.state.x = -1;
+      p2.state.y = -1;
       assert.equal(p1.distanceTo(p2), Math.hypot(2, 2));
     });
   });
 
-  describe("#gravitateTo", function() {
-    const HEAVY = 100;
-    const LIGHT = 100;
-
+  describe.only("#gravitateTo", function() {
     it("should gravitate towards the heavier mass", function() {
       const p = new Particle();
-      const v = new Vector();
-      const heavy = p.create({mass: HEAVY, position: v.create(1000, 1000)});
-      const light = p.create({mass: LIGHT, position: v.create(1000, 100)});
 
-      light.gravitateTo(heavy);
-      light.update();
+      const p1 = p.create({mass: 100, x: 1000, y: 1000});
+      const p2 = p.create({mass: 100, x: 1000, y: 100});
 
-      assert.isAbove(light.get("position").get("y"), 100);
+      p2.gravitateTo(p1);
+      p2.update();
+
+      assert.isAbove(p2.state.y, 100);
     });
   });
 

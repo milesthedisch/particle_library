@@ -76,19 +76,20 @@ Particle.prototype.accelerate = function accelerate(ax, ay) {
 
 /**
  * Update - A update a position of a particle
- * based on its gravity. Gravity is usually a acceleration
+ * based on its gravity and fricition. Gravity is usually a acceleration
  * vector.
  *
  * @memberOf Particle
- * @param  {Vector} grav gravity given.
- * @return {State}       state of position
+ * @param  {Integer} fric Fricition to apply.
+ * @param  {Integer} grav Gravity to apply.
+ * @return {Object} Position state.
  */
-Particle.prototype.update = function update(grav=this.state.gravity) {
+Particle.prototype.update = function update(fric=this.state.friction, grav=this.state.gravity) {
   // Apply fake fricition to velocity
-  this.state.vx *= this.state.friction;
-  this.state.vy *= this.state.friction;
+  this.state.vx *= fric;
+  this.state.vy *= fric;
 
-  // Accelerate due to gravity
+  // Apply gravity to velocity
   this.accelerate(0, grav);
 
   // Update position based on acceleration
@@ -131,23 +132,32 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
 };
 
 /**
- * gravitateTo - Creates a gravity vector if he
- *
- * @memberOf Particle
- * @param  {Particle} p2          A particle instance.
- * @return {Vector}   veclocity   The velocity of the current state.
+ * @name gravitateTo
+ * @description Applys gravitation to the input particle.
+ * @param  {Particle} p2
+ * @return {Object}
  */
 Particle.prototype.gravitateTo = function(p2) {
-  const grav = this.get("gravity");
-  const velocity = this.get("velocity");
+  const dx = p2.state.x - this.state.x;
+  const dy = p2.state.y - this.state.y;
 
-  const dist = this.distanceTo(p2);
+  // Distance between the two particles
+  const distSQ = dx * dx + dy * dy;
+  const dist = Math.sqrt(distSQ);
 
-  grav.setLength(p2.get("mass") / (dist * dist));
-  grav.setAngle(this.angleTo(p2));
+  // Magnitude of the vector [F = G(m1)(m2)/r^2]
+  const force = p2.state.mass / distSQ;
 
-  velocity["+="](grav);
-  return velocity;
+  // Setting up angles of the vector
+  const sin = dy / dist;
+  const cos = dx / dist;
+
+  // Setting vetor angle
+  const ax = cos * force;
+  const ay = sin * force;
+
+  console.log(ax, ay);
+  return this.accelerate(ax, ay);
 };
 
 /**
@@ -185,10 +195,11 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
  */
 
 /**
- * @description Add a vector to the position.
- * @name speed
- * @param  {Vector} vector
- * @return {Vector}
+ * @name updatePos
+ * @description Apply velocity to the position.
+ * @param  {Integer} vx
+ * @param  {Integer} vy
+ * @return {Object} Position state after velocity has been applied
  */
 Particle.prototype.updatePos = function(vx, vy) {
   if (vx === undefined && vy === undefined) {
