@@ -12,23 +12,39 @@ const vector = new Vector();
 
 describe("#Particle", function() {
   let defaultParticleState;
+  let createdParticleState;
 
   beforeEach(function() {
     defaultParticleState = {
-      direction: 6.283185307179586,
-      position: vector.create(),
-      velocity: vector.create(),
-      gravity: vector.create(),
-      friction: vector.create(1, 1),
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      gravity: 0,
       magnitude: 0,
       radius: 0,
       mass: 1,
+      direction: Math.PI * 2,
+      friction: 1,
+    };
+
+    createdParticleState = {
+      x: 0,
+      y: 0,
+      vx: 0,
+      vy: 0,
+      gravity: 0,
+      magnitude: 0,
+      radius: 0,
+      mass: 1,
+      direction: Math.PI * 2,
+      friction: 1,
     };
   });
 
-  it("should create a new particle with the initial state", function() {
+  it("should create a new particle with given state", function() {
     const p = new Particle({});
-    assert.deepEqual(p.state, defaultParticleState);
+    assert.deepEqual(p.state, {});
   });
 
   it("should create a new particle with default state", function() {
@@ -40,86 +56,95 @@ describe("#Particle", function() {
     it("should return a default particle state", function() {
       const p = new Particle();
       const p1 = p.create();
-      const createState = extend(true, defaultParticleState, {
-        velocity: vector.create(0, -0),
-      });
-      assert.deepEqual(p1.state, createState);
+      assert.deepEqual(p1.state, createdParticleState);
     });
 
     it("should return extend particle state that has been passed in", function() { // eslint-disable-line
       const p = new Particle();
 
       const p1 = p.create({
-        position: vector.create(1, 1),
-        velocity: vector.create(1, 1),
-        gravity: vector.create(1, 1),
-        radius: 0,
+        x: 1,
+        y: 1,
+        vx: 1,
+        vy: 1,
+        gravity: 1,
+        radius: 1,
       });
 
       assert.deepEqual(p1.state, extend(defaultParticleState, {
-        position: vector.create(1, 1),
-        velocity: vector.create(0, -0),
-        gravity: vector.create(1, 1),
+        x: 1,
+        y: 1,
+        vx: 1,
+        vy: 1,
+        gravity: 1,
+        radius: 1,
       }));
     });
   });
 
-  describe("#set", function() {
-    it("should set the state with the given value and return true", function() {
-      const particle = new Particle();
-      assert.equal(particle.set("position", vector.create(1, 1)), true);
-      assert.equal(particle.get("position").get("x"), 1);
-      assert.equal(particle.get("position").get("y"), 1);
-    });
-
-    it("should set the state and return false if the property dosent exsist", function() {
-      const particle = new Particle();
-      assert.equal(particle.set("apples", "apples"), false);
-    });
-  });
-
-  describe("#get", function() {
-    it("should return the state of a property", function() {
-      const particle = new Particle();
-      assert.equal(particle.set("position", vector.create(1, 1)), true);
-      assert.deepEqual(particle.get("position"), vector.create(1, 1));
-    });
-
-    it("should return undefined when asked to for a prop that does not exsist", function() {
-      const particle = new Particle();
-      assert.equal(particle.get("apple"), undefined);
-    });
-  });
-
   describe("#accelerate", function() {
-    it("should change the velocity of a particle every time its called", function() {
+    it("should increase the velocity of a particle", function() {
       const particle = new Particle();
-      const vector = new Vector();
       const p1 = particle.create();
+      p1.accelerate(1, 1);
+      assert.equal(p1.state.vx, 1);
+      assert.equal(p1.state.vy, 1);
+    });
 
-      p1.set("velocity", vector.create(1, 1));
-      p1.accelerate(p1.get("velocity"));
-      assert.deepEqual(p1.state.velocity.state, {x: 2, y: 2});
+    it("should decrease the velocity of a particle", function() {
+      const particle = new Particle();
+      const p1 = particle.create();
+      p1.accelerate(-1, -1);
+      assert.equal(p1.state.vx, -1);
+      assert.equal(p1.state.vy, -1);
     });
   });
 
   describe("#update", function() {
     it("should change the velocity with the given gravity", function() {
       const particle = new Particle();
-      const vector = new Vector();
-      particle.set("gravity", vector.create(0, 1));
-      particle.set("velocity", vector.create(0, 0));
-      particle.set("position", vector.create(0, 0));
-      particle.update();
+      const p1 = particle.create({
+        gravity: 1,
+      });
 
-      assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
-      assert.deepEqual(particle.get("velocity").state, {x: 0, y: 1});
-      assert.deepEqual(particle.get("position").state, {x: 0, y: 1});
+      p1.update();
+      assert.equal(p1.state.gravity, 1);
+      assert.equal(p1.state.vx, 0);
+      assert.equal(p1.state.vy, 1);
+      assert.equal(p1.state.x, 0);
+      assert.equal(p1.state.y, 1);
 
-      particle.update();
-      assert.deepEqual(particle.get("gravity").state, {x: 0, y: 1});
-      assert.deepEqual(particle.get("velocity").state, {x: 0, y: 2});
-      assert.deepEqual(particle.get("position").state, {x: 0, y: 3});
+      p1.update();
+      assert.equal(p1.state.gravity, 1);
+      assert.equal(p1.state.vx, 0);
+      assert.equal(p1.state.vy, 2);
+      assert.equal(p1.state.x, 0);
+      assert.equal(p1.state.y, 3);
+    });
+
+    it("should not change given no gravity", function() {
+      const particle = new Particle();
+      const p1 = particle.create();
+      p1.update();
+      assert.equal(p1.state.gravity, 0);
+      assert.equal(p1.state.vx, 0);
+      assert.equal(p1.state.vy, 0);
+      assert.equal(p1.state.x, 0);
+      assert.equal(p1.state.y, 0);
+    });
+
+    it("should change given friction and some velocity", function() {
+      const particle = new Particle();
+      const p1 = particle.create({
+        vx: 2,
+        vy: 2,
+        friction: 0.95,
+      });
+      p1.update();
+      assert.equal(p1.state.vx, 1.9);
+      assert.equal(p1.state.vy, 1.9);
+      assert.equal(p1.state.x, 1.9);
+      assert.equal(p1.state.y, 1.9);
     });
   });
 
@@ -144,67 +169,90 @@ describe("#Particle", function() {
     });
 
     it("should return 0 given two coordinates that are in the same position", function() {
-      p1.set("position", vector.create(0, 0));
-      p2.set("position", vector.create(0, 0));
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = 0;
+      p2.state.y = 0;
       assert.equal(p1.angleTo(p2), 0);
     });
 
-    it("should return 45 degress in radians when the triangle is a isoleces.", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(1, 1);
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      const degress = p1.angleTo(p2) * 180 / Math.PI;
-      assert.equal(degress, 45);
+    it("should return 45 degrees in radians when the triangle is a isoleces.", function() {
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = 1;
+      p2.state.y = 1;
+
+      // Convert to degrees.
+      const degrees = p1.angleTo(p2) * 180 / Math.PI;
+      assert.equal(degrees, 45);
     });
 
-    it("should return -90 degress given a point slightly above it", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(0, -1);
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      const degress = p1.angleTo(p2) * 180 / Math.PI;
-      assert.equal(degress, -90);
+    it("should return -90 degrees given a point slightly above it", function() {
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = 0;
+      p2.state.y = -1;
+
+      const degrees = p1.angleTo(p2) * 180 / Math.PI;
+      assert.equal(degrees, -90);
     });
 
-    it("should return -135 degress given a point opposite 45 degress", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(-1, -1);
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      const degress = p1.angleTo(p2) * 180 / Math.PI;
-      assert.equal(degress, -135);
+    it("should return -135 degrees given a point opposite 45 degrees", function() {
+      p1.state.x = 0;
+      p1.state.y = 0;
+      p2.state.x = -1;
+      p2.state.y = -1;
+
+      const degrees = p1.angleTo(p2) * 180 / Math.PI;
+      assert.equal(degrees, -135);
     });
   });
 
   describe("#distanceTo", function() {
     it("should give the distance between two particles.", function() {
-      const vector = new Vector();
       const particle = new Particle();
-      const vec1 = vector.create(2, 2);
-      const vec2 = vector.create(0, 0);
-      const p1 = particle.create();
-      const p2 = particle.create();
-      p1.set("position", vec1);
-      p2.set("position", vec2);
-      assert.equal(p1.distanceTo(p2), Math.hypot(2, 2));
+      const p1 = particle.create({x: 2, y: 2});
+      const p2 = particle.create({x: -1, y: -1});
+      assert.equal(p1.distanceTo(p2), Math.hypot(3, 3));
+    });
+
+    it("should calculate the distance from one particles center to another (diagonal)", function() {
+      const particle1 = new Particle({x: 10, y: 10});
+      const particle2 = new Particle({x: 0, y: 0});
+      assert.equal(particle1.distanceTo(particle2), Math.sqrt(200));
+    });
+
+    it("should calculate the distance from one particles center to another", function() {
+      const particle1 = new Particle({x: 10, y: 0});
+      const particle2 = new Particle({x: 0, y: 0});
+      assert.equal(particle1.distanceTo(particle2), 10);
     });
   });
 
   describe("#gravitateTo", function() {
-    const HEAVY = 100;
-    const LIGHT = 100;
-
     it("should gravitate towards the heavier mass", function() {
       const p = new Particle();
-      const v = new Vector();
-      const heavy = p.create({mass: HEAVY, position: v.create(1000, 1000)});
-      const light = p.create({mass: LIGHT, position: v.create(1000, 100)});
 
-      light.gravitateTo(heavy);
-      light.update();
+      const p1 = p.create({mass: 100, x: 1000, y: 1000});
+      const p2 = p.create({mass: 100, x: 1000, y: 100});
 
-      assert.isAbove(light.get("position").get("y"), 100);
+      p2.gravitateTo(p1);
+      p2.update();
+
+      assert.isAbove(p2.state.y, 100);
+    });
+
+    it("should stand still if the mass of the object that its gravitating to is 0", function() {
+      const p = new Particle();
+
+      const p1 = p.create({mass: 0, x: 1000, y: 1000});
+      const p2 = p.create({mass: 100, x: 1000, y: 100});
+
+      p2.gravitateTo(p1);
+      p2.update();
+
+      assert.equal(p2.state.y, 100);
+      assert.equal(p2.state.x, 1000);
     });
   });
 
@@ -217,7 +265,8 @@ describe("#Particle", function() {
       // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
       // to 0, -0
       extend(true, defaultParticleState, {
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 1);
@@ -232,7 +281,8 @@ describe("#Particle", function() {
       // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
       // to 0, -0
       extend(true, defaultParticleState, {
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 2);
@@ -246,7 +296,8 @@ describe("#Particle", function() {
 
       extend(true, defaultParticleState, {
         a: 1,
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 2);
@@ -256,19 +307,47 @@ describe("#Particle", function() {
 
     it("should use callback if the third arguments is defined as a fn.", function() {
       const p = new Particle();
-      const particles = p.generator(2, {a: 1}, function(_p) {
-        _p.set("a", _p.get("a") + 1);
+      const particles = p.generator(2, {a: 1}, function map(_p) {
+        _p.state.a += 1;
         return _p;
       });
 
       extend(true, defaultParticleState, {
         a: 2,
-        velocity: vector.create(0, -0),
+        vx: 0,
+        vy: 0,
       });
 
       assert.equal(particles.length, 2);
       assert.deepEqual(particles[0].state, defaultParticleState);
       assert.deepEqual(particles[1].state, defaultParticleState);
+    });
+  });
+
+  describe("#updatePos", function() {
+    it("should add the vector to the position", function() {
+      const particle = new Particle();
+      const p = particle.create();
+      assert.deepEqual(p.updatePos(1, 1), {x: 1, y: 1});
+    });
+
+    it("should add the internal velocity vector to the position", function() {
+      const particle = new Particle();
+      const p1 = particle.create({
+        vx: 1,
+        vy: 1,
+      });
+      assert.deepEqual(p1.updatePos(), {x: 1, y: 1});
+    });
+
+    it("should add the internal velocity twice if we call speed twice", function() {
+      const particle = new Particle();
+      const p1 = particle.create({
+        vx: 1,
+        vy: 1,
+      });
+      p1.updatePos();
+      assert.deepEqual(p1.updatePos(), {x: 2, y: 2});
     });
   });
 
@@ -279,21 +358,25 @@ describe("#Particle", function() {
         try {
           particle.springFromTo(undefined);
         } catch (e) {
-          assert.equal(e.message, "Cannot read property \'get\' of undefined");
+          assert.equal(e.message, "Cannot read property \'state\' of undefined");
         };
       });
 
-      it("it should move the springed particle scloser to its attracting point", function() {
+      it("it should move the springed particle closer to its attracting point", function() {
         const particle = new Particle();
         const p1 = particle.create({
-          position: vector.create(100, 100),
+          x: 100,
+          y: 100,
         });
         const p2 = particle.create({
-          position: vector.create(100, 400),
+          x: 100,
+          y: 400,
         });
+
         p1.springFromTo(p2);
-        assert.equal(p1.get("velocity").get("y"), -10);
-        assert.equal(p2.get("velocity").get("y"), 10);
+
+        assert.equal(p1.state.vy, 10);
+        assert.equal(p2.state.vy, -10);
       });
     });
 
@@ -307,63 +390,22 @@ describe("#Particle", function() {
         try {
           p1.springToPoint(undefined);
         } catch (e) {
-          assert.equal(e.message, "Cannot read property \'constructor\' of undefined");
+          assert.ok(e.message);
         }
       });
-      it("should move the springed particle scloser to its attracting point", function() {
+      it("should move the springed particle closer to its attracting point", function() {
         const particle = new Particle();
         const p1 = particle.create({
-          position: vector.create(100, 100),
+          x: 100,
+          y: 100,
         });
         const point = vector.create(100, 400);
 
         p1.springToPoint(point, 100, 0.9);
-        assert.equal(p1.get("velocity").get("y"), -180);
+        assert.equal(p1.state.vy, 180);
         p1.springToPoint(point, 100, 0.9);
-        assert.equal(p1.get("velocity").get("y"), -360);
+        assert.equal(p1.state.vy, 360);
       });
-    });
-  });
-
-  describe("#speed", function() {
-    it("should add the vector to the position", function() {
-      const particle = new Particle();
-      const vector = new Vector();
-
-      const p = particle.create();
-      const vec = vector.create(1, 1);
-      p.speed(vec);
-      assert.deepEqual(p.get("position"), vector.create(1, 1));
-    });
-
-    it("should add the internal velocity vector to the position", function() {
-      const vec = new Vector();
-
-      const p = new Particle({"velocity": vec.create(1, 1)});
-      p.speed();
-      assert.deepEqual(p.get("position"), vec.create(1, 1));
-    });
-
-    it("should add the internal velocity twice if we call speed twice", function() {
-      const vec = new Vector();
-      const p = new Particle({"velocity": vec.create(1, 1)});
-      p.speed();
-      p.speed();
-      assert.deepEqual(p.get("position"), vec.create(2, 2));
-    });
-  });
-
-  describe("#distanceFrom", function() {
-    it("should calculate the distance from one particles center to another (diagonal)", function() {
-      const particle1 = new Particle({"position": vector.create(10, 10)});
-      const particle2 = new Particle({"position": vector.create(0, 0)});
-      assert.equal(particle1.distanceFrom(particle2), Math.sqrt(200));
-    });
-
-    it("should calculate the distance from one particles center to another", function() {
-      const particle1 = new Particle({"position": vector.create(10, 0)});
-      const particle2 = new Particle({"position": vector.create(0, 0)});
-      assert.equal(particle1.distanceFrom(particle2), 10);
     });
   });
 });

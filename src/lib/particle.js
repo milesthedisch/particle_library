@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 /*
 * The particle libary is used for physics animations.
 * they are not extremely accurate but still represent
@@ -13,14 +14,16 @@ const vector = new Vector();
 /* The default state a particle starts with It should not move. */
 
 const INITIAL_STATE = {
-  position: vector.create(),
-  velocity: vector.create(),
-  gravity: vector.create(),
+  x: 0,
+  y: 0,
+  vx: 0,
+  vy: 0,
+  gravity: 0,
   magnitude: 0,
   radius: 0,
   mass: 1,
   direction: Math.PI * 2,
-  friction: vector.create(1, 1),
+  friction: 1,
 };
 
 /**
@@ -28,36 +31,8 @@ const INITIAL_STATE = {
  * @param {state} state initial state to pass the constructor
  */
 function Particle(state=clone(INITIAL_STATE)) {
-  state = extend(true, clone(INITIAL_STATE), state);
   this.state = state;
 }
-
-/**
- * get - A getter for the particles state.
- * @memberOf Particle
- * @param  {String} prop
- * @return {Value}  A value assosiated with the property.
- */
-Particle.prototype.get = function get(prop) {
-  return this.state[prop];
-};
-
-/**
- * set - A setter for the particles state.
- * @memberOf Particle
- * @param   {Object} prop
- * @param   {Object} val
- * @return  {Boolean}     A boolean to tell wether the property
- *                        exsist on the inital state
- */
-Particle.prototype.set = function set(prop, val) {
-  if (this.state.hasOwnProperty(prop)) {
-    this.state[prop] = val;
-    return true;
-  }
-
-  return false;
-};
 
 /**
  * @memberOf Particle
@@ -65,20 +40,23 @@ Particle.prototype.set = function set(prop, val) {
  * @return {Particle} returns a particle
  */
 Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
+  // Extend the optional state on to the default state.
   opts = extend(true, clone(INITIAL_STATE), opts);
+
+  // Create particle with the new options.
   const particle = new Particle(opts);
 
-  // Set up vectors.
-  particle.set("position", opts.position);
+  // Set length.
+  const angle = Math.atan2(this.state.vx, this.state.vy);
+  this.state.vx = Math.cos(angle) * opts.magnitude;
+  this.state.vy = Math.sin(angle) * opts.magnitude;
 
-  // Create the magnitude and angle of a vector.
-  // These are the basic building blocks of vectors.
-  particle.get("velocity").setLength(opts.magnitude);
-  particle.get("velocity").setAngle(opts.direction);
+  // Set angle.
+  const length = Math.hypot(this.state.vx, this.state.vy);
+  this.state.vx = Math.cos(opts.direction) * length;
+  this.state.vy = Math.sin(opts.direction) * length;
 
-  // Create a gravity vector.
-  particle.set("gravity", opts.gravity);
-
+  // Return new particle.
   return particle;
 };
 
@@ -86,33 +64,41 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
  * Accelerate - A change in velocity.
  *
  * @memberOf Particle
- * @param  {Vector} accel The change in distance / time
- * @return {Value}  state of the particle after accelerating.
+ * @param  {Integer} ax
+ * @param  {Integer} ay
+ * @return {Object} Acceleration vector.
  */
-Particle.prototype.accelerate = function accelerate(accel) {
-  this.get("velocity").addTo(accel);
-  return this.get("velocity");
+Particle.prototype.accelerate = function accelerate(ax, ay) {
+  this.state.vx += ax;
+  this.state.vy += ay;
+  return {ax, ay};
 };
 
 /**
  * Update - A update a position of a particle
- * based on its gravity. Gravity is usually a acceleration
+ * based on its gravity and fricition. Gravity is usually a acceleration
  * vector.
  *
  * @memberOf Particle
- * @param  {Vector} grav gravity given.
- * @return {State}       state of position
+ * @param  {Integer} fric Fricition to apply.
+ * @param  {Integer} grav Gravity to apply.
+ * @return {Object} Position state.
  */
-Particle.prototype.update = function update(grav=this.get("gravity")) {
-  (this.get("velocity")).multiplyBy(this.get("friction"));
-  const gravity = this.accelerate(grav);
-  const position = this.speed(gravity);
-  return position;
+Particle.prototype.update = function update(fric=this.state.friction, grav=this.state.gravity) {
+  // Apply fake fricition to velocity
+  this.state.vx *= fric;
+  this.state.vy *= fric;
+
+  // Apply gravity to velocity
+  this.accelerate(0, grav);
+
+  // Update position based on acceleration
+  return this.updatePos();
 };
 
 /**
  * angleTo - Asumming we know where
- * the other particle is on the canvas. can use
+ * the other particle is on the canvas. We can use
  * the angle formulae to figure out the angle
  * between two particle. Using arctangent is fine.
  * but because the corrdinate plane is filped on the
@@ -124,8 +110,8 @@ Particle.prototype.update = function update(grav=this.get("gravity")) {
  * @return {Integer}  Angle   A angle.
  */
 Particle.prototype.angleTo = function angelTo(p2) {
-  const dx = p2.get("position").get("x") - this.get("position").get("x");
-  const dy = p2.get("position").get("y") - this.get("position").get("y");
+  const dx = p2.state.x - this.state.x;
+  const dy = p2.state.y - this.state.y;
   return Math.atan2(dy, dx);
 };
 
@@ -140,29 +126,37 @@ Particle.prototype.angleTo = function angelTo(p2) {
  * @return {Integer}  Angle   A Distance
  */
 Particle.prototype.distanceTo = function distanceTo(p2) {
-  const deltaX = p2.get("position").get("x") - this.get("position").get("x");
-  const deltaY = p2.get("position").get("y") - this.get("position").get("y");
-  return Math.hypot(deltaX, deltaY);
+  const dx = p2.state.x - this.state.x;
+  const dy = p2.state.y - this.state.y;
+  return Math.hypot(dx, dy);
 };
 
 /**
- * gravitateTo - Creates a gravity vector if he
- *
- * @memberOf Particle
- * @param  {Particle} p2          A particle instance.
- * @return {Vector}   veclocity   The velocity of the current state.
+ * @name gravitateTo
+ * @description Applys gravitation to the input particle.
+ * @param  {Particle} p2
+ * @return {Object}
  */
 Particle.prototype.gravitateTo = function(p2) {
-  const grav = this.get("gravity");
-  const velocity = this.get("velocity");
+  const dx = p2.state.x - this.state.x;
+  const dy = p2.state.y - this.state.y;
 
-  const dist = this.distanceTo(p2);
+  // Distance between the two particles
+  const distSQ = dx * dx + dy * dy;
+  const dist = Math.sqrt(distSQ);
 
-  grav.setLength(p2.get("mass") / (dist * dist));
-  grav.setAngle(this.angleTo(p2));
+  // Magnitude of the vector [F = G(m1)(m2)/r^2]
+  const force = p2.state.mass / distSQ;
 
-  velocity["+="](grav);
-  return velocity;
+  // Setting up angles of the vector
+  const sin = dy / dist;
+  const cos = dx / dist;
+
+  // Setting vetor angle
+  const ax = cos * force;
+  const ay = sin * force;
+
+  return this.accelerate(ax, ay);
 };
 
 /**
@@ -200,52 +194,53 @@ Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
  */
 
 /**
- * @description Add a vector to the position.
- * @name speed
- * @param  {Vector} vector
- * @return {Vector}
+ * @name updatePos
+ * @description Apply velocity to the position.
+ * @param  {Integer} vx
+ * @param  {Integer} vy
+ * @return {Object} Position state after velocity has been applied
  */
-Particle.prototype.speed = function(vector) {
-  if (!vector) {
-    let velocity = this.get("velocity");
-    (this.get("position")).addTo(velocity);
-    return this.get("position");
+Particle.prototype.updatePos = function(vx, vy) {
+  if (vx === undefined && vy === undefined) {
+    this.state.x += this.state.vx;
+    this.state.y += this.state.vy;
+    return {x: this.state.x, y: this.state.y};
   }
 
-  this.get("position").addTo(vector);
-  return this.get("position");
-};
-
-/**
- * @description Calculate the distance between two paticles centers.
- * @name  distanceFrom
- * @param  {Particle} p2
- * @return {Number}
- */
-Particle.prototype.distanceFrom = function(p2) {
-  const pos1 = p2.get("position");
-  const pos2 = this.get("position");
-  return utils.distanceVec(pos1, pos2);
+  this.state.x += vx;
+  this.state.y += vy;
+  return {x: this.state.x, y: this.state.y};
 };
 
 /**
  * @name springFromTo
  * @description Given two particles calculate the
- * velocity applied to both of them particles.
+ * spring force applied to both particles.
  * @param  {Particle} p
  * @param  {Integer}  offset  Given offset for the particles
  * @param  {Integer}  spring  The spring coefficent
  * @return {Particle[]}
  */
 Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
-  const springVec = vector.create(spring, spring);
-  const distance = this.get("position")["-"](p.get("position"));
+  // Postion delta
+  const dx = (p.state.x - this.state.x);
+  const dy = (p.state.y - this.state.y);
 
-  distance.setLength(distance.getLength() - offset);
-  const springForce = distance["*"](springVec);
+  // Setting up magnitude and angle of the vector
+  const distance = Math.hypot(dx, dy) - offset;
+  const angle = Math.atan2(dy, dx);
 
-  this.get("velocity")["+="](springForce);
-  p.get("velocity")["-="](springForce);
+  // Spring acceleration vector
+  const sx = (Math.cos(angle) * distance) * spring;
+  const sy = (Math.sin(angle) * distance) * spring;
+
+  // Accelerate with the spring vector
+  this.accelerate(sx, sy);
+
+  // Accelerate the opposite direction.
+  p.state.vx -= sx;
+  p.state.vy -= sy;
+
   return [this, p];
 };
 
@@ -260,14 +255,22 @@ Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
  * @return {Particle}
  */
 Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
-  const springVec = vector.create(spring, spring);
-  const distance = this.get("position")["-"](point);
+  // Postion delta
+  const dx = (point.state.x - this.state.x);
+  const dy = (point.state.y - this.state.y);
 
-  distance.setLength(distance.getLength() - offset);
-  const springForce = distance["*"](springVec);
+  // Setting up magnitude and angle of the vector
+  const distance = Math.hypot(dx, dy) - offset;
+  const angle = Math.atan2(dy, dx);
 
-  this.get("velocity")["+="](springForce);
-  return this;
+  // Spring acceleration vector
+  const sx = (Math.cos(angle) * distance) * spring;
+  const sy = (Math.sin(angle) * distance) * spring;
+
+  // Accelerate with the spring vector
+  this.accelerate(sx, sy);
+
+  return [this, point];
 };
 
 module.exports = Particle;
