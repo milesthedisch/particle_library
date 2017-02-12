@@ -210,17 +210,22 @@ describe("#Particle", function() {
 
   describe("#distanceTo", function() {
     it("should give the distance between two particles.", function() {
-      const vector = new Vector();
       const particle = new Particle();
+      const p1 = particle.create({x: 2, y: 2});
+      const p2 = particle.create({x: -1, y: -1});
+      assert.equal(p1.distanceTo(p2), Math.hypot(3, 3));
+    });
 
-      const p1 = particle.create();
-      const p2 = particle.create();
+    it("should calculate the distance from one particles center to another (diagonal)", function() {
+      const particle1 = new Particle({x: 10, y: 10});
+      const particle2 = new Particle({x: 0, y: 0});
+      assert.equal(particle1.distanceTo(particle2), Math.sqrt(200));
+    });
 
-      p1.state.x = 2;
-      p1.state.y = 2;
-      p2.state.x = -1;
-      p2.state.y = -1;
-      assert.equal(p1.distanceTo(p2), Math.hypot(2, 2));
+    it("should calculate the distance from one particles center to another", function() {
+      const particle1 = new Particle({x: 10, y: 0});
+      const particle2 = new Particle({x: 0, y: 0});
+      assert.equal(particle1.distanceTo(particle2), 10);
     });
   });
 
@@ -319,7 +324,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#updatePos", function() {
+  describe("#updatePos", function() {
     it("should add the vector to the position", function() {
       const particle = new Particle();
       const p = particle.create();
@@ -343,20 +348,6 @@ describe("#Particle", function() {
       });
       p1.updatePos();
       assert.deepEqual(p1.updatePos(), {x: 2, y: 2});
-    });
-  });
-
-  describe("#distanceFrom", function() {
-    it("should calculate the distance from one particles center to another (diagonal)", function() {
-      const particle1 = new Particle({"position": vector.create(10, 10)});
-      const particle2 = new Particle({"position": vector.create(0, 0)});
-      assert.equal(particle1.distanceFrom(particle2), Math.sqrt(200));
-    });
-
-    it("should calculate the distance from one particles center to another", function() {
-      const particle1 = new Particle({"position": vector.create(10, 0)});
-      const particle2 = new Particle({"position": vector.create(0, 0)});
-      assert.equal(particle1.distanceFrom(particle2), 10);
     });
   });
 

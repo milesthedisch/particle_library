@@ -213,18 +213,6 @@ Particle.prototype.updatePos = function(vx, vy) {
 };
 
 /**
- * @description Calculate the distance between two paticles centers.
- * @name  distanceFrom
- * @param  {Particle} p2
- * @return {Number}
- */
-Particle.prototype.distanceFrom = function(p2) {
-  const pos1 = p2.get("position");
-  const pos2 = this.get("position");
-  return utils.distanceVec(pos1, pos2);
-};
-
-/**
  * @name springFromTo
  * @description Given two particles calculate the
  * velocity applied to both of them particles.
