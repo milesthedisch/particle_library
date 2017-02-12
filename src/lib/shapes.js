@@ -48,10 +48,10 @@ Shapes.prototype.rect = function drawRect(x, y, w, h, color="#000000") {
  */
 Shapes.prototype.pCircle = function particleCircle(p) {
   this.circle(
-    p.get("position").get("x"),
-    p.get("position").get("y"),
-    p.get("radius"),
-    p.get("color")
+    p.state.x,
+    p.state.y,
+    p.state.radius,
+    p.state.color
   );
   return p;
 };
@@ -63,11 +63,11 @@ Shapes.prototype.pCircle = function particleCircle(p) {
  */
 Shapes.prototype.pRect = function particleRect(p) {
   this.rect(
-    p.get("position").get("x"),
-    p.get("position").get("y"),
-    p.get("width"),
-    p.get("height"),
-    p.get("color")
+    p.state.x,
+    p.state.y,
+    p.state.width,
+    p.state.height,
+    p.state.color
   );
   return p;
 };
