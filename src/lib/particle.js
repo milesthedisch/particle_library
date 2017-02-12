@@ -255,13 +255,22 @@ Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
  * @return {Particle}
  */
 Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
-  const springVec = vector.create(spring, spring);
-  const distance = point["-"](this.get("position"));
+  // Postion delta
+  const dx = (point.state.x - this.state.x);
+  const dy = (point.state.y - this.state.y);
 
-  distance.setLength(distance.getLength() - offset);
-  const springForce = distance["*"](springVec);
+  // Setting up magnitude and angle of the vector
+  const distance = Math.hypot(dx, dy) - offset;
+  const angle = Math.atan2(dy, dx);
 
-  return this.accelerate(springForce);
+  // Spring acceleration vector
+  const sx = (Math.cos(angle) * distance) * spring;
+  const sy = (Math.sin(angle) * distance) * spring;
+
+  // Accelerate with the spring vector
+  this.accelerate(sx, sy);
+
+  return [this, point];
 };
 
 module.exports = Particle;
