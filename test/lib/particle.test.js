@@ -358,7 +358,7 @@ describe("#Particle", function() {
         try {
           particle.springFromTo(undefined);
         } catch (e) {
-          assert.equal(e.message, "Cannot read property \'get\' of undefined");
+          assert.equal(e.message, "Cannot read property \'state\' of undefined");
         };
       });
 
@@ -380,7 +380,7 @@ describe("#Particle", function() {
       });
     });
 
-    describe.only("#springPoint", function() {
+    describe("#springPoint", function() {
       it("should return an error if not given a point.", function() {
         const particle = new Particle();
         const p1 = particle.create({
@@ -393,7 +393,7 @@ describe("#Particle", function() {
           assert.ok(e.message);
         }
       });
-      it("should move the springed particle scloser to its attracting point", function() {
+      it("should move the springed particle closer to its attracting point", function() {
         const particle = new Particle();
         const p1 = particle.create({
           x: 100,

@@ -193,8 +193,8 @@ Utils.prototype.collisionRect = function(r0, r1) {
  * @return {Boolean}
  */
 Utils.prototype.collisionCircle = function(c1, c2) {
-  const radi = (c1.get("radius") + c2.get("radius"));
-  const distance = this.distanceVec(c1.get("position"), c2.get("position"));
+  const radi = (c1.state.radius + c2.state.radius);
+  const distance = this.distanceXY(c1.state.x, c1.state.y, c2.state.x, c2.state.y);
 
   if (distance) {
     return radi > distance;
@@ -216,10 +216,10 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
   const dist = this.distanceXY(
     x,
     y,
-    circle.get("position").get("x"),
-    circle.get("position").get("y")
+    circle.state.x,
+    circle.state.y
   );
-  return circle.get("radius") > dist;
+  return circle.state.radius > dist;
 };
 
 /**
