@@ -182,13 +182,12 @@ describe("#Util", function() {
 
   describe("#collisionRectPoint", function() {
     it("should return true when given a point inside the rect", function() {
-      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
-      const point = vector.create(5, 5);
-      assert.ok(utils.collisionRectPoint(point.get("x"), point.get("y"), rect));
+      const rect = new Particle({x: 0, y: 0, width: 10, height: 10});
+      assert.ok(utils.collisionRectPoint(5, 5, rect));
     });
 
     it("should return false when given a point outside the rect", function() {
-      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const rect = new Particle({x: 0, y: 0, width: 10, height: 10});
       const point = vector.create(-1, -1);
       assert.ok(!utils.collisionRectPoint(point.get("x"), point.get("y"), rect));
     });
@@ -196,13 +195,13 @@ describe("#Util", function() {
 
   describe("#collisionRectVec", function() {
     it("should return true when given a point inside the rect", function() {
-      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const rect = new Particle({x: 0, y: 0, width: 10, height: 10});
       const point = vector.create(5, 5);
       assert.ok(utils.collisionRectVec(point, rect));
     });
 
     it("should return false when given a point outside the rect", function() {
-      const rect = new Particle({position: vector.create(0, 0), width: 10, height: 10});
+      const rect = new Particle({x: 0, y: 0, width: 10, height: 10});
       const point = vector.create(-1, -1);
       assert.ok(!utils.collisionRectVec(point, rect));
     });
@@ -210,17 +209,17 @@ describe("#Util", function() {
 
   describe("#collisionRect", function() {
     it("should return true when to rectanges are in range of each other", function() {
-      const rect1 = new Particle({position: vector.create(0, 0), width: 10, height: 10});
-      const rect2 = new Particle({position: vector.create(10, 10), width: 10, height: 10});
-      const rect3 = new Particle({position: vector.create(5, 5), width: 10, height: 10});
+      const rect1 = new Particle({x: 0, y: 0, width: 10, height: 10});
+      const rect2 = new Particle({x: 10, y: 10, width: 10, height: 10});
+      const rect3 = new Particle({x: 5, y: 5, width: 10, height: 10});
       assert.ok(utils.collisionRect(rect1, rect2));
       assert.ok(utils.collisionRect(rect1, rect3));
     });
 
-    it("should return fales when given rectangles that arent in the same region. ", function() {
-      const rect1 = new Particle({position: vector.create(0, 0), width: 10, height: 10});
-      const rect2 = new Particle({position: vector.create(11, 11), width: 10, height: 10});
-      const rect3 = new Particle({position: vector.create(-11, -11), width: 10, height: 10});
+    it("should return false when given rectangles that arent in the same region. ", function() {
+      const rect1 = new Particle({x: 0, y: 0, width: 10, height: 10});
+      const rect2 = new Particle({x: 11, y: 11, width: 10, height: 10});
+      const rect3 = new Particle({x: -11, y: -11, width: 10, height: 10});
       assert.ok(!utils.collisionRect(rect1, rect2));
       assert.ok(!utils.collisionRect(rect1, rect3));
     });

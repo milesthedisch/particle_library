@@ -168,15 +168,15 @@ Utils.prototype.vectorIntersect = function(vec0, vec1) {
  * @return {Boolean}
  */
 Utils.prototype.collisionRect = function(r0, r1) {
-  const r0x = r0.get("position").get("x");
-  const r0y = r0.get("position").get("y");
-  const r1x = r1.get("position").get("x");
-  const r1y = r1.get("position").get("y");
+  const r0x = r0.state.x;
+  const r0y = r0.state.y;
+  const r1x = r1.state.x;
+  const r1y = r1.state.y;
 
-  const r0w = r0x + r0.get("width");
-  const r0h = r0y + r0.get("height");
-  const r1w = r1x + r1.get("width");
-  const r1h = r1y + r1.get("height");
+  const r0w = r0x + r0.state.width;
+  const r0h = r0y + r0.state.height;
+  const r1w = r1x + r1.state.width;
+  const r1h = r1y + r1.state.height;
 
   return (
     this.rangeIntersect(r0x, r0w, r1x, r1w) &&
@@ -231,7 +231,12 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
  * @return {Boolean}
  */
 Utils.prototype.collisionCircleVec = function(vec, circle) {
-  return circle.get("radius") > this.distanceVec(vec, circle.get("position"));
+  return circle.state.radius > this.distanceXY(
+    vec.get("x"),
+    vec.get("y"),
+    circle.state.x,
+    circle.state.y
+  );
 };
 
 /**
@@ -244,11 +249,11 @@ Utils.prototype.collisionCircleVec = function(vec, circle) {
  * @return {Boolean}
  */
 Utils.prototype.collisionRectPoint = function(x, y, rect) {
-  const rectX = rect.get("position").get("x");
-  const rectY = rect.get("position").get("y");
+  const rectX = rect.state.x;
+  const rectY = rect.state.y;
   return (
-    this.inRange(x, rectX, rectX + rect.get("width")) &&
-    this.inRange(y, rectY, rectY + rect.get("height"))
+    this.inRange(x, rectX, rectX + rect.state.width) &&
+    this.inRange(y, rectY, rectY + rect.state.height)
   );
 };
 
