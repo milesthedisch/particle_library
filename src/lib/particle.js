@@ -156,7 +156,6 @@ Particle.prototype.gravitateTo = function(p2) {
   const ax = cos * force;
   const ay = sin * force;
 
-  console.log(ax, ay);
   return this.accelerate(ax, ay);
 };
 

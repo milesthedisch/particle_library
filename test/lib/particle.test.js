@@ -236,6 +236,19 @@ describe("#Particle", function() {
 
       assert.isAbove(p2.state.y, 100);
     });
+
+    it("should stand still if the mass of the object that its gravitating to is 0", function() {
+      const p = new Particle();
+
+      const p1 = p.create({mass: 0, x: 1000, y: 1000});
+      const p2 = p.create({mass: 100, x: 1000, y: 100});
+
+      p2.gravitateTo(p1);
+      p2.update();
+
+      assert.equal(p2.state.y, 100);
+      assert.equal(p2.state.x, 1000);
+    });
   });
 
   describe("#generator", function() {
