@@ -215,21 +215,32 @@ Particle.prototype.updatePos = function(vx, vy) {
 /**
  * @name springFromTo
  * @description Given two particles calculate the
- * velocity applied to both of them particles.
+ * spring force applied to both particles.
  * @param  {Particle} p
  * @param  {Integer}  offset  Given offset for the particles
  * @param  {Integer}  spring  The spring coefficent
  * @return {Particle[]}
  */
 Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
-  const springVec = vector.create(spring, spring);
-  const distance = p.get("position")["-"](this.get("position"));
+  // Postion delta
+  const dx = (p.state.x - this.state.x);
+  const dy = (p.state.y - this.state.y);
 
-  distance.setLength(distance.getLength() - offset);
-  const springForce = distance["*"](springVec);
+  // Setting up magnitude and angle of the vector
+  const distance = Math.hypot(dx, dy) - offset;
+  const angle = Math.atan2(dy, dx);
 
-  this.accelerate(springForce);
-  p.get("velocity")["-="](springForce);
+  // Spring acceleration vector
+  const sx = (Math.cos(angle) * distance) * spring;
+  const sy = (Math.sin(angle) * distance) * spring;
+
+  // Accelerate with the spring vector
+  this.accelerate(sx, sy);
+
+  // Accelerate the opposite direction.
+  p.state.vx -= sx;
+  p.state.vy -= sy;
+
   return [this, p];
 };
 

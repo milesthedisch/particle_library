@@ -362,17 +362,21 @@ describe("#Particle", function() {
         };
       });
 
-      it("it should move the springed particle closer to its attracting point", function() {
+      it.only("it should move the springed particle closer to its attracting point", function() {
         const particle = new Particle();
         const p1 = particle.create({
-          position: vector.create(100, 100),
+          x: 100,
+          y: 100,
         });
         const p2 = particle.create({
-          position: vector.create(100, 400),
+          x: 100,
+          y: 400,
         });
+
         p1.springFromTo(p2);
-        assert.equal(p1.get("velocity").get("y"), -10);
-        assert.equal(p2.get("velocity").get("y"), 10);
+
+        assert.equal(p1.state.vy, 10);
+        assert.equal(p2.state.vy, -10);
       });
     });
 
