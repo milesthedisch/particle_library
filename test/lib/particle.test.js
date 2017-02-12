@@ -251,7 +251,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#generator", function() {
+  describe("#generator", function() {
     it("should generate default particles", function() {
       const p = new Particle();
       const particles = p.generator(1);
@@ -319,6 +319,47 @@ describe("#Particle", function() {
     });
   });
 
+  describe.only("#updatePos", function() {
+    it("should add the vector to the position", function() {
+      const particle = new Particle();
+      const p = particle.create();
+      assert.deepEqual(p.updatePos(1, 1), {x: 1, y: 1});
+    });
+
+    it("should add the internal velocity vector to the position", function() {
+      const particle = new Particle();
+      const p1 = particle.create({
+        vx: 1,
+        vy: 1,
+      });
+      assert.deepEqual(p1.updatePos(), {x: 1, y: 1});
+    });
+
+    it("should add the internal velocity twice if we call speed twice", function() {
+      const particle = new Particle();
+      const p1 = particle.create({
+        vx: 1,
+        vy: 1,
+      });
+      p1.updatePos();
+      assert.deepEqual(p1.updatePos(), {x: 2, y: 2});
+    });
+  });
+
+  describe("#distanceFrom", function() {
+    it("should calculate the distance from one particles center to another (diagonal)", function() {
+      const particle1 = new Particle({"position": vector.create(10, 10)});
+      const particle2 = new Particle({"position": vector.create(0, 0)});
+      assert.equal(particle1.distanceFrom(particle2), Math.sqrt(200));
+    });
+
+    it("should calculate the distance from one particles center to another", function() {
+      const particle1 = new Particle({"position": vector.create(10, 0)});
+      const particle2 = new Particle({"position": vector.create(0, 0)});
+      assert.equal(particle1.distanceFrom(particle2), 10);
+    });
+  });
+
   describe("#springs", function() {
     describe("#springFromTo", function() {
       it("it should fail if not given a particle as the first argument", function() {
@@ -369,48 +410,6 @@ describe("#Particle", function() {
         p1.springToPoint(point, 100, 0.9);
         assert.equal(p1.get("velocity").get("y"), 360);
       });
-    });
-  });
-
-  describe("#speed", function() {
-    it("should add the vector to the position", function() {
-      const particle = new Particle();
-      const vector = new Vector();
-
-      const p = particle.create();
-      const vec = vector.create(1, 1);
-      p.speed(vec);
-      assert.deepEqual(p.get("position"), vector.create(1, 1));
-    });
-
-    it("should add the internal velocity vector to the position", function() {
-      const vec = new Vector();
-
-      const p = new Particle({"velocity": vec.create(1, 1)});
-      p.speed();
-      assert.deepEqual(p.get("position"), vec.create(1, 1));
-    });
-
-    it("should add the internal velocity twice if we call speed twice", function() {
-      const vec = new Vector();
-      const p = new Particle({"velocity": vec.create(1, 1)});
-      p.speed();
-      p.speed();
-      assert.deepEqual(p.get("position"), vec.create(2, 2));
-    });
-  });
-
-  describe("#distanceFrom", function() {
-    it("should calculate the distance from one particles center to another (diagonal)", function() {
-      const particle1 = new Particle({"position": vector.create(10, 10)});
-      const particle2 = new Particle({"position": vector.create(0, 0)});
-      assert.equal(particle1.distanceFrom(particle2), Math.sqrt(200));
-    });
-
-    it("should calculate the distance from one particles center to another", function() {
-      const particle1 = new Particle({"position": vector.create(10, 0)});
-      const particle2 = new Particle({"position": vector.create(0, 0)});
-      assert.equal(particle1.distanceFrom(particle2), 10);
     });
   });
 });
