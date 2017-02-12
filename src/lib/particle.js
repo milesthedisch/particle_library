@@ -7,10 +7,6 @@
 
 const extend = require("extend");
 const clone = require("lodash/cloneDeep");
-const Vector = require("../../src/lib/vectors.js");
-const utils = require("../../src/lib/utils.js");
-const vector = new Vector();
-
 /* The default state a particle starts with It should not move. */
 
 const INITIAL_STATE = {
