@@ -315,8 +315,6 @@ describe("#Particle", function() {
 
         extend(true, defaultParticleState, {
           a: 2,
-          vx: 0,
-          vy: 0,
         });
 
         assert.deepEqual(particles[0].state, defaultParticleState);
@@ -334,7 +332,7 @@ describe("#Particle", function() {
         const p = new Particle();
 
         try {
-          p.generator(2, {a: 2}, function noop(opts, i, create) {
+          p.generator(2, {a: 2}, function map(opts, i, create) {
             opts.a += 1;
             create(opts);
           });
@@ -346,11 +344,32 @@ describe("#Particle", function() {
       it("should be passed the index of particle", function() {
         const p = new Particle();
         const indexs = [];
-        const particles = p.generator(2, {a: 2}, function noop(opts, i, create) {
+        const particles = p.generator(2, {a: 2}, function map(opts, i, create) {
           indexs.push(i);
         });
 
+        extend(true, defaultParticleState, {
+          a: 2,
+        });
+
         assert.equal(indexs.length, 2);
+        assert.deepEqual(particles, []);
+      });
+
+      it("should create particles given to the the create method", function() {
+        const p = new Particle();
+        const particles = p.generator(2, {a: 2}, function map(opts, i, create) {
+          const newState = extend({}, opts, {
+            a: opts.a + i,
+          });
+
+          create(newState);
+        });
+
+        defaultParticleState.a = 2;
+        assert.deepEqual(particles[0].state, defaultParticleState);
+        defaultParticleState.a = 3;
+        assert.deepEqual(particles[1].state, defaultParticleState);
       });
     });
   });

@@ -171,7 +171,6 @@ Particle.prototype.generator = function(num, opts=clone(INITIAL_STATE), callback
   if (typeof callback === "function") {
     for(let i = 0; i < num; i++) {
       callback(opts, i, function(p) {
-        console.log(p);
         if (!p) {
           console.log("No particle passed to generator. Will use default state.");
           const newParticle = self.create(opts);
