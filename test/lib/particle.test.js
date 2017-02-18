@@ -32,7 +32,7 @@ describe("#Particle", function() {
       x: 0,
       y: 0,
       vx: 0,
-      vy: 0,
+      vy: -0,
       gravity: 0,
       magnitude: 0,
       radius: 0,
@@ -65,17 +65,16 @@ describe("#Particle", function() {
       const p1 = p.create({
         x: 1,
         y: 1,
-        vx: 1,
-        vy: 1,
         gravity: 1,
         radius: 1,
+        magnitude: 0,
       });
 
       assert.deepEqual(p1.state, extend(defaultParticleState, {
         x: 1,
         y: 1,
-        vx: 1,
-        vy: 1,
+        vx: 0,
+        vy: -0,
         gravity: 1,
         radius: 1,
       }));
@@ -136,15 +135,13 @@ describe("#Particle", function() {
     it("should change given friction and some velocity", function() {
       const particle = new Particle();
       const p1 = particle.create({
-        vx: 2,
-        vy: 2,
+        magnitude: 2,
+        direction: Math.PI * 2,
         friction: 0.95,
       });
       p1.update();
       assert.equal(p1.state.vx, 1.9);
-      assert.equal(p1.state.vy, 1.9);
       assert.equal(p1.state.x, 1.9);
-      assert.equal(p1.state.y, 1.9);
     });
   });
 
@@ -266,7 +263,7 @@ describe("#Particle", function() {
       // to 0, -0
       extend(true, defaultParticleState, {
         vx: 0,
-        vy: 0,
+        vy: -0,
       });
 
       assert.equal(particles.length, 1);
@@ -277,32 +274,23 @@ describe("#Particle", function() {
       const p = new Particle();
       const particles = p.generator(2);
 
-      // When we create a particle the velocity gets setLength and setAngle called. And because the
-      // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
-      // to 0, -0
-      extend(true, defaultParticleState, {
-        vx: 0,
-        vy: 0,
-      });
-
       assert.equal(particles.length, 2);
-      assert.deepEqual(particles[0].state, defaultParticleState, "particle 1: ");
-      assert.deepEqual(particles[1].state, defaultParticleState, "particle 2: ");
+      assert.deepEqual(particles[0].state, createdParticleState, "particle 1: ");
+      assert.deepEqual(particles[1].state, createdParticleState, "particle 2: ");
     });
 
     it("should use opts passed in to each particle and extended.", function() {
       const p = new Particle();
       const particles = p.generator(2, {a: 1});
 
-      extend(true, defaultParticleState, {
+      extend(true, createdParticleState, {
         a: 1,
-        vx: 0,
-        vy: 0,
+        vy: -0,
       });
 
       assert.equal(particles.length, 2);
-      assert.deepEqual(particles[0].state, defaultParticleState);
-      assert.deepEqual(particles[1].state, defaultParticleState);
+      assert.deepEqual(particles[0].state, createdParticleState);
+      assert.deepEqual(particles[1].state, createdParticleState);
     });
 
     describe("give a third argument as a function", function() {
@@ -313,12 +301,12 @@ describe("#Particle", function() {
           create();
         });
 
-        extend(true, defaultParticleState, {
+        extend(true, createdParticleState, {
           a: 2,
         });
 
-        assert.deepEqual(particles[0].state, defaultParticleState);
-        assert.deepEqual(particles[1].state, defaultParticleState);
+        assert.deepEqual(particles[0].state, createdParticleState);
+        assert.deepEqual(particles[1].state, createdParticleState);
       });
 
       it("should return an empty array if given no cb arguments", function() {
@@ -348,10 +336,6 @@ describe("#Particle", function() {
           indexs.push(i);
         });
 
-        extend(true, defaultParticleState, {
-          a: 2,
-        });
-
         assert.equal(indexs.length, 2);
         assert.deepEqual(particles, []);
       });
@@ -366,10 +350,10 @@ describe("#Particle", function() {
           create(newState);
         });
 
-        defaultParticleState.a = 2;
-        assert.deepEqual(particles[0].state, defaultParticleState);
-        defaultParticleState.a = 3;
-        assert.deepEqual(particles[1].state, defaultParticleState);
+        createdParticleState.a = 2;
+        assert.deepEqual(particles[0].state, createdParticleState);
+        createdParticleState.a = 3;
+        assert.deepEqual(particles[1].state, createdParticleState);
       });
     });
   });
@@ -385,19 +369,21 @@ describe("#Particle", function() {
       const particle = new Particle();
       const p1 = particle.create({
         vx: 1,
-        vy: 1,
+        vy: 0,
+        magnitude: 1,
       });
-      assert.deepEqual(p1.updatePos(), {x: 1, y: 1});
+      assert.equal(p1.updatePos().x, 1);
     });
 
     it("should add the internal velocity twice if we call speed twice", function() {
       const particle = new Particle();
       const p1 = particle.create({
         vx: 1,
-        vy: 1,
+        vy: 0,
+        magnitude: 1,
       });
       p1.updatePos();
-      assert.deepEqual(p1.updatePos(), {x: 2, y: 2});
+      assert.equal(p1.updatePos().x, 2);
     });
   });
 

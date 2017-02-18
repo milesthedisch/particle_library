@@ -43,14 +43,14 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
   const particle = new Particle(opts);
 
   // Set length.
-  const angle = Math.atan2(this.state.vx, this.state.vy);
-  this.state.vx = Math.cos(angle) * opts.magnitude;
-  this.state.vy = Math.sin(angle) * opts.magnitude;
+  const angle = Math.atan2(particle.state.vx, particle.state.vy);
+  particle.state.vx = Math.cos(angle) * opts.magnitude;
+  particle.state.vy = Math.sin(angle) * opts.magnitude;
 
   // Set angle.
-  const length = Math.hypot(this.state.vx, this.state.vy);
-  this.state.vx = Math.cos(opts.direction) * length;
-  this.state.vy = Math.sin(opts.direction) * length;
+  const length = Math.hypot(particle.state.vx, particle.state.vy);
+  particle.state.vx = Math.cos(opts.direction) * length;
+  particle.state.vy = Math.sin(opts.direction) * length;
 
   // Return new particle.
   return particle;
