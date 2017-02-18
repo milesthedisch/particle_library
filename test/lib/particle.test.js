@@ -307,7 +307,10 @@ describe("#Particle", function() {
 
     it("should use callback if the third arguments is defined as a fn.", function() {
       const p = new Particle();
-      const particles = p.generator(2, {a: 1}, function map(_p) {
+      const indexs = [];
+
+      const particles = p.generator(2, {a: 1}, function map(_p, index) {
+        indexs.push(index);
         _p.state.a += 1;
         return _p;
       });
@@ -319,6 +322,7 @@ describe("#Particle", function() {
       });
 
       assert.equal(particles.length, 2);
+      assert.deepEqual(indexs, [0, 1]);
       assert.deepEqual(particles[0].state, defaultParticleState);
       assert.deepEqual(particles[1].state, defaultParticleState);
     });
