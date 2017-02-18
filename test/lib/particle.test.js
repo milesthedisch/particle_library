@@ -305,7 +305,7 @@ describe("#Particle", function() {
       assert.deepEqual(particles[1].state, defaultParticleState);
     });
 
-    describe.only("give a third argument as a function", function() {
+    describe("give a third argument as a function", function() {
       it("should use passed in defaults if the create fn is not given anything", function() {
         const p = new Particle();
 
