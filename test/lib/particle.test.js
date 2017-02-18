@@ -305,26 +305,53 @@ describe("#Particle", function() {
       assert.deepEqual(particles[1].state, defaultParticleState);
     });
 
-    it("should use callback if the third arguments is defined as a fn.", function() {
-      const p = new Particle();
-      const indexs = [];
+    describe.only("give a third argument as a function", function() {
+      it("should use passed in defaults if the create fn is not given anything", function() {
+        const p = new Particle();
 
-      const particles = p.generator(2, {a: 1}, function map(_p, index) {
-        indexs.push(index);
-        _p.state.a += 1;
-        return _p;
+        const particles = p.generator(2, {a: 2}, function map(_, __, create) {
+          create();
+        });
+
+        extend(true, defaultParticleState, {
+          a: 2,
+          vx: 0,
+          vy: 0,
+        });
+
+        assert.deepEqual(particles[0].state, defaultParticleState);
+        assert.deepEqual(particles[1].state, defaultParticleState);
       });
 
-      extend(true, defaultParticleState, {
-        a: 2,
-        vx: 0,
-        vy: 0,
+      it("should return an empty array if given no cb arguments", function() {
+        const p = new Particle();
+        const particles = p.generator(2, {a: 2}, function noop() {});
+
+        assert.deepEqual(particles, []);
       });
 
-      assert.equal(particles.length, 2);
-      assert.deepEqual(indexs, [0, 1]);
-      assert.deepEqual(particles[0].state, defaultParticleState);
-      assert.deepEqual(particles[1].state, defaultParticleState);
+      it("should not be able mutate default state within callback", function() {
+        const p = new Particle();
+
+        try {
+          p.generator(2, {a: 2}, function noop(opts, i, create) {
+            opts.a += 1;
+            create(opts);
+          });
+        } catch (e) {
+          assert.ok(e instanceof TypeError);
+        }
+      });
+
+      it("should be passed the index of particle", function() {
+        const p = new Particle();
+        const indexs = [];
+        const particles = p.generator(2, {a: 2}, function noop(opts, i, create) {
+          indexs.push(i);
+        });
+
+        assert.equal(indexs.length, 2);
+      });
     });
   });
 

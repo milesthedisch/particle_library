@@ -163,20 +163,32 @@ Particle.prototype.gravitateTo = function(p2) {
  * @param  {Particle~generatorCallback} callback  Function to allow mapping.
  * @return {Particle[]}
  */
-Particle.prototype.generator = function(num, opts=INITIAL_STATE, callback) {
-  opts = clone(opts);
+Particle.prototype.generator = function(num, opts=clone(INITIAL_STATE), callback) {
+  Object.freeze(opts);
   const particles = [];
+  const self = this;
 
   if (typeof callback === "function") {
     for(let i = 0; i < num; i++) {
-      let p = callback(this.create(opts), i);
-      particles.push(p);
+      callback(opts, i, function(p) {
+        console.log(p);
+        if (!p) {
+          console.log("No particle passed to generator. Will use default state.");
+          const newParticle = self.create(opts);
+          particles.push(newParticle);
+          return newParticle;
+        }
+
+        const newParticle = self.create(p);
+        particles.push(newParticle);
+        return newParticle;
+      });
     }
   }
 
   if (!callback) {
     for(let i = 0; i < num; i++) {
-      particles.push(this.create(opts));
+      particles.push(self.create(opts));
     }
   }
 
