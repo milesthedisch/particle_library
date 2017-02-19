@@ -227,7 +227,7 @@ describe("#Util", function() {
 
   describe("#randomRange", function() {
     it("should return a value in between the given range", function() {
-      let max = 1000000;
+      let max = 10000;
       let min = 0;
       for (let i = min; i <= max; i++) {
         let actualVal = utils.randomRange(min, max);
@@ -236,11 +236,49 @@ describe("#Util", function() {
     });
     it("should return a value in between the given range when one number is negative", function() {
       let max = 0;
-      let min = -1000000;
+      let min = -10000;
       for (let i = min; i <= max; i++) {
         let actualVal = utils.randomRange(min, max);
         assert.ok((min <= actualVal) && (actualVal <= max), `${actualVal} is not in range of ${min} and ${max}`);
       }
+    });
+  });
+
+  describe("#setLength", function() {
+    it("should set the y to 1 if x and y are 0 and length is 1", function() {
+      const [x, y] = utils.setLength(1, 0, 0);
+      assert.equal(x, 1);
+      assert.equal(y, 0);
+    });
+
+    it("should should set x and y to zero give a length of zero", function() {
+      const [x, y] = utils.setLength(0, 0, 0);
+      assert.equal(x, 0);
+      assert.equal(y, 0);
+    });
+
+    it("should given non number inputs throw an error", function() {
+      const fn = utils.setLength.bind(null, "", null, undefined);
+      assert.throws(fn, Error, "provide valid");
+    });
+  });
+
+  describe.only("#setAngle", function() {
+    it("should set the y to 1 if x and y are 0 and length is 1", function() {
+      const [x, y] = utils.setAngle(Math.PI, 0, 0);
+      assert.equal(x, -0);
+      assert.equal(y, 0);
+    });
+
+    it("should should set x and y to zero give a length of zero", function() {
+      const [x, y] = utils.setAngle(Math.PI * 2, 0, 0);
+      assert.equal(x, 0);
+      assert.equal(y, 0);
+    });
+
+    it("should given non number inputs throw an error", function() {
+      const fn = utils.setLength.bind(null, "", null, undefined);
+      assert.throws(fn, Error, "provide valid");
     });
   });
 });

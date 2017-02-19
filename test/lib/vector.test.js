@@ -41,9 +41,9 @@ describe("#Vector", function() {
       assert.equal(vec.set("apples", 0), false);
     });
 
-		it.skip("should return false if the property val is a not a number", function() { // eslint-disable-line
-  assert.equal(vec.set("x", "oranges"), false);
-});
+    it.skip("should return false if the property val is a not a number", function() { // eslint-disable-line
+      assert.equal(vec.set("x", "oranges"), false);
+    });
   });
 
   describe("vector.get", function() {
@@ -52,29 +52,29 @@ describe("#Vector", function() {
       assert.equal(vec.get("x"), 1);
     });
 
-		it("should return undefined when asked to return a unexsistant value", function() { // eslint-disable-line
-  assert.equal(vec.get("abc"), undefined);
-});
+    it("should return undefined when asked to return a unexsistant value", function() { // eslint-disable-line
+      assert.equal(vec.get("abc"), undefined);
+    });
   });
 
   describe("vector.setAngle", function() {
     it("should return -1 for Y and 0 for X", function() {
-			// Move upwards.
+      // Move upwards.
       vec.setAngle(-Math.PI / 2);
-			/*
-				Math.cos(-Math.PI / 2) is expected to be 0,
-			  but we get a really small number instead. This isn't realy what we want.
-			  ---
-			  TODO: Investigate wether floating points that are draw on canvas
-			  affect the rendering performance.
-			 */
+      /*
+        Math.cos(-Math.PI / 2) is expected to be 0,
+        but we get a really small number instead. This isn't realy what we want.
+        ---
+        TODO: Investigate wether floating points that are draw on canvas
+        affect the rendering performance.
+       */
       assert.equal(~~vec.state.x, 0);
       assert.equal(vec.state.y, -1);
     });
   });
 
   describe("vector.setLength", function() {
-		it('given the length it should set cooridnates according to angle ', function() { // eslint-disable-line
+    it('given the length it should set cooridnates according to angle ', function() { // eslint-disable-line
       vec.setLength(1);
       assert.equal(~~vec.state.x, 0);
       assert.equal(vec.state.y, 1);

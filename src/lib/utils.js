@@ -269,5 +269,32 @@ Utils.prototype.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
+Utils.prototype.setLength = function(length, x, y) {
+  if (typeof x !== "number" ||
+      typeof y !== "number" ||
+      typeof length !== "number") {
+    throw new Error("Please provide valid x and y values");
+  }
+
+  const angle = Math.atan2(y, x);
+  x = Math.cos(angle) * length;
+  y = Math.sin(angle) * length;
+
+  return [x, y];
+};
+
+Utils.prototype.setAngle = function(angle, x, y) {
+  if (typeof x !== "number" ||
+      typeof y !== "number" ||
+      typeof angle !== "number") {
+    throw new Error("Please provide valid x and y values");
+  }
+
+  const length = Math.hypot(x, y);
+  x = Math.cos(angle) * length;
+  y = Math.sin(angle) * length;
+
+  return [x, y];
+};
 
 module.exports = new Utils();
