@@ -263,7 +263,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#setAngle", function() {
+  describe("#setAngle", function() {
     it("should set the y to 1 if x and y are 0 and length is 1", function() {
       const [x, y] = utils.setAngle(Math.PI, 0, 0);
       assert.equal(x, -0);
