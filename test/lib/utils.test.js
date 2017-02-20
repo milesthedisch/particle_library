@@ -230,15 +230,15 @@ describe("#Util", function() {
       let max = 10000;
       let min = 0;
       for (let i = min; i <= max; i++) {
-        let actualVal = utils.randomRange(min, max);
+        let actualVal = utils.randomBetween(min, max);
         assert.ok((min <= actualVal) && (actualVal <= max), `${actualVal} is not in range of ${min} and ${max}`);
       }
     });
     it("should return a value in between the given range when one number is negative", function() {
-      let max = 0;
-      let min = -10000;
+      let max = 1000;
+      let min = -1000;
       for (let i = min; i <= max; i++) {
-        let actualVal = utils.randomRange(min, max);
+        let actualVal = utils.randomBetween(min, max);
         assert.ok((min <= actualVal) && (actualVal <= max), `${actualVal} is not in range of ${min} and ${max}`);
       }
     });

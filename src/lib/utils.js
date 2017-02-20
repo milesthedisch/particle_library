@@ -78,7 +78,7 @@ Utils.prototype.clamp = function(value, min, max) {
  * @param  {Integer} y
  * @return {Integer}
  */
-Utils.prototype.randomRange = function(x, y) {
+Utils.prototype.randomBetween = function(x, y) {
   let min = Math.min(x, y);
   let max = Math.max(x, y);
   return Math.floor(Math.random() * (max - min)) + min;
@@ -262,13 +262,21 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
  * @description Given a vector and a retangle check wether they collided.
  * @memberOf Utils
  * @param  {Vector}   vec
- * @param  {Particle} rect [description]
+ * @param  {Particle} rect
  * @return {Boolean}
  */
 Utils.prototype.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
+/**
+ * @name setLength
+ * @description - Setting the length of a vector.
+ * @param   {number} length
+ * @param   {number} x
+ * @param   {number} y
+ * @return  {number[]} Coordinates
+ */
 Utils.prototype.setLength = function(length, x, y) {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
@@ -283,6 +291,14 @@ Utils.prototype.setLength = function(length, x, y) {
   return [x, y];
 };
 
+/**
+ * @name setAngle
+ * @description - Setting the angle of a vector.
+ * @param   {number} angle
+ * @param   {number} x
+ * @param   {number} y
+ * @return  {number[]} coordinates
+ */
 Utils.prototype.setAngle = function(angle, x, y) {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
