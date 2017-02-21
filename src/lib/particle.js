@@ -64,7 +64,7 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
  * @param  {Integer} ay
  * @return {Object} Acceleration vector.
  */
-Particle.prototype.accelerate = function accelerate(ax, ay) {
+Particle.prototype.accelerate = function accelerate(ax=this.state.vx, ay=this.state.vy) {
   this.state.vx += ax;
   this.state.vy += ay;
   return {ax, ay};
