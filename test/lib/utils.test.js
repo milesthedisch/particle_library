@@ -40,6 +40,35 @@ describe("#Util", function() {
     });
   });
 
+  describe.only("#map", function() {
+    it("should return the lowest destination value when given the lowest source value as the first param", function() {
+      const highestSource = 100;
+      const highestDestination = 1000;
+      const lowestSource = 0;
+      const lowestDestination = 1;
+
+      assert.equal(1, util.map(0, lowestSource, highestSource, lowestDestination, highestDestination));
+    });
+
+    it("should return the highest destination value when given the highest source value as the first param", function() {
+      const highestSource = 100;
+      const highestDestination = 1000;
+      const lowestSource = 0;
+      const lowestDestination = 1;
+
+      assert.equal(1000, util.map(100, lowestSource, highestSource, lowestDestination, highestDestination));
+    });
+
+    it("should return a value * 0.5 or half if the first param given is half the value of the highest source value", function() {
+      const highestSource = 100;
+      const highestDestination = 1000;
+      const lowestSource = 0;
+      const lowestDestination = 0;
+
+      assert.equal(highestDestination * 0.5, util.map(highestSource * 0.5, lowestSource, highestSource, lowestDestination, highestDestination));
+    });
+  });
+
   describe("#clamp", function() {
     it("should return the value if the value lie in the range", function() {
       assert.equal(util.clamp(1, 0, 10), 1);

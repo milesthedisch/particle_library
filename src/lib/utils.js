@@ -43,6 +43,14 @@ Utils.prototype.lerp = function lerp(val, min, max) {
   return (max - min) * val + min;
 };
 
+Utils.prototype.map = function map(value, srcMin, srcMax, destMin, destMax) {
+  srcMax = Math.max(srcMax, srcMin);
+  srcMin = Math.min(srcMax, srcMin);
+  destMin = Math.min(destMin, destMax);
+  destMax = Math.max(destMin, destMax);
+  return this.lerp(this.normalize(value, srcMin, srcMax), destMin, destMax);
+};
+
 /**
  * @name  precent
  * @description Takes a value and returns a precentage.

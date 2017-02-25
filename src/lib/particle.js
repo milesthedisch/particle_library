@@ -93,6 +93,54 @@ Particle.prototype.update = function update(fric=this.state.friction, grav=this.
 };
 
 /**
+ * setSpeed - sets the internal speed of the particle given the force
+ * @param {number} speed
+ */
+Particle.prototype.setSpeed = function setSpeed(speed) {
+  const angle = this.getHeading();
+  this.state.vx = Math.cos(angle) * speed;
+  this.state.vy = Math.sin(angle) * speed;
+};
+
+/**
+ * setHeading - sets the internal speed of the particle given the angle
+ * @param {[type]} angle [description]
+ */
+Particle.prototype.setHeading = function setHeading(angle) {
+  const speed = this.getSpeed();
+  this.state.vx = Math.cos(angle) * speed;
+  this.state.vy = Math.sin(angle) * speed;
+};
+
+/**
+ * getSpeed - get the length of the velocity vector.
+ * @param  {number} x
+ * @param  {number} y
+ * @return {number} force of velocity vector.
+ */
+Particle.prototype.getSpeed = function getSpeed(x=this.state.vx, y=this.state.vy) {
+  return Math.hypot(this.state.vx, this.state.vy);
+};
+
+/**
+ * getSpeed - get the angle of the velocity vector.
+ * @param  {number} x
+ * @param  {number} y
+ * @return {number} angle of velocity vector.
+ */
+Particle.prototype.getHeading = function getHeading(x=this.state.vx, y=this.state.vy) {
+  return Math.atan2(x, y);
+};
+
+Particle.prototype.addSpring = function addSpring(spring) {
+  this.springs.push(spring);
+};
+
+Particle.prototype.removeSpring = function removeSpring(spring) {
+  this.spring.splice();
+};
+
+/**
  * angleTo - Asumming we know where
  * the other particle is on the canvas. We can use
  * the angle formulae to figure out the angle
@@ -163,7 +211,7 @@ Particle.prototype.gravitateTo = function(p2) {
  * @param  {Particle~generatorCallback} callback  Function to allow mapping.
  * @return {Particle[]}
  */
-Particle.prototype.generator = function(num, opts=clone(INITIAL_STATE), callback) {
+Particle.prototype.generator = function gen(num, opts=clone(INITIAL_STATE), callback) {
   Object.freeze(opts);
   const particles = [];
   const self = this;
@@ -207,7 +255,7 @@ Particle.prototype.generator = function(num, opts=clone(INITIAL_STATE), callback
  * @param  {Integer} vy
  * @return {Object} Position state after velocity has been applied
  */
-Particle.prototype.updatePos = function(vx, vy) {
+Particle.prototype.updatePos = function updatePos(vx, vy) {
   if (vx === undefined && vy === undefined) {
     this.state.x += this.state.vx;
     this.state.y += this.state.vy;
@@ -228,7 +276,7 @@ Particle.prototype.updatePos = function(vx, vy) {
  * @param  {Integer}  spring  The spring coefficent
  * @return {Particle[]}
  */
-Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
+Particle.prototype.springFromTo = function springFromTo(p, offset=100, spring=0.05) {
   // Postion delta
   const dx = (p.state.x - this.state.x);
   const dy = (p.state.y - this.state.y);
@@ -261,7 +309,7 @@ Particle.prototype.springFromTo = function(p, offset=100, spring=0.05) {
  *                      the value the more springy it gets.
  * @return {Particle}
  */
-Particle.prototype.springToPoint = function(point, offset=100, spring=0.05) {
+Particle.prototype.springToPoint = function springToPoint(point, offset=100, spring=0.05) {
   // Postion delta
   const dx = (point.state.x - this.state.x);
   const dy = (point.state.y - this.state.y);
