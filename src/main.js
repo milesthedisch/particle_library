@@ -9,6 +9,3 @@ module.exports = {
   Utils,
   Shapes,
 };
-
-asdas;
-

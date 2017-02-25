@@ -43,6 +43,15 @@ Utils.prototype.lerp = function lerp(val, min, max) {
   return (max - min) * val + min;
 };
 
+/**
+ * map - Given 2 set of values map them to another set.
+ * @param  {number} value
+ * @param  {number} srcMin
+ * @param  {number} srcMax
+ * @param  {number} destMin
+ * @param  {number} destMax
+ * @return {number}
+ */
 Utils.prototype.map = function map(value, srcMin, srcMax, destMin, destMax) {
   srcMax = Math.max(srcMax, srcMin);
   srcMin = Math.min(srcMax, srcMin);

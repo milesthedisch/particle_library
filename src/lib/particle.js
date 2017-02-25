@@ -20,6 +20,7 @@ const INITIAL_STATE = {
   mass: 1,
   direction: Math.PI * 2,
   friction: 1,
+  springs: [],
 };
 
 /**
@@ -31,6 +32,8 @@ function Particle(state=clone(INITIAL_STATE)) {
 }
 
 /**
+ * @name create
+ * @description Create a particle given a direction and magnitude.
  * @memberOf Particle
  * @param  {Object}   opts optional state values to pass to create.
  * @return {Particle} returns a particle
@@ -43,21 +46,18 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
   const particle = new Particle(opts);
 
   // Set length.
-  const angle = Math.atan2(particle.state.vx, particle.state.vy);
-  particle.state.vx = Math.cos(angle) * opts.magnitude;
-  particle.state.vy = Math.sin(angle) * opts.magnitude;
+  particle.setSpeed(opts.magnitude);
 
   // Set angle.
-  const length = Math.hypot(particle.state.vx, particle.state.vy);
-  particle.state.vx = Math.cos(opts.direction) * length;
-  particle.state.vy = Math.sin(opts.direction) * length;
+  particle.setHeading(opts.direction);
 
   // Return new particle.
   return particle;
 };
 
 /**
- * Accelerate - A change in velocity.
+ * @name accelerate
+ * @description A change in velocity.
  *
  * @memberOf Particle
  * @param  {Integer} ax
@@ -71,7 +71,8 @@ Particle.prototype.accelerate = function accelerate(ax=this.state.vx, ay=this.st
 };
 
 /**
- * Update - A update a position of a particle
+ * @name update
+ * @description A update a position of a particle
  * based on its gravity and fricition. Gravity is usually a acceleration
  * vector.
  *
@@ -81,6 +82,9 @@ Particle.prototype.accelerate = function accelerate(ax=this.state.vx, ay=this.st
  * @return {Object} Position state.
  */
 Particle.prototype.update = function update(fric=this.state.friction, grav=this.state.gravity) {
+  // Apple springs
+  this.handleSprings();
+
   // Apply fake fricition to velocity
   this.state.vx *= fric;
   this.state.vy *= fric;
@@ -93,7 +97,9 @@ Particle.prototype.update = function update(fric=this.state.friction, grav=this.
 };
 
 /**
- * setSpeed - sets the internal speed of the particle given the force
+ * @name setSpeed
+ * @description sets the internal speed of the particle given the force
+ * @memberOf Particle
  * @param {number} speed
  */
 Particle.prototype.setSpeed = function setSpeed(speed) {
@@ -103,7 +109,9 @@ Particle.prototype.setSpeed = function setSpeed(speed) {
 };
 
 /**
- * setHeading - sets the internal speed of the particle given the angle
+ * @name setHeading
+ * @memberOf Particle
+ * @description sets the internal speed of the particle given the angle
  * @param {[type]} angle [description]
  */
 Particle.prototype.setHeading = function setHeading(angle) {
@@ -113,7 +121,9 @@ Particle.prototype.setHeading = function setHeading(angle) {
 };
 
 /**
- * getSpeed - get the length of the velocity vector.
+ * @name getSpeed
+ * @description get the length of the velocity vector.
+ * @memberOf Particle
  * @param  {number} x
  * @param  {number} y
  * @return {number} force of velocity vector.
@@ -123,7 +133,9 @@ Particle.prototype.getSpeed = function getSpeed(x=this.state.vx, y=this.state.vy
 };
 
 /**
- * getSpeed - get the angle of the velocity vector.
+ * @name getHeading
+ * @description get the angle of the velocity vector.
+ * @memberOf Particle
  * @param  {number} x
  * @param  {number} y
  * @return {number} angle of velocity vector.
@@ -132,12 +144,33 @@ Particle.prototype.getHeading = function getHeading(x=this.state.vx, y=this.stat
   return Math.atan2(x, y);
 };
 
-Particle.prototype.addSpring = function addSpring(spring) {
-  this.springs.push(spring);
+/**
+ * @name addSpring
+ * @description add spring to springs array
+ * @memberOf Particle
+ * @param {Vector} point
+ * @param {Number} k
+ * @param {Number} offset
+ */
+Particle.prototype.addSpring = function addSpring(point, k, offset=0) {
+  this.removeSpring(point);
+  this.state.springs.push({k, point, offset});
 };
 
-Particle.prototype.removeSpring = function removeSpring(spring) {
-  this.spring.splice();
+/**
+ * @name removeSpring
+ * @description remove a specific string from the springs array
+ * @memberOf Particle
+ * @param  {Vector} point
+ */
+Particle.prototype.removeSpring = function removeSpring(point) {
+  for (let i = 0; i < springs.length; i++) {
+    if (point.state.x === this.springs[i].point.state.x &&
+        point.state.y === this.springs[i].point.state.y) {
+      this.state.springs.splice(i, 1);
+      break;
+    }
+  }
 };
 
 /**
@@ -160,8 +193,8 @@ Particle.prototype.angleTo = function angelTo(p2) {
 };
 
 /**
- * distanceTo - particle.
- * Assuming we know where both particle are on the canvas.
+ * @name distanceTo
+ * @description Assuming we know where both particle are on the canvas.
  * we can use the distance formuale to figure out the distance
  * between the two particles.
  *
@@ -177,6 +210,7 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
 
 /**
  * @name gravitateTo
+ * @memberOf Particle
  * @description Applys gravitation to the input particle.
  * @param  {Particle} p2
  * @return {Object}
@@ -205,6 +239,7 @@ Particle.prototype.gravitateTo = function(p2) {
 
 /**
  * @name  generator
+ * @memberOf Particle
  * @description generate a bunch of particles.
  * @param  {Number}                     num       The maximum amount of generated particles needed.
  * @param  {Object}                     opts      Options to pass each particle
@@ -217,7 +252,7 @@ Particle.prototype.generator = function gen(num, opts=clone(INITIAL_STATE), call
   const self = this;
 
   if (typeof callback === "function") {
-    for(let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++) {
       callback(opts, i, function(p) {
         if (!p) {
           console.log("No particle passed to generator. Will use default state.");
@@ -234,7 +269,7 @@ Particle.prototype.generator = function gen(num, opts=clone(INITIAL_STATE), call
   }
 
   if (!callback) {
-    for(let i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++) {
       particles.push(self.create(opts));
     }
   }
@@ -244,12 +279,14 @@ Particle.prototype.generator = function gen(num, opts=clone(INITIAL_STATE), call
 
 /**
  * Generator callback
+ * @memberOf Particle
  * @callback Particle~generatorCallback
  * @param {Particle}
  */
 
 /**
  * @name updatePos
+ * @memberOf Particle
  * @description Apply velocity to the position.
  * @param  {Integer} vx
  * @param  {Integer} vy
@@ -269,25 +306,26 @@ Particle.prototype.updatePos = function updatePos(vx, vy) {
 
 /**
  * @name springFromTo
+ * @memberOf Particle
  * @description Given two particles calculate the
  * spring force applied to both particles.
  * @param  {Particle} p
- * @param  {Integer}  offset  Given offset for the particles
- * @param  {Integer}  spring  The spring coefficent
+ * @param  {Integer}  spring  Given offset for the particles
+ * @param  {Integer}  offset  The spring coefficent
  * @return {Particle[]}
  */
-Particle.prototype.springFromTo = function springFromTo(p, offset=100, spring=0.05) {
+Particle.prototype.springFromTo = function springFromTo(p, spring=0.05, offset=100) {
   // Postion delta
   const dx = (p.state.x - this.state.x);
   const dy = (p.state.y - this.state.y);
 
   // Setting up magnitude and angle of the vector
-  const distance = Math.hypot(dx, dy) - offset;
-  const angle = Math.atan2(dy, dx);
+  const distance = Math.hypot(dx, dy);
+  const springForce = (distance - offset) * spring;
 
   // Spring acceleration vector
-  const sx = (Math.cos(angle) * distance) * spring;
-  const sy = (Math.sin(angle) * distance) * spring;
+  const sx = dx / distance * springForce;
+  const sy = dy / distance * springForce;
 
   // Accelerate with the spring vector
   this.accelerate(sx, sy);
@@ -301,31 +339,46 @@ Particle.prototype.springFromTo = function springFromTo(p, offset=100, spring=0.
 
 /**
  * @name  springToPoint
+ * @memberOf Particle
  * @description Given a particle, a vector, and a spring coeffiencent accelerate
  * the particle according to the distance its is from the point.
  * @param  {Vector}     point
- * @param  {Number}     offset Offset from the spring
- * @param  {Integer}    spring The spring coeffiecent the higher
- *                      the value the more springy it gets.
+ * @param  {Number}     spring The spring coeffiecent the higher
+ *                             the value the more springy it gets.
+ * @param  {Integer}    offset Offset from the spring
+ *
  * @return {Particle}
  */
-Particle.prototype.springToPoint = function springToPoint(point, offset=100, spring=0.05) {
+Particle.prototype.springToPoint = function springToPoint(point, spring=0.05, offset=100) {
   // Postion delta
   const dx = (point.state.x - this.state.x);
   const dy = (point.state.y - this.state.y);
 
   // Setting up magnitude and angle of the vector
-  const distance = Math.hypot(dx, dy) - offset;
-  const angle = Math.atan2(dy, dx);
+  const distance = Math.hypot(dx, dy);
+  const springForce = (distance - offset) * spring;
 
   // Spring acceleration vector
-  const sx = (Math.cos(angle) * distance) * spring;
-  const sy = (Math.sin(angle) * distance) * spring;
+  const sx = dx / distance * springForce;
+  const sy = dy / distance * springForce;
 
   // Accelerate with the spring vector
   this.accelerate(sx, sy);
 
   return [this, point];
+};
+
+/**
+ * @name handleSprings
+ * @description Apply spring point to all internal springs.
+ * @param  {springs} springs An array of springs to spring to.
+ * @return {Object[]}
+ */
+Particle.prototype.handleSprings = function handleSprings(springs=this.state.springs) {
+  for (let i = 0; i < springs.length; i++) {
+    this.springToPoint(springs[i]);
+  }
+  return springs;
 };
 
 module.exports = Particle;

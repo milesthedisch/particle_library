@@ -26,6 +26,7 @@ describe("#Particle", function() {
       mass: 1,
       direction: Math.PI * 2,
       friction: 1,
+      springs: [],
     };
 
     createdParticleState = {
@@ -39,6 +40,7 @@ describe("#Particle", function() {
       mass: 1,
       direction: Math.PI * 2,
       friction: 1,
+      springs: [],
     };
   });
 
@@ -437,9 +439,9 @@ describe("#Particle", function() {
         });
         const point = vector.create(100, 400);
 
-        p1.springToPoint(point, 100, 0.9);
+        p1.springToPoint(point, 0.9, 100);
         assert.equal(p1.state.vy, 180);
-        p1.springToPoint(point, 100, 0.9);
+        p1.springToPoint(point, 0.9, 100);
         assert.equal(p1.state.vy, 360);
       });
     });
