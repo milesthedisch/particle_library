@@ -40,7 +40,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#map", function() {
+  describe("#map", function() {
     it("should return the lowest destination value when given the lowest source value as the first param", function() {
       const highestSource = 100;
       const highestDestination = 1000;
