@@ -26,6 +26,7 @@ describe("#Particle", function() {
       mass: 1,
       direction: Math.PI * 2,
       friction: 1,
+      masses: [],
       springs: [],
     };
 
@@ -258,7 +259,7 @@ describe("#Particle", function() {
     });
   });
 
-  describe.only("#Masses", function() {
+  describe("#Masses", function() {
     describe("#addMass", function() {
       it("should add a mass to the masses array", function() {
         const p = new Particle();
