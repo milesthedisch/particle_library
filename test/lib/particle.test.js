@@ -437,16 +437,21 @@ describe("#Particle", function() {
           x: 100,
           y: 100,
         });
-        const point = vector.create(100, 400);
 
-        p1.springToPoint(point, 0.9, 100);
+        const point = {
+          point: vector.create(100, 400),
+          spring: 0.9,
+          offset: 100,
+        };
+
+        p1.springToPoint(point);
         assert.equal(p1.state.vy, 180);
-        p1.springToPoint(point, 0.9, 100);
+        p1.springToPoint(point);
         assert.equal(p1.state.vy, 360);
       });
     });
 
-    describe.only("#addSpring", function() {
+    describe("#addSpring", function() {
       it("should add a spring to the springs array", function() {
         const particle = new Particle();
         const p1 = particle.create();
@@ -454,6 +459,16 @@ describe("#Particle", function() {
 
         p1.addSpring(point);
         assert.deepEqual(p1.state.springs[0], point);
+      });
+
+      it("should remove the same spring and add it again if we try to add a duplicate", function() {
+        const particle = new Particle();
+        const p1 = particle.create();
+        const point = {point: vector.create(0, 0), offset: 0, spring: 0};
+
+        p1.addSpring(point);
+        p1.addSpring(point);
+        assert.deepEqual(p1.state.springs.length, 1);
       });
     });
   });
