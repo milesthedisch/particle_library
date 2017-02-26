@@ -113,7 +113,7 @@ Particle.prototype.setSpeed = function setSpeed(speed) {
  * @name setHeading
  * @memberOf Particle
  * @description sets the internal speed of the particle given the angle
- * @param {[type]} angle [description]
+ * @param {number} angle
  */
 Particle.prototype.setHeading = function setHeading(angle) {
   const speed = this.getSpeed();
