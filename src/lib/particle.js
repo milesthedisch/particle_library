@@ -83,8 +83,11 @@ Particle.prototype.accelerate = function accelerate(ax=this.state.vx, ay=this.st
  * @return {Object} Position state.
  */
 Particle.prototype.update = function update(fric=this.state.friction, grav=this.state.gravity) {
-  // Apple springs
+  // Apply springs
   this.handleSprings();
+
+  // Apply gravitations
+  this.handleMasses();
 
   // Apply fake fricition to velocity
   this.state.vx *= fric;
@@ -403,6 +406,12 @@ Particle.prototype.handleSprings = function handleSprings(springs=this.state.spr
   return springs;
 };
 
+/**
+ * @name handleMasses
+ * @description For each mass in the masses array apply gravitate to it.
+ * @param  {Particles[]|Object[]} masses
+ * @return {Particles[]|Object[]}
+ */
 Particle.prototype.handleMasses = function handleMasses(masses=this.state.masses) {
   for (let i = 0; i < masses.length; i++) {
     this.gravitateTo(masses[i]);
