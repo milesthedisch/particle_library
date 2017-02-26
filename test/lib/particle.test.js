@@ -145,6 +145,8 @@ describe("#Particle", function() {
       assert.equal(p1.state.vx, 1.9);
       assert.equal(p1.state.x, 1.9);
     });
+
+    it("should call handleSprings");
   });
 
   describe("#angleTo", function() {
@@ -502,16 +504,16 @@ describe("#Particle", function() {
         const point1 = {point: vector.create(0, 0), offset: 0, spring: 0};
         const point2 = {point: vector.create(1, 1), offset: 0, spring: 0};
 
-        const handeledSprings = [];
-        p1.__proto__.springToPoint = function(point) {
-          handeledSprings.push(point);
-        };
-
         p1.addSpring(point1);
         p1.addSpring(point2);
-        p1.handleSprings();
 
-        assert.deepEqual([point1, point2], handeledSprings);
+        assert.deepEqual([point1, point2], p1.handleSprings());
+      });
+
+      it("should do nothing when its called without and springs.", function() {
+        const particle = new Particle();
+        const p1 = particle.create();
+        p1.handleSprings();
       });
     });
   });
