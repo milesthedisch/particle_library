@@ -148,20 +148,20 @@ Particle.prototype.getHeading = function getHeading(x=this.state.vx, y=this.stat
  * @name addSpring
  * @description add spring to springs array
  * @memberOf Particle
- * @param {Vector} point
- * @param {Number} k
- * @param {Number} offset
+ * @param {Object} spring A spring object
+ * @return {Object}
  */
 Particle.prototype.addSpring = function addSpring(spring) {
   this.removeSpring(spring);
   this.state.springs.push(spring);
+  return spring;
 };
 
 /**
  * @name removeSpring
  * @description remove a specific string from the springs array
  * @memberOf Particle
- * @param  {Vector} point
+ * @param  {Object} spring
  */
 Particle.prototype.removeSpring = function removeSpring(spring) {
   for (let i = 0; i < this.state.springs.length; i++) {
@@ -342,11 +342,7 @@ Particle.prototype.springFromTo = function springFromTo(p, spring=0.05, offset=1
  * @memberOf Particle
  * @description Given a particle, a vector, and a spring coeffiencent accelerate
  * the particle according to the distance its is from the point.
- * @param  {Vector}     point
- * @param  {Number}     spring The spring coeffiecent the higher
- *                             the value the more springy it gets.
- * @param  {Integer}    offset Offset from the spring
- *
+ * @param  {Object} p A spring object.
  * @return {Particle}
  */
 Particle.prototype.springToPoint = function springToPoint(p) {

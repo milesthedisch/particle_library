@@ -471,5 +471,48 @@ describe("#Particle", function() {
         assert.deepEqual(p1.state.springs.length, 1);
       });
     });
+
+    describe("#removeSpring", function() {
+      it("should remove a spring to the springs array", function() {
+        const particle = new Particle();
+        const p1 = particle.create();
+        const point = {point: vector.create(0, 0), offset: 0, spring: 0};
+
+        p1.addSpring(point);
+        assert.equal(p1.state.springs.length, 1);
+        p1.removeSpring(point);
+        assert.equal(p1.state.springs.length, 0);
+      });
+
+      it("should do nothing if removing a non exsistant point", function() {
+        const particle = new Particle();
+        const p1 = particle.create();
+        const point = {point: vector.create(0, 0), offset: 0, spring: 0};
+
+        assert.equal(p1.state.springs.length, 0);
+        p1.removeSpring(point);
+        assert.equal(p1.state.springs.length, 0);
+      });
+    });
+
+    describe("#handleSprings", function() {
+      it("should call handleSprings twice", function() {
+        const particle = new Particle();
+        const p1 = particle.create();
+        const point1 = {point: vector.create(0, 0), offset: 0, spring: 0};
+        const point2 = {point: vector.create(1, 1), offset: 0, spring: 0};
+
+        const handeledSprings = [];
+        p1.__proto__.springToPoint = function(point) {
+          handeledSprings.push(point);
+        };
+
+        p1.addSpring(point1);
+        p1.addSpring(point2);
+        p1.handleSprings();
+
+        assert.deepEqual([point1, point2], handeledSprings);
+      });
+    });
   });
 });
