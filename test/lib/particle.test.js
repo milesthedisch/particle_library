@@ -445,5 +445,16 @@ describe("#Particle", function() {
         assert.equal(p1.state.vy, 360);
       });
     });
+
+    describe.only("#addSpring", function() {
+      it("should add a spring to the springs array", function() {
+        const particle = new Particle();
+        const p1 = particle.create();
+        const point = {point: vector.create(0, 0), offset: 0, spring: 0};
+
+        p1.addSpring(point);
+        assert.deepEqual(p1.state.springs[0], point);
+      });
+    });
   });
 });
