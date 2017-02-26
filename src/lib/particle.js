@@ -152,9 +152,9 @@ Particle.prototype.getHeading = function getHeading(x=this.state.vx, y=this.stat
  * @param {Number} k
  * @param {Number} offset
  */
-Particle.prototype.addSpring = function addSpring(point, k, offset=0) {
-  this.removeSpring(point);
-  this.state.springs.push({k, point, offset});
+Particle.prototype.addSpring = function addSpring(spring) {
+  this.removeSpring(spring);
+  this.state.springs.push(spring);
 };
 
 /**
@@ -163,10 +163,10 @@ Particle.prototype.addSpring = function addSpring(point, k, offset=0) {
  * @memberOf Particle
  * @param  {Vector} point
  */
-Particle.prototype.removeSpring = function removeSpring(point) {
-  for (let i = 0; i < springs.length; i++) {
-    if (point.state.x === this.springs[i].point.state.x &&
-        point.state.y === this.springs[i].point.state.y) {
+Particle.prototype.removeSpring = function removeSpring(spring) {
+  for (let i = 0; i < this.state.springs.length; i++) {
+    if (spring.point.state.x === this.state.springs[i].point.state.x &&
+        spring.point.state.y === this.state.springs[i].point.state.y) {
       this.state.springs.splice(i, 1);
       break;
     }
@@ -349,14 +349,14 @@ Particle.prototype.springFromTo = function springFromTo(p, spring=0.05, offset=1
  *
  * @return {Particle}
  */
-Particle.prototype.springToPoint = function springToPoint(point, spring=0.05, offset=100) {
+Particle.prototype.springToPoint = function springToPoint(p) {
   // Postion delta
-  const dx = (point.state.x - this.state.x);
-  const dy = (point.state.y - this.state.y);
+  const dx = (p.point.state.x - this.state.x);
+  const dy = (p.point.state.y - this.state.y);
 
   // Setting up magnitude and angle of the vector
   const distance = Math.hypot(dx, dy);
-  const springForce = (distance - offset) * spring;
+  const springForce = (distance - p.offset) * p.spring;
 
   // Spring acceleration vector
   const sx = dx / distance * springForce;
@@ -365,7 +365,7 @@ Particle.prototype.springToPoint = function springToPoint(point, spring=0.05, of
   // Accelerate with the spring vector
   this.accelerate(sx, sy);
 
-  return [this, point];
+  return [this, p];
 };
 
 /**
