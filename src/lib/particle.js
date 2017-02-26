@@ -21,6 +21,7 @@ const INITIAL_STATE = {
   direction: Math.PI * 2,
   friction: 1,
   springs: [],
+  masses: [],
 };
 
 /**
@@ -209,6 +210,31 @@ Particle.prototype.distanceTo = function distanceTo(p2) {
 };
 
 /**
+ * @name addMass
+ * @description Append a particle to the masses array.
+ * @param {Particle} mass
+ */
+Particle.prototype.addMass = function(mass) {
+  this.removeMass(mass);
+  this.state.masses.push(mass);
+};
+
+/**
+ * @name removeMass
+ * @description Remove a particle for the masses array.
+ * @param  {Particle} mass
+ */
+Particle.prototype.removeMass = function(mass) {
+  for (let i = 0; i < this.state.masses.length; i++) {
+    if (mass.state.x === this.state.masses[i].state.x &&
+        mass.state.y === this.state.masses[i].state.y) {
+      this.state.masses.splice(i, 1);
+      break;
+    }
+  }
+};
+
+/**
  * @name gravitateTo
  * @memberOf Particle
  * @description Applys gravitation to the input particle.
@@ -375,6 +401,13 @@ Particle.prototype.handleSprings = function handleSprings(springs=this.state.spr
     this.springToPoint(springs[i]);
   }
   return springs;
+};
+
+Particle.prototype.handleMasses = function handleMasses(masses=this.state.masses) {
+  for (let i = 0; i < masses.length; i++) {
+    this.gravitateTo(masses[i]);
+  }
+  return masses;
 };
 
 module.exports = Particle;

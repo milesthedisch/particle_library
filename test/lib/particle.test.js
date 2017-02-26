@@ -40,6 +40,7 @@ describe("#Particle", function() {
       mass: 1,
       direction: Math.PI * 2,
       friction: 1,
+      masses: [],
       springs: [],
     };
   });
@@ -254,6 +255,61 @@ describe("#Particle", function() {
 
       assert.equal(p2.state.y, 100);
       assert.equal(p2.state.x, 1000);
+    });
+  });
+
+  describe.only("#Masses", function() {
+    describe("#addMass", function() {
+      it("should add a mass to the masses array", function() {
+        const p = new Particle();
+        const p1 = p.create();
+        const m1 = {mass: 100, state: {x: 1, y: 1}};
+
+        p1.addMass(m1);
+        assert.equal(p1.state.masses.length, 1);
+      });
+
+      it("should not add a duplicate mass", function() {
+        const p = new Particle();
+        const p1 = p.create();
+        const m1 = {mass: 100, state: {x: 1, y: 1}};
+
+        p1.addMass(m1);
+        p1.addMass(m1);
+        assert.equal(p1.state.masses.length, 1);
+      });
+    });
+
+    describe("#removeMass", function(){
+      it("should remove a mass from the masses array", function() {
+        const p = new Particle();
+        const p1 = p.create();
+        const m1 = {mass: 100, state: {x: 1, y: 1}};
+
+        p1.addMass(m1);
+        p1.removeMass(m1);
+        assert.equal(p1.state.masses.length, 0);
+      });
+
+      it("should do nothing given a non exsistant mass", function() {
+        const p = new Particle();
+        const p1 = p.create();
+        const m1 = {mass: 100, state: {x: 1, y: 1}};
+
+        p1.removeMass(m1);
+        assert.equal(p1.state.masses.length, 0);
+      });
+    });
+    describe("#handleMasses", function() {
+      it("should do nothing given no masses", function() {
+        const p = new Particle();
+        const p1 = p.create();
+
+        p1.handleMasses();
+        assert.deepEqual(p1.state, createdParticleState);
+      });
+
+      it("should gravitate towards each masses in the masses array");
     });
   });
 
