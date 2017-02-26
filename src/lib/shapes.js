@@ -36,7 +36,7 @@ Shapes.prototype.circle = function drawCircle(x=4, y=4, r=2, color="#000000") {
  * @param  {Number} h     Height of the rectangle
  * @param  {String} color A hex string.
  */
-Shapes.prototype.rect = function drawRect(x, y, w, h, color="#000000") {
+Shapes.prototype.rect = function drawRect(x, y, w=10, h=10, color="#000000") {
   this.ctx.fillStyle = color;
   this.ctx.fillRect(x, y, w, h);
 };
