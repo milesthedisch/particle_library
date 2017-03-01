@@ -276,7 +276,9 @@ Particle.prototype.gravitateTo = function(p2) {
  * @return {Particle[]}
  */
 Particle.prototype.generator = function gen(num, opts=clone(INITIAL_STATE), callback) {
+  // Should not mutate the options after they have been given //
   Object.freeze(opts);
+
   const particles = [];
   const self = this;
 
