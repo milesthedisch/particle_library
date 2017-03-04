@@ -311,7 +311,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#roundToPlaces", function() {
+  describe("#roundToPlaces", function() {
     it("should round PI to the nearest tenth given an exponent of 1", function() {
       assert.equal(3.1, utils.roundToPlaces(Math.PI, 1));
     });
@@ -330,6 +330,29 @@ describe("#Util", function() {
 
     it("should round PI * 1000 to the nearest hundred given an exponent of -2", function() {
       assert.equal(3100, utils.roundToPlaces(Math.PI * 1000, -2));
+    });
+  });
+
+  describe.only("#roundToMultiple", function() {
+    it("should round PI to the nearest multiple of 2", function() {
+      assert.equal(4, utils.roundToMultiple(Math.PI, 2));
+    });
+
+    it("should round PI to the nearest multiple of 3", function() {
+      assert.equal(3, utils.roundToMultiple(Math.PI, 3));
+    });
+
+    it("should round PI to the nearest multiple of 0", function() {
+      const fn = utils.roundToMultiple.bind(null, Math.PI, 0);
+      assert.throws(fn, Error, "Nothing can be a multiple");
+    });
+
+    it("should round PI to the nearest multiple of -1", function() {
+      assert.equal(3, utils.roundToMultiple(Math.PI, -1));
+    });
+
+    it("should round PI to the nearest multiple of -2", function() {
+      assert.equal(4, utils.roundToMultiple(Math.PI, -2));
     });
   });
 });

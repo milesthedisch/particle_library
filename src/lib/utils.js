@@ -369,6 +369,9 @@ Utils.prototype.roundToPlaces = function(val, places) {
  * @return {number}
  */
 Utils.prototype.roundToMultiple = function(val, nearest) {
+  if (!nearest) {
+    throw new Error("Nothing can be a multiple of " + String(nearest));
+  }
   return Math.round(val / nearest) * nearest;
 };
 
