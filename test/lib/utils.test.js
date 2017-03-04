@@ -333,7 +333,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#roundToMultiple", function() {
+  describe("#roundToMultiple", function() {
     it("should round PI to the nearest multiple of 2", function() {
       assert.equal(4, utils.roundToMultiple(Math.PI, 2));
     });
