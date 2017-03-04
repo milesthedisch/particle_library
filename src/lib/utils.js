@@ -330,4 +330,46 @@ Utils.prototype.setAngle = function(angle, x, y) {
   return [x, y];
 };
 
+/**
+ * @name degToRad
+ * @description Coverts degrees to radians
+ * @param  {number} deg Degress
+ * @return {number}
+ */
+Utils.prototype.degToRad = function(deg) {
+  return deg / 180 * Math.PI;
+};
+
+/**
+ * @name radToDeg
+ * @description Coverts radians to degress
+ * @param  {number} rad
+ * @return {number}
+ */
+Utils.prototype.radToDeg = function(rad) {
+  return rad * 180 / Math.PI;
+};
+
+/**
+ * @name  roundToPlaces
+ * @description Round to nearest place given.
+ * @param  {number} val
+ * @param  {number} places An exponent
+ * @return {number}
+ */
+Utils.prototype.roundToPlaces = function(val, places) {
+  const mult = Math.pow(10, places);
+  return Math.round(val * mult) / mult;
+};
+
+/**
+ * @name roundToMultiple
+ * @param  {number} val
+ * @param  {number} nearest
+ * @return {number}
+ */
+Utils.prototype.roundToMultiple = function(val, nearest) {
+  return Math.round(val / nearest) * nearest;
+};
+
 module.exports = new Utils();

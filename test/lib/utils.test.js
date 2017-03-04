@@ -310,4 +310,26 @@ describe("#Util", function() {
       assert.throws(fn, Error, "provide valid");
     });
   });
+
+  describe.only("#roundToPlaces", function() {
+    it("should round PI to the nearest tenth given an exponent of 1", function() {
+      assert.equal(3.1, utils.roundToPlaces(Math.PI, 1));
+    });
+
+    it("should round PI to the nearest hunderth given an exponent of 2", function() {
+      assert.equal(3.14, utils.roundToPlaces(Math.PI, 2));
+    });
+
+    it("should round PI to the nearest integer given an exponent of 0", function() {
+      assert.equal(3, utils.roundToPlaces(Math.PI, 0));
+    });
+
+    it("should round PI to the nearest hundred given an exponent of -1", function() {
+      assert.equal(0, utils.roundToPlaces(Math.PI, -1));
+    });
+
+    it("should round PI * 1000 to the nearest hundred given an exponent of -2", function() {
+      assert.equal(3100, utils.roundToPlaces(Math.PI * 1000, -2));
+    });
+  });
 });
