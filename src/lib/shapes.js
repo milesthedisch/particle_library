@@ -100,4 +100,21 @@ Shapes.prototype.drawLineVec = function(vec0, vec1) {
   return void(0);
 };
 
+Shapes.prototype.grid = function(width, height, gridSize=20, color="#ccc") {
+  this.ctx.beginPath();
+  this.ctx.strokeStyle = color;
+
+  for (let x = 0; x < width; x += gridSize) {
+    this.ctx.moveTo(x, 0);
+    this.ctx.lineTo(x, height);
+  }
+
+  for (let y = 0; y < height; y += gridSize) {
+    this.ctx.moveTo(0, y);
+    this.ctx.lineTo(width, y);
+  }
+
+  this.ctx.stroke();
+};
+
 module.exports = Shapes;
