@@ -79,14 +79,14 @@ Shapes.prototype.pRect = function particleRect(p) {
  * @param  {Number} y0
  * @param  {Number} x1
  * @param  {Number} y1
- * @return {Void}
+ * @param  {string} style
  */
-Shapes.prototype.drawLineXY = function(x0, y0, x1, y1) {
+Shapes.prototype.drawLineXY = function(x0, y0, x1, y1, style="#000000") {
   this.ctx.beginPath();
+  this.ctx.strokeStyle = style;
   this.ctx.moveTo(x0, y0);
   this.ctx.lineTo(x1, y1);
   this.ctx.stroke();
-  return void(0);
 };
 
 /**
@@ -100,6 +100,13 @@ Shapes.prototype.drawLineVec = function(vec0, vec1) {
   return void(0);
 };
 
+/**
+ * @name grid
+ * @param  {number} width
+ * @param  {number} height
+ * @param  {Number} gridSize
+ * @param  {String} color
+ */
 Shapes.prototype.grid = function(width, height, gridSize=20, color="#ccc") {
   this.ctx.beginPath();
   this.ctx.strokeStyle = color;

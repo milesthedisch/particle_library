@@ -288,6 +288,7 @@ Utils.prototype.collisionRectVec = function(vec, rect) {
 
 /**
  * @name setLength
+ * @memberOf Utils
  * @description - Setting the length of a vector.
  * @param   {number} length
  * @param   {number} x
@@ -310,6 +311,7 @@ Utils.prototype.setLength = function(length, x, y) {
 
 /**
  * @name setAngle
+ * @memberOf Utils
  * @description - Setting the angle of a vector.
  * @param   {number} angle
  * @param   {number} x
@@ -332,6 +334,7 @@ Utils.prototype.setAngle = function(angle, x, y) {
 
 /**
  * @name degToRad
+ * @memberOf Utils
  * @description Coverts degrees to radians
  * @param  {number} deg Degress
  * @return {number}
@@ -342,6 +345,7 @@ Utils.prototype.degToRad = function(deg) {
 
 /**
  * @name radToDeg
+ * @memberOf Utils
  * @description Coverts radians to degress
  * @param  {number} rad
  * @return {number}
@@ -352,6 +356,7 @@ Utils.prototype.radToDeg = function(rad) {
 
 /**
  * @name  roundToPlaces
+ * @memberOf Utils
  * @description Round to nearest place given.
  * @param  {number} val
  * @param  {number} places An exponent
@@ -364,6 +369,7 @@ Utils.prototype.roundToPlaces = function(val, places) {
 
 /**
  * @name roundToMultiple
+ * @memberOf Utils
  * @param  {number} val
  * @param  {number} nearest
  * @return {number}
@@ -373,6 +379,82 @@ Utils.prototype.roundToMultiple = function(val, nearest) {
     throw new Error("Nothing can be a multiple of " + String(nearest));
   }
   return Math.round(val / nearest) * nearest;
+};
+
+/**
+ * @name quadtraticBezier
+ * @memberOf Utils
+ * @param  {number} v0
+ * @param  {number} v1
+ * @param  {number} v2
+ * @param  {number} t
+ * @param  {number} pFinal
+ * @return {number}
+ */
+Utils.prototype.quadtraticBezier = function(v0, v1, v2, t) {
+  return Math.pow(1 - t, 2) * v0 + (1 - t) * 2 * t * v1 + t * t * v2;
+};
+
+/**
+ * @name cubicBezier
+ * @memberOf Utils
+ * @param  {number} v0
+ * @param  {number} v1
+ * @param  {number} v2
+ * @param  {number} v3
+ * @param  {number} t
+ * @param  {number} pFinal
+ * @return {number}
+ */
+Utils.prototype.cubicBezier = function(v0, v1, v2, v3, t) {
+  return Math.pow(1 - t, 3) * p0 +
+         Math.pow(1 - t, 2) * 3 * t * p1 +
+         (1 - t) * 3 * t * t * p2 +
+         t * t * t + p3;
+};
+
+/**
+ * @name quadtraticBezierPoint
+ * @memberOf Utils
+ * @param  {number} p0
+ * @param  {number} p1
+ * @param  {number} p2
+ * @param  {number} t
+ * @param  {Object} pFinal
+ * @return {number}
+ */
+Utils.prototype.quadtraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
+  pFinal.x = Math.pow(1 - t, 2) * p0.x +
+             (1 - t) * 2 * t * p1.x +
+             t * t * p2.x;
+  pFinal.y = Math.pow(1 - t, 2) * p0.y +
+             (1 - t) * 2 * t * p1.y +
+             t * t * p2.y;
+  return pFinal;
+};
+
+/**
+ * @name cubicBezierPoint
+ * @memberOf Utils
+ * @param  {number} p0
+ * @param  {number} p1
+ * @param  {number} p2
+ * @param  {number} p3
+ * @param  {number} t
+ * @param  {Object} pFinal
+ * @return {number}
+ */
+Utils.prototype.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
+  pFinal.x = Math.pow(1 - t, 3) * p0.x +
+             Math.pow(1 - t, 2) * 3 * t * p1.x +
+             (1 - t) * 3 * t * t * p2.x +
+             t * t * t + p3.x;
+  pFinal.y = Math.pow(1 - t, 3) * p0.y +
+             Math.pow(1 - t, 2) * 3 * t * p1.y +
+             (1 - t) * 3 * t * t * p2.y +
+             t * t * t +
+             p3.x;
+  return pFinal;
 };
 
 module.exports = new Utils();
