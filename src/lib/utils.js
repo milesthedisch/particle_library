@@ -10,9 +10,7 @@
  * @class Utils
  * @return {Utils}
  */
-function Utils() {
-  return this;
-};
+var Utils = Object.create(null);
 
 /**
  * normalize - Takes a max and min value and returns
@@ -26,7 +24,7 @@ function Utils() {
  * @param  {Int} max - The minimum value in the range.
  * @return {Int} Int - The value represented in that range.
  */
-Utils.prototype.normalize = function normalize(val, min, max) {
+Utils.normalize = function normalize(val, min, max) {
   return (val - min) / (max - min);
 };
 
@@ -39,7 +37,7 @@ Utils.prototype.normalize = function normalize(val, min, max) {
  * @param  {Interger} max
  * @return {Interger}
  */
-Utils.prototype.lerp = function lerp(val, min, max) {
+Utils.lerp = function lerp(val, min, max) {
   return (max - min) * val + min;
 };
 
@@ -52,7 +50,7 @@ Utils.prototype.lerp = function lerp(val, min, max) {
  * @param  {number} destMax
  * @return {number}
  */
-Utils.prototype.map = function map(value, srcMin, srcMax, destMin, destMax) {
+Utils.map = function map(value, srcMin, srcMax, destMin, destMax) {
   srcMax = Math.max(srcMax, srcMin);
   srcMin = Math.min(srcMax, srcMin);
   destMin = Math.min(destMin, destMax);
@@ -69,7 +67,7 @@ Utils.prototype.map = function map(value, srcMin, srcMax, destMin, destMax) {
  * @memberOf Utils
  * @return {Percent}    A value.
  */
-Utils.prototype.percent = function(val) {
+Utils.percent = function(val) {
   return val * 100;
 };
 
@@ -83,7 +81,7 @@ Utils.prototype.percent = function(val) {
  * @param  {Number} max
  * @return {Number}
  */
-Utils.prototype.clamp = function(value, min, max) {
+Utils.clamp = function(value, min, max) {
   return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
 };
 
@@ -95,7 +93,7 @@ Utils.prototype.clamp = function(value, min, max) {
  * @param  {Integer} y
  * @return {Integer}
  */
-Utils.prototype.randomBetween = function(x, y) {
+Utils.randomBetween = function(x, y) {
   let min = Math.min(x, y);
   let max = Math.max(x, y);
   return Math.floor(Math.random() * (max - min)) + min;
@@ -111,7 +109,7 @@ Utils.prototype.randomBetween = function(x, y) {
  * @param  {Number} y1
  * @return {Number}
  */
-Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
+Utils.distanceXY = function(x0, y0, x1, y1) {
   const dx = x0 - x1;
   const dy = y0 - y1;
   return Math.hypot(dx, dy);
@@ -125,7 +123,7 @@ Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
  * @param  {Vector} v2
  * @return {Number}
  */
-Utils.prototype.distanceVec = function(v1, v2) {
+Utils.distanceVec = function(v1, v2) {
   const dVec = (v1)["-"](v2);
   return Math.hypot(dVec.get("x"), dVec.get("y"));
 };
@@ -139,7 +137,7 @@ Utils.prototype.distanceVec = function(v1, v2) {
  * @param  {Number} max
  * @return {Boolean}
  */
-Utils.prototype.inRange = function(val, min, max) {
+Utils.inRange = function(val, min, max) {
   return (val <= Math.max(max, min)) && (Math.min(max, min) <= val);
 };
 
@@ -153,7 +151,7 @@ Utils.prototype.inRange = function(val, min, max) {
  * @param  {Number} max1
  * @return {Boolean}
  */
-Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
+Utils.rangeIntersect = function(min0, max0, min1, max1) {
   return (
     Math.max(max0, min0) >= Math.min(min1, max1) &&
     Math.min(min0, max0) <= Math.max(max1, min1)
@@ -168,7 +166,7 @@ Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
  * @param  {Vector} vec1
  * @return {Boolean}
  */
-Utils.prototype.vectorIntersect = function(vec0, vec1) {
+Utils.vectorIntersect = function(vec0, vec1) {
   const x0 = vec0.get("x");
   const y0 = vec0.get("y");
   const x1 = vec1.get("x");
@@ -184,7 +182,7 @@ Utils.prototype.vectorIntersect = function(vec0, vec1) {
  * @param  {Particle} r1
  * @return {Boolean}
  */
-Utils.prototype.collisionRect = function(r0, r1) {
+Utils.collisionRect = function(r0, r1) {
   const r0x = r0.state.x;
   const r0y = r0.state.y;
   const r1x = r1.state.x;
@@ -209,7 +207,7 @@ Utils.prototype.collisionRect = function(r0, r1) {
  * @param  {Particle} c2
  * @return {Boolean}
  */
-Utils.prototype.collisionCircle = function(c1, c2) {
+Utils.collisionCircle = function(c1, c2) {
   const radi = (c1.state.radius + c2.state.radius);
   const distance = this.distanceXY(c1.state.x, c1.state.y, c2.state.x, c2.state.y);
 
@@ -228,7 +226,7 @@ Utils.prototype.collisionCircle = function(c1, c2) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.prototype.collisionCirclePoint = function(x, y, circle) {
+Utils.collisionCirclePoint = function(x, y, circle) {
   // TODO Write tests.
   const dist = this.distanceXY(
     x,
@@ -247,7 +245,7 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.prototype.collisionCircleVec = function(vec, circle) {
+Utils.collisionCircleVec = function(vec, circle) {
   return circle.state.radius > this.distanceXY(
     vec.get("x"),
     vec.get("y"),
@@ -265,7 +263,7 @@ Utils.prototype.collisionCircleVec = function(vec, circle) {
  * @param  {Particle} rect
  * @return {Boolean}
  */
-Utils.prototype.collisionRectPoint = function(x, y, rect) {
+Utils.collisionRectPoint = function(x, y, rect) {
   const rectX = rect.state.x;
   const rectY = rect.state.y;
   return (
@@ -282,7 +280,7 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
  * @param  {Particle} rect
  * @return {Boolean}
  */
-Utils.prototype.collisionRectVec = function(vec, rect) {
+Utils.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
@@ -295,7 +293,7 @@ Utils.prototype.collisionRectVec = function(vec, rect) {
  * @param   {number} y
  * @return  {number[]} Coordinates
  */
-Utils.prototype.setLength = function(length, x, y) {
+Utils.setLength = function(length, x, y) {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
       typeof length !== "number") {
@@ -318,7 +316,7 @@ Utils.prototype.setLength = function(length, x, y) {
  * @param   {number} y
  * @return  {number[]} coordinates
  */
-Utils.prototype.setAngle = function(angle, x, y) {
+Utils.setAngle = function(angle, x, y) {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
       typeof angle !== "number") {
@@ -339,7 +337,7 @@ Utils.prototype.setAngle = function(angle, x, y) {
  * @param  {number} deg Degress
  * @return {number}
  */
-Utils.prototype.degToRad = function(deg) {
+Utils.degToRad = function(deg) {
   return deg / 180 * Math.PI;
 };
 
@@ -350,7 +348,7 @@ Utils.prototype.degToRad = function(deg) {
  * @param  {number} rad
  * @return {number}
  */
-Utils.prototype.radToDeg = function(rad) {
+Utils.radToDeg = function(rad) {
   return rad * 180 / Math.PI;
 };
 
@@ -362,7 +360,7 @@ Utils.prototype.radToDeg = function(rad) {
  * @param  {number} places An exponent
  * @return {number}
  */
-Utils.prototype.roundToPlaces = function(val, places) {
+Utils.roundToPlaces = function(val, places) {
   const mult = Math.pow(10, places);
   return Math.round(val * mult) / mult;
 };
@@ -374,7 +372,7 @@ Utils.prototype.roundToPlaces = function(val, places) {
  * @param  {number} nearest
  * @return {number}
  */
-Utils.prototype.roundToMultiple = function(val, nearest) {
+Utils.roundToMultiple = function(val, nearest) {
   if (!nearest) {
     throw new Error("Nothing can be a multiple of " + String(nearest));
   }
@@ -391,7 +389,7 @@ Utils.prototype.roundToMultiple = function(val, nearest) {
  * @param  {number} pFinal
  * @return {number}
  */
-Utils.prototype.quadtraticBezier = function(v0, v1, v2, t) {
+Utils.quadtraticBezier = function(v0, v1, v2, t) {
   return Math.pow(1 - t, 2) * v0 + (1 - t) * 2 * t * v1 + t * t * v2;
 };
 
@@ -406,7 +404,7 @@ Utils.prototype.quadtraticBezier = function(v0, v1, v2, t) {
  * @param  {number} pFinal
  * @return {number}
  */
-Utils.prototype.cubicBezier = function(v0, v1, v2, v3, t) {
+Utils.cubicBezier = function(v0, v1, v2, v3, t) {
   return Math.pow(1 - t, 3) * p0 +
          Math.pow(1 - t, 2) * 3 * t * p1 +
          (1 - t) * 3 * t * t * p2 +
@@ -423,7 +421,7 @@ Utils.prototype.cubicBezier = function(v0, v1, v2, v3, t) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.prototype.quadtraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
+Utils.quadtraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
   pFinal.x = Math.pow(1 - t, 2) * p0.x +
              (1 - t) * 2 * t * p1.x +
              t * t * p2.x;
@@ -444,7 +442,7 @@ Utils.prototype.quadtraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.prototype.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
+Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
   pFinal.x = Math.pow(1 - t, 3) * p0.x +
              Math.pow(1 - t, 2) * 3 * t * p1.x +
              (1 - t) * 3 * t * t * p2.x +
@@ -457,4 +455,4 @@ Utils.prototype.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
   return pFinal;
 };
 
-module.exports = new Utils();
+module.exports = Utils;
