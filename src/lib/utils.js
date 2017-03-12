@@ -285,6 +285,49 @@ Utils.collisionRectVec = function(vec, rect) {
 };
 
 /**
+ * @name throttle
+ * @description Run a function only if the given time to allow the function execute 
+ * has passed. If 
+ * @param  {[type]} func    [description]
+ * @param  {[type]} wait    [description]
+ * @param  {[type]} options [description]
+ * @return {[type]}         [description]
+ */
+Utils.throttle = function throttle(func, wait, options) {
+  let context;
+  let args;
+  let result;
+  let timeout = null;
+  let previous = 0;
+  if (!options) options = {};
+  const later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  return function() {
+    let now = Date.now();
+    if (!previous && options.leading === false) previous = now;
+    let remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+};
+
+/**
  * @name setLength
  * @memberOf Utils
  * @description - Setting the length of a vector.
