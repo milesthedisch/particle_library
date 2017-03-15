@@ -355,4 +355,14 @@ describe("#Util", function() {
       assert.equal(4, utils.roundToMultiple(Math.PI, -2));
     });
   });
+
+  describe("#bezier", function() {
+    describe("#quadtraticBezier", function() {
+
+    });
+
+    describe("#cubicBezier", function() {
+
+    });
+  });
 });

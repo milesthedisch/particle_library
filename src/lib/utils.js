@@ -423,7 +423,7 @@ Utils.roundToMultiple = function(val, nearest) {
 };
 
 /**
- * @name quadtraticBezier
+ * @name quadraticBezier
  * @memberOf Utils
  * @param  {number} v0
  * @param  {number} v1
@@ -432,7 +432,7 @@ Utils.roundToMultiple = function(val, nearest) {
  * @param  {number} pFinal
  * @return {number}
  */
-Utils.quadtraticBezier = function(v0, v1, v2, t) {
+Utils.quadraticBezier = function(v0, v1, v2, t) {
   return Math.pow(1 - t, 2) * v0 + (1 - t) * 2 * t * v1 + t * t * v2;
 };
 
@@ -464,7 +464,7 @@ Utils.cubicBezier = function(v0, v1, v2, v3, t) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.quadtraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
+Utils.quadraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
   pFinal.x = Math.pow(1 - t, 2) * p0.x +
              (1 - t) * 2 * t * p1.x +
              t * t * p2.x;
@@ -496,6 +496,34 @@ Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
              t * t * t +
              p3.x;
   return pFinal;
+};
+
+/**
+ * @name multiCurve
+ * @description Given points on the plane draw a curved line between
+ * all of them.
+ * @param  {{x: number, y: number}[]} points
+ * @param  {CanvasRenderingContext2D} ctx
+ */
+Utils.multiCurve = function(points, ctx) {
+  let p0;
+  let p1;
+  let midX;
+  let midY;
+
+  ctx.moveTo(points[0].x, points[0].y);
+
+  for (let i = 1; i < points.length - 2; i++) {
+    p0 = points[i];
+    p1 = points[i + 1];
+    midX = (p0.x + p1.x)/2;
+    midY = (p0.y + p1.y)/2;
+    ctx.quadraticCurveTo(p0.x, p0.y, midX, midY);
+  }
+
+  p0 = points[points.length - 2];
+  p1 = points[points.length - 1];
+  ctx.quadraticCurveTo(p0.x, p0.y, p1.x, p1.y);
 };
 
 module.exports = Utils;
