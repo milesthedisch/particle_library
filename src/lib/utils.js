@@ -448,10 +448,10 @@ Utils.quadraticBezier = function(v0, v1, v2, t) {
  * @return {number}
  */
 Utils.cubicBezier = function(v0, v1, v2, v3, t) {
-  return Math.pow(1 - t, 3) * p0 +
-         Math.pow(1 - t, 2) * 3 * t * p1 +
-         (1 - t) * 3 * t * t * p2 +
-         t * t * t + p3;
+  return Math.pow(1 - t, 3) * v0 +
+         Math.pow(1 - t, 2) * 3 * t * v1 +
+         (1 - t) * 3 * t * t * v2 +
+         t * t * t + v3;
 };
 
 /**

@@ -356,13 +356,18 @@ describe("#Util", function() {
     });
   });
 
-  describe("#bezier", function() {
-    describe("#quadtraticBezier", function() {
-
+  describe.only("#bezier", function() {
+    describe("#quadraticBezier", function() {
+      for (let i = 0; i < 1; i += 0.01) {
+        assert(utils.quadraticBezier(1, 2, 3, i) >= 1 && utils.quadraticBezier(1, 2, 3, i) <= 3);
+      }
     });
 
     describe("#cubicBezier", function() {
-
+      for (let i = 0; i < 1; i += 0.01) {
+        console.log(i, utils.cubicBezier(1, 2, 3, 1, i));
+        assert(utils.cubicBezier(1, 2, 3, 1, i) >= 2 && utils.cubicBezier(1, 2, 3, 1, i) <= 3.2);
+      }
     });
   });
 });
