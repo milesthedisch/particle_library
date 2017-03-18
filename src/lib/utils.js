@@ -502,7 +502,7 @@ Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
  * @name multiCurve
  * @description Given points on the plane draw a curved line between
  * all of them.
- * @param  {{x: number, y: number}[]} points
+ * @param  {{number, number}} points
  * @param  {CanvasRenderingContext2D} ctx
  */
 Utils.multiCurve = function(points, ctx) {
