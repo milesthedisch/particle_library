@@ -10,7 +10,7 @@
  * @class Utils
  * @return {Utils}
  */
-var Utils = Object.create(null);
+const Utils = Object.create(null);
 
 /**
  * normalize - Takes a max and min value and returns
@@ -286,12 +286,12 @@ Utils.collisionRectVec = function(vec, rect) {
 
 /**
  * @name throttle
- * @description Run a function only if the given time to allow the function execute 
- * has passed. If 
- * @param  {[type]} func    [description]
- * @param  {[type]} wait    [description]
- * @param  {[type]} options [description]
- * @return {[type]}         [description]
+ * @description Run a function only if the given time to allow the function execute
+ * has passed. If
+ * @param  {Function} func A function to call every delta.
+ * @param  {Number} wait The minimum time to wait.
+ * @param  {Object} options
+ * @return {Function}
  */
 Utils.throttle = function throttle(func, wait, options) {
   let context;
@@ -306,12 +306,12 @@ Utils.throttle = function throttle(func, wait, options) {
     result = func.apply(context, args);
     if (!timeout) context = args = null;
   };
-  return function() {
+  return function(...args) {
     let now = Date.now();
     if (!previous && options.leading === false) previous = now;
     let remaining = wait - (now - previous);
     context = this;
-    args = arguments;
+    args = args;
     if (remaining <= 0 || remaining > wait) {
       if (timeout) {
         clearTimeout(timeout);

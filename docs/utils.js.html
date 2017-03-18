@@ -38,9 +38,7 @@
  * @class Utils
  * @return {Utils}
  */
-function Utils() {
-  return this;
-};
+var Utils = Object.create(null);
 
 /**
  * normalize - Takes a max and min value and returns
@@ -54,7 +52,7 @@ function Utils() {
  * @param  {Int} max - The minimum value in the range.
  * @return {Int} Int - The value represented in that range.
  */
-Utils.prototype.normalize = function normalize(val, min, max) {
+Utils.normalize = function normalize(val, min, max) {
   return (val - min) / (max - min);
 };
 
@@ -67,7 +65,7 @@ Utils.prototype.normalize = function normalize(val, min, max) {
  * @param  {Interger} max
  * @return {Interger}
  */
-Utils.prototype.lerp = function lerp(val, min, max) {
+Utils.lerp = function lerp(val, min, max) {
   return (max - min) * val + min;
 };
 
@@ -80,7 +78,7 @@ Utils.prototype.lerp = function lerp(val, min, max) {
  * @param  {number} destMax
  * @return {number}
  */
-Utils.prototype.map = function map(value, srcMin, srcMax, destMin, destMax) {
+Utils.map = function map(value, srcMin, srcMax, destMin, destMax) {
   srcMax = Math.max(srcMax, srcMin);
   srcMin = Math.min(srcMax, srcMin);
   destMin = Math.min(destMin, destMax);
@@ -97,7 +95,7 @@ Utils.prototype.map = function map(value, srcMin, srcMax, destMin, destMax) {
  * @memberOf Utils
  * @return {Percent}    A value.
  */
-Utils.prototype.percent = function(val) {
+Utils.percent = function(val) {
   return val * 100;
 };
 
@@ -111,7 +109,7 @@ Utils.prototype.percent = function(val) {
  * @param  {Number} max
  * @return {Number}
  */
-Utils.prototype.clamp = function(value, min, max) {
+Utils.clamp = function(value, min, max) {
   return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
 };
 
@@ -123,7 +121,7 @@ Utils.prototype.clamp = function(value, min, max) {
  * @param  {Integer} y
  * @return {Integer}
  */
-Utils.prototype.randomBetween = function(x, y) {
+Utils.randomBetween = function(x, y) {
   let min = Math.min(x, y);
   let max = Math.max(x, y);
   return Math.floor(Math.random() * (max - min)) + min;
@@ -139,7 +137,7 @@ Utils.prototype.randomBetween = function(x, y) {
  * @param  {Number} y1
  * @return {Number}
  */
-Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
+Utils.distanceXY = function(x0, y0, x1, y1) {
   const dx = x0 - x1;
   const dy = y0 - y1;
   return Math.hypot(dx, dy);
@@ -153,7 +151,7 @@ Utils.prototype.distanceXY = function(x0, y0, x1, y1) {
  * @param  {Vector} v2
  * @return {Number}
  */
-Utils.prototype.distanceVec = function(v1, v2) {
+Utils.distanceVec = function(v1, v2) {
   const dVec = (v1)["-"](v2);
   return Math.hypot(dVec.get("x"), dVec.get("y"));
 };
@@ -167,7 +165,7 @@ Utils.prototype.distanceVec = function(v1, v2) {
  * @param  {Number} max
  * @return {Boolean}
  */
-Utils.prototype.inRange = function(val, min, max) {
+Utils.inRange = function(val, min, max) {
   return (val &lt;= Math.max(max, min)) &amp;&amp; (Math.min(max, min) &lt;= val);
 };
 
@@ -181,7 +179,7 @@ Utils.prototype.inRange = function(val, min, max) {
  * @param  {Number} max1
  * @return {Boolean}
  */
-Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
+Utils.rangeIntersect = function(min0, max0, min1, max1) {
   return (
     Math.max(max0, min0) >= Math.min(min1, max1) &amp;&amp;
     Math.min(min0, max0) &lt;= Math.max(max1, min1)
@@ -196,7 +194,7 @@ Utils.prototype.rangeIntersect = function(min0, max0, min1, max1) {
  * @param  {Vector} vec1
  * @return {Boolean}
  */
-Utils.prototype.vectorIntersect = function(vec0, vec1) {
+Utils.vectorIntersect = function(vec0, vec1) {
   const x0 = vec0.get("x");
   const y0 = vec0.get("y");
   const x1 = vec1.get("x");
@@ -212,7 +210,7 @@ Utils.prototype.vectorIntersect = function(vec0, vec1) {
  * @param  {Particle} r1
  * @return {Boolean}
  */
-Utils.prototype.collisionRect = function(r0, r1) {
+Utils.collisionRect = function(r0, r1) {
   const r0x = r0.state.x;
   const r0y = r0.state.y;
   const r1x = r1.state.x;
@@ -237,7 +235,7 @@ Utils.prototype.collisionRect = function(r0, r1) {
  * @param  {Particle} c2
  * @return {Boolean}
  */
-Utils.prototype.collisionCircle = function(c1, c2) {
+Utils.collisionCircle = function(c1, c2) {
   const radi = (c1.state.radius + c2.state.radius);
   const distance = this.distanceXY(c1.state.x, c1.state.y, c2.state.x, c2.state.y);
 
@@ -256,7 +254,7 @@ Utils.prototype.collisionCircle = function(c1, c2) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.prototype.collisionCirclePoint = function(x, y, circle) {
+Utils.collisionCirclePoint = function(x, y, circle) {
   // TODO Write tests.
   const dist = this.distanceXY(
     x,
@@ -275,7 +273,7 @@ Utils.prototype.collisionCirclePoint = function(x, y, circle) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.prototype.collisionCircleVec = function(vec, circle) {
+Utils.collisionCircleVec = function(vec, circle) {
   return circle.state.radius > this.distanceXY(
     vec.get("x"),
     vec.get("y"),
@@ -293,7 +291,7 @@ Utils.prototype.collisionCircleVec = function(vec, circle) {
  * @param  {Particle} rect
  * @return {Boolean}
  */
-Utils.prototype.collisionRectPoint = function(x, y, rect) {
+Utils.collisionRectPoint = function(x, y, rect) {
   const rectX = rect.state.x;
   const rectY = rect.state.y;
   return (
@@ -310,19 +308,63 @@ Utils.prototype.collisionRectPoint = function(x, y, rect) {
  * @param  {Particle} rect
  * @return {Boolean}
  */
-Utils.prototype.collisionRectVec = function(vec, rect) {
+Utils.collisionRectVec = function(vec, rect) {
   return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
 /**
+ * @name throttle
+ * @description Run a function only if the given time to allow the function execute 
+ * has passed. If 
+ * @param  {[type]} func    [description]
+ * @param  {[type]} wait    [description]
+ * @param  {[type]} options [description]
+ * @return {[type]}         [description]
+ */
+Utils.throttle = function throttle(func, wait, options) {
+  let context;
+  let args;
+  let result;
+  let timeout = null;
+  let previous = 0;
+  if (!options) options = {};
+  const later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  return function() {
+    let now = Date.now();
+    if (!previous &amp;&amp; options.leading === false) previous = now;
+    let remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining &lt;= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout &amp;&amp; options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+};
+
+/**
  * @name setLength
+ * @memberOf Utils
  * @description - Setting the length of a vector.
  * @param   {number} length
  * @param   {number} x
  * @param   {number} y
  * @return  {number[]} Coordinates
  */
-Utils.prototype.setLength = function(length, x, y) {
+Utils.setLength = function(length, x, y) {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
       typeof length !== "number") {
@@ -338,13 +380,14 @@ Utils.prototype.setLength = function(length, x, y) {
 
 /**
  * @name setAngle
+ * @memberOf Utils
  * @description - Setting the angle of a vector.
  * @param   {number} angle
  * @param   {number} x
  * @param   {number} y
  * @return  {number[]} coordinates
  */
-Utils.prototype.setAngle = function(angle, x, y) {
+Utils.setAngle = function(angle, x, y) {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
       typeof angle !== "number") {
@@ -358,7 +401,160 @@ Utils.prototype.setAngle = function(angle, x, y) {
   return [x, y];
 };
 
-module.exports = new Utils();
+/**
+ * @name degToRad
+ * @memberOf Utils
+ * @description Coverts degrees to radians
+ * @param  {number} deg Degress
+ * @return {number}
+ */
+Utils.degToRad = function(deg) {
+  return deg / 180 * Math.PI;
+};
+
+/**
+ * @name radToDeg
+ * @memberOf Utils
+ * @description Coverts radians to degress
+ * @param  {number} rad
+ * @return {number}
+ */
+Utils.radToDeg = function(rad) {
+  return rad * 180 / Math.PI;
+};
+
+/**
+ * @name  roundToPlaces
+ * @memberOf Utils
+ * @description Round to nearest place given.
+ * @param  {number} val
+ * @param  {number} places An exponent
+ * @return {number}
+ */
+Utils.roundToPlaces = function(val, places) {
+  const mult = Math.pow(10, places);
+  return Math.round(val * mult) / mult;
+};
+
+/**
+ * @name roundToMultiple
+ * @memberOf Utils
+ * @param  {number} val
+ * @param  {number} nearest
+ * @return {number}
+ */
+Utils.roundToMultiple = function(val, nearest) {
+  if (!nearest) {
+    throw new Error("Nothing can be a multiple of " + String(nearest));
+  }
+  return Math.round(val / nearest) * nearest;
+};
+
+/**
+ * @name quadraticBezier
+ * @memberOf Utils
+ * @param  {number} v0
+ * @param  {number} v1
+ * @param  {number} v2
+ * @param  {number} t
+ * @param  {number} pFinal
+ * @return {number}
+ */
+Utils.quadraticBezier = function(v0, v1, v2, t) {
+  return Math.pow(1 - t, 2) * v0 + (1 - t) * 2 * t * v1 + t * t * v2;
+};
+
+/**
+ * @name cubicBezier
+ * @memberOf Utils
+ * @param  {number} v0
+ * @param  {number} v1
+ * @param  {number} v2
+ * @param  {number} v3
+ * @param  {number} t
+ * @param  {number} pFinal
+ * @return {number}
+ */
+Utils.cubicBezier = function(v0, v1, v2, v3, t) {
+  return Math.pow(1 - t, 3) * v0 +
+         Math.pow(1 - t, 2) * 3 * t * v1 +
+         (1 - t) * 3 * t * t * v2 +
+         t * t * t + v3;
+};
+
+/**
+ * @name quadtraticBezierPoint
+ * @memberOf Utils
+ * @param  {number} p0
+ * @param  {number} p1
+ * @param  {number} p2
+ * @param  {number} t
+ * @param  {Object} pFinal
+ * @return {number}
+ */
+Utils.quadraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
+  pFinal.x = Math.pow(1 - t, 2) * p0.x +
+             (1 - t) * 2 * t * p1.x +
+             t * t * p2.x;
+  pFinal.y = Math.pow(1 - t, 2) * p0.y +
+             (1 - t) * 2 * t * p1.y +
+             t * t * p2.y;
+  return pFinal;
+};
+
+/**
+ * @name cubicBezierPoint
+ * @memberOf Utils
+ * @param  {number} p0
+ * @param  {number} p1
+ * @param  {number} p2
+ * @param  {number} p3
+ * @param  {number} t
+ * @param  {Object} pFinal
+ * @return {number}
+ */
+Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
+  pFinal.x = Math.pow(1 - t, 3) * p0.x +
+             Math.pow(1 - t, 2) * 3 * t * p1.x +
+             (1 - t) * 3 * t * t * p2.x +
+             t * t * t + p3.x;
+  pFinal.y = Math.pow(1 - t, 3) * p0.y +
+             Math.pow(1 - t, 2) * 3 * t * p1.y +
+             (1 - t) * 3 * t * t * p2.y +
+             t * t * t +
+             p3.x;
+  return pFinal;
+};
+
+/**
+ * @name multiCurve
+ * @description Given points on the plane draw a curved line between
+ * all of them.
+ * @param  {{x: number, y: number}[]} points
+ * @param  {CanvasRenderingContext2D} ctx
+ */
+Utils.multiCurve = function(points, ctx) {
+  let p0;
+  let p1;
+  let midX;
+  let midY;
+
+  ctx.moveTo(points[0].x, points[0].y);
+
+  for (let i = 1; i &lt; points.length - 2; i++) {
+    p0 = points[i];
+    p1 = points[i + 1];
+    midX = (p0.x + p1.x)/2;
+    midY = (p0.y + p1.y)/2;
+    ctx.quadraticCurveTo(p0.x, p0.y, midX, midY);
+  }
+
+  p0 = points[points.length - 2];
+  p1 = points[points.length - 1];
+  ctx.quadraticCurveTo(p0.x, p0.y, p1.x, p1.y);
+};
+
+module.exports = Utils;
 </code></pre>
         </article>
     </section>
@@ -369,13 +565,13 @@ module.exports = new Utils();
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addMass">addMass</a></li><li><a href="global.html#drawLineVec">drawLineVec</a></li><li><a href="global.html#drawLineXY">drawLineXY</a></li><li><a href="global.html#handleSprings">handleSprings</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#removeMass">removeMass</a></li><li><a href="global.html#setAngle">setAngle</a></li><li><a href="global.html#setLength">setLength</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addMass">addMass</a></li><li><a href="global.html#drawLineVec">drawLineVec</a></li><li><a href="global.html#drawLineXY">drawLineXY</a></li><li><a href="global.html#grid">grid</a></li><li><a href="global.html#handleMasses">handleMasses</a></li><li><a href="global.html#handleSprings">handleSprings</a></li><li><a href="global.html#multiCurve">multiCurve</a></li><li><a href="global.html#rect">rect</a></li><li><a href="global.html#removeMass">removeMass</a></li><li><a href="global.html#throttle">throttle</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Feb 26 2017 22:04:50 GMT+1100 (AEDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Mar 18 2017 22:22:24 GMT+1100 (AEDT)
 </footer>
 
 <script> prettyPrint(); </script>
