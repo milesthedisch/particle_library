@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   vy: 0,
   gravity: 0,
   magnitude: 0,
-  radius: 0,
+  radius: 1,
   mass: 1,
   direction: Math.PI * 2,
   friction: 1,
