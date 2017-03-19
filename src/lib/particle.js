@@ -145,7 +145,7 @@ Particle.prototype.getSpeed = function getSpeed(x=this.state.vx, y=this.state.vy
  * @return {number} angle of velocity vector.
  */
 Particle.prototype.getHeading = function getHeading(x=this.state.vx, y=this.state.vy) {
-  return Math.atan2(x, y);
+  return Math.atan2(y, x);
 };
 
 /**
