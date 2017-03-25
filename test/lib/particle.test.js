@@ -301,6 +301,7 @@ describe("#Particle", function() {
         assert.equal(p1.state.masses.length, 0);
       });
     });
+
     describe("#handleMasses", function() {
       it("should do nothing given no masses", function() {
         const p = new Particle();

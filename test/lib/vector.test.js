@@ -230,4 +230,17 @@ describe("#Vector", function() {
       assert.isBelow(randomVector.state.y, max);
     });
   });
+
+  describe.only("vector.randomBetween", function() {
+    it("should return a random vector between a given range", function() {
+      const minX = 0;
+      const maxX = 100;
+      const minY = 0;
+      const maxY = 100;
+
+      const randomVector = vec.randomBetween(minX, maxX, minY, maxY);
+      assert(maxX >= randomVector.get("x") && minX <= randomVector.get("x"), "x is not in range");
+      assert(maxY >= randomVector.get("y") && minY <= randomVector.get("y"), "Y is not in range");
+    });
+  });
 });

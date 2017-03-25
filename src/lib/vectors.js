@@ -244,9 +244,31 @@ Vector.prototype.divideBy = Vector.prototype["/="] = function divideBy(v2) {
  * @param {Number} max - A max range on the random vector state.
  * @return {Vector}
  */
-Vector.prototype.random = function randomVector(min=1, max=10) {
+Vector.prototype.random = function rVector(min=1, max=10) {
   const x = utils.lerp(Math.random(), min, max);
   const y = utils.lerp(Math.random(), min, max);
+  return this.create(x, y);
+};
+
+/**
+ * @name randomBetween
+ * @description Return a vector that has a x between the given range.
+ *              and y given a range.
+ * @param  {Number} xMin Minmum x value
+ * @param  {Number} xMax Maximum x value
+ * @param  {Number} yMin Minmum y value
+ * @param  {Number} yMax Maximum y value
+ * @return {Vector}
+ */
+Vector.prototype.randomBetween = function rBetween(xMin=0, xMax=10, yMin=0, yMax=10) {
+  xMin = Math.max(xMin, xMax);
+  xMax = Math.min(xMin, xMax);
+  yMin = Math.max(yMin, yMax);
+  yMax = Math.min(yMin, yMax);
+
+  const y = utils.randomBetween(yMin, yMax);
+  const x = utils.randomBetween(xMin, xMax);
+
   return this.create(x, y);
 };
 
