@@ -1,4 +1,5 @@
 const Shapes = require("../../src/lib/shapes.js");
+const utils = require("../utils");
 const sinon = require("sinon");
 const assert = require("assert");
 
@@ -8,6 +9,7 @@ describe("#Shapes", function() {
   let beginPathSpy = sinon.spy();
   let fillSpy = sinon.spy();
   let arcReturn;
+  let shape;
 
   const circleArgumentDefaults = [4, 4, 2, 0, 6.283185307179586, false];
 
@@ -40,6 +42,8 @@ describe("#Shapes", function() {
     };
 
     document = {};
+
+    shape = new Shapes(context, document);
   });
 
   it("should throw an error when given no context", function() {
@@ -60,7 +64,7 @@ describe("#Shapes", function() {
     assert.deepEqual(shape.ctx, context);
   });
 
-  describe("#Circle", function() {
+  describe("Shapes.circle", function() {
     describe("*Given no arguments", function() {
       it("should assign fillStyle to default", function() {
         const shape = new Shapes(context, document);
@@ -85,6 +89,16 @@ describe("#Shapes", function() {
         const shape = new Shapes(context, document);
         shape.circle();
         assert(fillSpy.called);
+      });
+    });
+
+    describe("#Lines", function() {
+      describe("Shapes.drawLineArray", function() {
+        it("Should throw an error if not given the first argument", function() {
+          utils.forEachFalsy(function(ø) {
+            assert.throws(shape.drawLineArray.bind(null, ø), Error);
+          });
+        });
       });
     });
   });

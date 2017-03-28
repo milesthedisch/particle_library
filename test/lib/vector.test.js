@@ -231,7 +231,7 @@ describe("#Vector", function() {
     });
   });
 
-  describe.only("vector.randomBetween", function() {
+  describe("vector.randomBetween", function() {
     it("should return a random vector between a given range", function() {
       const minX = 0;
       const maxX = 100;
