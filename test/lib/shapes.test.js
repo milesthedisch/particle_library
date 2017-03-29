@@ -6,9 +6,11 @@ const assert = require("assert");
 describe("#Shapes", function() {
   let context;
   let document;
-  let beginPathSpy = sinon.spy();
-  let fillSpy = sinon.spy();
-  let storkeSpy = sinon.spy();
+  let beginPath;
+  let fill;
+  let stroke;
+  let lineTo;
+  let moveTo;
   let arcReturn;
   let shape;
 
@@ -25,9 +27,16 @@ describe("#Shapes", function() {
       },
     };
 
+    beginPath = sinon.spy();
+    fill = sinon.spy();
+    stroke = sinon.spy();
+    lineTo = sinon.spy();
+    moveTo = sinon.spy();
+
     context = {
       fillStyle,
-      beginPath: beginPathSpy,
+      moveTo,
+      beginPath,
       arc: function(...args) {
         if (arguments.length === 0) {
           arcReturn = circleArgumentDefaults;
@@ -35,8 +44,9 @@ describe("#Shapes", function() {
           arcReturn = args;
         }
       },
-      fill: fillSpy,
-      stroke: storkeSpy,
+      fill,
+      stroke,
+      lineTo,
     };
 
     global.window = {
@@ -46,6 +56,12 @@ describe("#Shapes", function() {
     document = {};
 
     shape = new Shapes(context, document);
+  });
+
+  afterEach(function() {
+    delete global.window;
+    delete global.document;
+    delete global.context;
   });
 
   it("should throw an error when given no context", function() {
@@ -78,7 +94,7 @@ describe("#Shapes", function() {
       it("should call beginPath", function() {
         const shape = new Shapes(context, document);
         shape.circle();
-        assert(beginPathSpy.called);
+        assert(beginPath.called);
       });
 
       it("should call arc", function() {
@@ -90,11 +106,11 @@ describe("#Shapes", function() {
       it("should call fill", function() {
         const shape = new Shapes(context, document);
         shape.circle();
-        assert(fillSpy.called);
+        assert(fill.called);
       });
     });
 
-    describe("#Lines", function() {
+    describe.only("#Lines", function() {
       describe("Shapes.drawLineArray", function() {
         it("Should throw an error if not given the first argument", function() {
           utils.forEachFalsy(function(ø) {
@@ -107,9 +123,9 @@ describe("#Shapes", function() {
           const pointArray = [{x: 1, y: 1}, {x: 2, y: 2}];
           shape.drawLineArray(startingPoint, pointArray);
 
-          assert(beginPathSpy.calledOnce, "Begin path was not called.");
-          assert(storkeSpy.calledOnce, "Stroke was not called.");
-          assert();
+          assert(beginPath.calledOnce, "Begin path was not called.");
+          assert(stroke.calledOnce, "Stroke was not called.");
+          assert.equal(lineTo.callCount, pointArray.length, "Call count was not right.");
         });
       });
     });

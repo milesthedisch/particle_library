@@ -100,16 +100,18 @@ Shapes.prototype.drawLineVec = function(vec0, vec1) {
   return void(0);
 };
 
-Shapes.prototype.drawLineArray = function({sx, sy}, ...points) {
+Shapes.prototype.drawLineArray = function({x: sx, y: sy}, points) {
   if (sx === undefined || sx === undefined) {
     throw new Error("Must be given a start of the line");
   }
 
   this.ctx.beginPath();
   this.ctx.moveTo(sx, sy);
+
   for (let {x: px, y: py} of points) {
     this.ctx.lineTo(px, py);
   }
+
   this.ctx.stroke();
 };
 
