@@ -110,18 +110,18 @@ describe("#Shapes", function() {
       });
     });
 
-    describe("#Lines", function() {
-      describe("Shapes.drawLineArray", function() {
+    describe.only("#Lines", function() {
+      describe("Shapes.drawLinePoints", function() {
         it("Should throw an error if not given the first argument", function() {
           utils.forEachFalsy(function(ø) {
-            assert.throws(shape.drawLineArray.bind(null, ø), Error);
+            assert.throws(shape.drawLinePoints.bind(null, ø), Error);
           });
         });
 
         it("should call beginPath and stroke if given valid args.", function() {
           const startingPoint = {x: 0, y: 0};
           const pointArray = [{x: 1, y: 1}, {x: 2, y: 2}];
-          shape.drawLineArray(startingPoint, pointArray);
+          shape.drawLinePoints(...[startingPoint, ...pointArray]);
 
           assert(beginPath.calledOnce, "Begin path was not called.");
           assert(stroke.calledOnce, "Stroke was not called.");

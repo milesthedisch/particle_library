@@ -269,13 +269,13 @@ Vector.prototype.randomBetween = function rBetween(xMin=0, xMax=10, yMin=0, yMax
   return this.create(x, y);
 };
 
-Vector.prototype.add = Vector.prototype["+"];
-Vector.prototype.subtract = Vector.prototype["-"];
-Vector.prototype.multiply = Vector.prototype["*"];
-Vector.prototype.divide = Vector.prototype["/"];
-Vector.prototype.addTo = Vector.prototype["+="];
-Vector.prototype.subtractFrom = Vector.prototype["-="];
-Vector.prototype.multiplyBy = Vector.prototype["*="];
-Vector.prototype.divideBy = Vector.prototype["/="];
+Vector.prototype["+"] = Vector.prototype.add;
+Vector.prototype["-"] = Vector.prototype.subtract;
+Vector.prototype["*"] = Vector.prototype.multiply;
+Vector.prototype["/"] = Vector.prototype.divide;
+Vector.prototype["+="] = Vector.prototype.addTo;
+Vector.prototype["-="] = Vector.prototype.subtractFrom;
+Vector.prototype["*="] = Vector.prototype.multiplyBy;
+Vector.prototype["/="] = Vector.prototype.divideBy;
 
 module.exports = Vector;

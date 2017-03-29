@@ -101,15 +101,31 @@ Shapes.prototype.drawLineVec = function(vec0, vec1) {
   return void(0);
 };
 
-Shapes.prototype.drawLineArray = function({x: sx, y: sy}, points) {
-  if (sx === undefined || sx === undefined) {
-    throw new Error("Must be given a start of the line");
+Shapes.prototype.drawLinePoints = function(...points) {
+  const [firstPoint] = points;
+
+  if (!firstPoint) {
+    throw new Error("Please provide valid inputs");
   }
 
+  if (points.length < 1) {
+    throw new Error("Must be given a a number of points greater than 1");
+  }
+
+  const {x: sx, y: sy} = firstPoint;
   this.ctx.beginPath();
   this.ctx.moveTo(sx, sy);
 
-  for (let {x: px, y: py} of points) {
+  // Some tricky destructing going on here.
+  // I need some practice so... just testing it out.
+  // The ...points bit is just a shallow copying array
+  // but getting rid of the first argument.
+  // The second bit is destructing the object that
+  // it gets for each iteration and aliasing
+  // the values to px and py.
+
+  const [, ...xs] = points;
+  for (let {x: px, y: py} of xs) {
     this.ctx.lineTo(px, py);
   }
 
