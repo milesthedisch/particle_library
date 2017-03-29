@@ -242,6 +242,68 @@
 
         
             
+<h4 class="name" id=".addMass"><span class="type-signature">(static) </span>addMass<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Append a particle to the masses array.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line215">line 215</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id=".addSpring"><span class="type-signature">(static) </span>addSpring<span class="type-signature"></span></h4>
 
 
@@ -678,6 +740,192 @@ between the two particles.
 
         
             
+<h4 class="name" id=".handleMasses"><span class="type-signature">(static) </span>handleMasses<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    For each mass in the masses array apply gravitate to it.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line418">line 418</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".handleSprings"><span class="type-signature">(static) </span>handleSprings<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Apply spring point to all internal springs.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line404">line 404</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".removeMass"><span class="type-signature">(static) </span>removeMass<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Remove a particle for the masses array.
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line226">line 226</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id=".removeSpring"><span class="type-signature">(static) </span>removeSpring<span class="type-signature"></span></h4>
 
 
@@ -909,7 +1157,7 @@ spring force applied to both particles.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line342">line 342</a>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line344">line 344</a>
     </li></ul></dd>
     
 
@@ -972,7 +1220,7 @@ the particle according to the distance its is from the point.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line375">line 375</a>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line377">line 377</a>
     </li></ul></dd>
     
 
@@ -1098,7 +1346,7 @@ vector.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line322">line 322</a>
+        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -1290,7 +1538,7 @@ in API Docs.
 
     
 
-    <h4 class="name" id="~generatorCallback"><span class="type-signature"></span>generatorCallback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~generatorCallback"><span class="type-signature"></span>generatorCallback<span class="signature">(opts, i, The)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1315,6 +1563,8 @@ in API Docs.
     <thead>
     <tr>
         
+        <th>Name</th>
+        
 
         <th>Type</th>
 
@@ -1331,6 +1581,54 @@ in API Docs.
 
         <tr>
             
+                <td class="name"><code>opts</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Options to be extend on to each particle.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>i</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Index of particle in Array.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>The</code></td>
+            
 
             <td class="type">
             
@@ -1345,7 +1643,7 @@ in API Docs.
 
             
 
-            <td class="description last"></td>
+            <td class="description last">particle thats been generated.</td>
         </tr>
 
     
@@ -1432,7 +1730,7 @@ in API Docs.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 29 2017 19:03:56 GMT+1100 (AEDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 29 2017 19:08:29 GMT+1100 (AEDT)
 </footer>
 
 <script> prettyPrint(); </script>
