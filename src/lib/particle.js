@@ -214,6 +214,7 @@ Particle.prototype.distanceTo = function distanceTo({state: {x: x, y: y}}) {
 
 /**
  * @name addMass
+ * @memberOf Particles
  * @description Append a particle to the masses array.
  * @param {Particle} mass
  */
@@ -224,6 +225,7 @@ Particle.prototype.addMass = function(mass) {
 
 /**
  * @name removeMass
+ * @memberOf Particles
  * @description Remove a particle for the masses array.
  * @param  {Particle} mass
  */
@@ -399,6 +401,7 @@ Particle.prototype.springToPoint = function springToPoint(p) {
 
 /**
  * @name handleSprings
+ * @memberOf Particles
  * @description Apply spring point to all internal springs.
  * @param  {springs} springs An array of springs to spring to.
  * @return {Object[]}
@@ -412,6 +415,7 @@ Particle.prototype.handleSprings = function handleSprings(springs=this.state.spr
 
 /**
  * @name handleMasses
+ * @memberOf Particles
  * @description For each mass in the masses array apply gravitate to it.
  * @param  {Particles[]|Object[]} masses
  * @return {Particles[]|Object[]}

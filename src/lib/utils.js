@@ -43,6 +43,7 @@ Utils.lerp = function lerp(val, min, max) {
 
 /**
  * map - Given 2 set of values map them to another set.
+ * @memberOf Utils
  * @param  {number} value
  * @param  {number} srcMin
  * @param  {number} srcMax
@@ -286,6 +287,7 @@ Utils.collisionRectVec = function(vec, rect) {
 
 /**
  * @name throttle
+ * @memberOf Utils
  * @description Run a function only if the given time to allow the function execute
  * has passed. If
  * @param  {Function} func A function to call every delta.
@@ -500,6 +502,7 @@ Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
 
 /**
  * @name multiCurve
+ * @memberOf Utils
  * @description Given points on the plane draw a curved line between
  * all of them.
  * @param  {{number, number}} points

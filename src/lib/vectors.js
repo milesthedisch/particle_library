@@ -205,6 +205,7 @@ Vector.prototype.addTo = Vector.prototype["+="] = function addTo(v2) {
 
 /**
  * Subtracts from current state the state of v2
+ * @memberOf Vector
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
@@ -216,6 +217,7 @@ Vector.prototype.subtractFrom = Vector.prototype["-="] = function subtractFrom(v
 
 /**
  * mulitplies by current state the state of v2
+ * @memberOf Vector
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
@@ -252,6 +254,7 @@ Vector.prototype.random = function rVector(min=1, max=10) {
 
 /**
  * @name randomBetween
+ * @memberOf Vector
  * @description Return a vector that has a x between the given range.
  *              and y given a range.
  * @param  {Number} xMin Minmum x value

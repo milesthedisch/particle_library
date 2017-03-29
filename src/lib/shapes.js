@@ -29,6 +29,7 @@ Shapes.prototype.circle = function drawCircle(x=4, y=4, r=2, color="#000000") {
 
 /**
  * @name  rect
+ * @memberOf Shapes
  * @description Fill a rectangle
  * @param  {Number} x     Starting point X
  * @param  {Number} y     Starting point Y
@@ -43,6 +44,7 @@ Shapes.prototype.rect = function drawRect(x, y, w=10, h=10, color="#000000") {
 
 /**
  * pCircle
+ * @memberOf Shapes
  * @param  {Particle} p
  * @return {Particle}
  */
@@ -58,6 +60,7 @@ Shapes.prototype.pCircle = function particleCircle(p) {
 
 /**
  * pRect
+ * @memberOf Shapes
  * @param  {Particle} p
  * @return {Particle}
  */
@@ -74,6 +77,7 @@ Shapes.prototype.pRect = function particleRect(p) {
 
 /**
  * @name  drawLineXY
+ * @memberOf Shapes
  * @description Draw a line between these two points.
  * @param  {Number} x0
  * @param  {Number} y0
@@ -91,6 +95,7 @@ Shapes.prototype.drawLineXY = function(x0, y0, x1, y1, style="#000000") {
 
 /**
  * @name drawLineVec
+ * @memberOf Shapes
  * @param  {Vector} vec0
  * @param  {Vector} vec1
  * @return {Void}
@@ -117,6 +122,7 @@ Shapes.prototype.drawLineArray = function({x: sx, y: sy}, points) {
 
 /**
  * @name grid
+ * @memberOf Shapes
  * @param  {number} width
  * @param  {number} height
  * @param  {Number} gridSize
