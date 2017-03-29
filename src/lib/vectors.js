@@ -89,7 +89,7 @@ Vector.prototype.setLength = function setLength(length) {
 /**
  * getLength - Gets length of the coordinates from center plane.
  * @memberOf Vector
- * @return {Integer} - Cooridinates.
+ * @return {Integer} Cooridinates.
  */
 Vector.prototype.getLength = function getLength() {
   const x = this.get("x");
@@ -100,7 +100,7 @@ Vector.prototype.getLength = function getLength() {
 /**
  * getAngle - Get the angle of coordinates from center plane.
  * @memberOf Vector
- * @return {Integer} - Cooridinates.
+ * @return {Integer} Cooridinates.
  */
 Vector.prototype.getAngle = function getAngle() {
   const x = this.get("x");
@@ -111,11 +111,11 @@ Vector.prototype.getAngle = function getAngle() {
 /**
  * add - Should add vectors together given a vector
  * @memberOf Vector
- * @param {Vector} - A given vector to add.
- * @return {Vector} - A vector with cooridnates, or multiple vectors.
+ * @param {Vector} v2 A given vector to add.
+ * @return {Vector} A vector with cooridnates, or multiple vectors.
  */
 
-Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
+Vector.prototype.add = function add(v2) {
   const self = this;
 
   if (v2.constructor.name === "Array" && v2.length) {
@@ -136,11 +136,11 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
 /**
  * subtract - should subtract the given vector with its own vector.
  * @memberOf Vector
- * @example {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector} A vector that contains a reduced state.
+ * @example {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
  */
-Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
+Vector.prototype.subtract = function subtract(v2) {
   const self = this;
 
   if (v2.constructor.name === "Array" && v2.length) {
@@ -166,7 +166,7 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
-Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
+Vector.prototype.multiply = function multiply(v2) {
   return this.create(
     this.get("x") * v2.get("x"),
     this.get("y") * v2.get("y")
@@ -179,7 +179,7 @@ Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
-Vector.prototype.divide = Vector.prototype["/"] = function divide(v2) {
+Vector.prototype.divide = function divide(v2) {
   return this.create(
     this.get("x") / v2.get("x"),
     this.get("y") / v2.get("y")
@@ -192,7 +192,7 @@ Vector.prototype.divide = Vector.prototype["/"] = function divide(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.addTo = Vector.prototype["+="] = function addTo(v2) {
+Vector.prototype.addTo = function addTo(v2) {
   this.state.x = this.get("x") + v2.get("x");
   this.state.y = this.get("y") + v2.get("y");
   return this.state;
@@ -204,7 +204,7 @@ Vector.prototype.addTo = Vector.prototype["+="] = function addTo(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.subtractFrom = Vector.prototype["-="] = function subtractFrom(v2) {
+Vector.prototype.subtractFrom = function subtractFrom(v2) {
   this.state.x = this.get("x") - v2.get("x");
   this.state.y = this.get("y") - v2.get("y");
   return this.state;
@@ -216,7 +216,7 @@ Vector.prototype.subtractFrom = Vector.prototype["-="] = function subtractFrom(v
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.multiplyBy = Vector.prototype["*="] = function multiplyBy(v2) {
+Vector.prototype.multiplyBy = function multiplyBy(v2) {
   this.state.x = this.get("x") * v2.get("x");
   this.state.y = this.get("y") * v2.get("y");
   return this.state;
@@ -228,7 +228,7 @@ Vector.prototype.multiplyBy = Vector.prototype["*="] = function multiplyBy(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.divideBy = Vector.prototype["/="] = function divideBy(v2) {
+Vector.prototype.divideBy = function divideBy(v2) {
   this.state.x = this.get("x") / v2.get("x");
   this.state.y = this.get("y") / v2.get("y");
   return this.state;
@@ -268,5 +268,14 @@ Vector.prototype.randomBetween = function rBetween(xMin=0, xMax=10, yMin=0, yMax
 
   return this.create(x, y);
 };
+
+Vector.prototype.add = Vector.prototype["+"];
+Vector.prototype.subtract = Vector.prototype["-"];
+Vector.prototype.multiply = Vector.prototype["*"];
+Vector.prototype.divide = Vector.prototype["/"];
+Vector.prototype.addTo = Vector.prototype["+="];
+Vector.prototype.subtractFrom = Vector.prototype["-="];
+Vector.prototype.multiplyBy = Vector.prototype["*="];
+Vector.prototype.divideBy = Vector.prototype["/="];
 
 module.exports = Vector;
