@@ -167,11 +167,13 @@ Particle.prototype.addSpring = function addSpring(spring) {
  * @memberOf Particle
  * @param  {Object} spring
  */
-Particle.prototype.removeSpring = function removeSpring(spring) {
-  for (let i = 0; i < this.state.springs.length; i++) {
-    if (spring.point.state.x === this.state.springs[i].point.state.x &&
-        spring.point.state.y === this.state.springs[i].point.state.y) {
-      this.state.springs.splice(i, 1);
+Particle.prototype.removeSpring = function removeSpring({point: {state: p}}) {
+  const springs = this.state.springs;
+
+  for (let i = 0; i < springs.length; i++) {
+    if (p.x === springs[i].point.state.x &&
+        p.y === springs[i].point.state.y) {
+      springs.splice(i, 1);
       break;
     }
   }
@@ -190,9 +192,8 @@ Particle.prototype.removeSpring = function removeSpring(spring) {
  * @param  {Particle} p2      A particle instance.
  * @return {Integer}  Angle   A angle.
  */
-Particle.prototype.angleTo = function angelTo(p2) {
-  const dx = p2.state.x - this.state.x;
-  const dy = p2.state.y - this.state.y;
+Particle.prototype.angleTo = function angelTo({state: {x: x, y: y}}) {
+  const {x: dx, y: dy} = {x: x - this.state.x, y: y - this.state.y};
   return Math.atan2(dy, dx);
 };
 
@@ -206,9 +207,8 @@ Particle.prototype.angleTo = function angelTo(p2) {
  * @param  {Particle} p2      A particle instance
  * @return {Integer}  Angle   A Distance
  */
-Particle.prototype.distanceTo = function distanceTo(p2) {
-  const dx = p2.state.x - this.state.x;
-  const dy = p2.state.y - this.state.y;
+Particle.prototype.distanceTo = function distanceTo({state: {x: x, y: y}}) {
+  const {x: dx, y: dy} = {x: x - this.state.x, y: y - this.state.y};
   return Math.hypot(dx, dy);
 };
 
@@ -227,11 +227,13 @@ Particle.prototype.addMass = function(mass) {
  * @description Remove a particle for the masses array.
  * @param  {Particle} mass
  */
-Particle.prototype.removeMass = function(mass) {
-  for (let i = 0; i < this.state.masses.length; i++) {
-    if (mass.state.x === this.state.masses[i].state.x &&
-        mass.state.y === this.state.masses[i].state.y) {
-      this.state.masses.splice(i, 1);
+Particle.prototype.removeMass = function({state: mass}) {
+  const masses = this.state.masses;
+
+  for (let i = 0; i < masses.length; i++) {
+    if (mass.x === masses[i].state.x &&
+        mass.y === masses[i].state.y) {
+      masses.splice(i, 1);
       break;
     }
   }
@@ -330,8 +332,8 @@ Particle.prototype.updatePos = function updatePos(vx, vy) {
     return {x: this.state.x, y: this.state.y};
   }
 
-  this.state.x += vx;
-  this.state.y += vy;
+  this.state.x += (+vx);
+  this.state.y += (+vy);
   return {x: this.state.x, y: this.state.y};
 };
 
