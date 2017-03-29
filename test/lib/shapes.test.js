@@ -110,7 +110,7 @@ describe("#Shapes", function() {
       });
     });
 
-    describe.only("#Lines", function() {
+    describe("#Lines", function() {
       describe("Shapes.drawLineArray", function() {
         it("Should throw an error if not given the first argument", function() {
           utils.forEachFalsy(function(ø) {
@@ -125,7 +125,11 @@ describe("#Shapes", function() {
 
           assert(beginPath.calledOnce, "Begin path was not called.");
           assert(stroke.calledOnce, "Stroke was not called.");
-          assert.equal(lineTo.callCount, pointArray.length, "Call count was not right.");
+          assert.equal(
+            lineTo.callCount,
+            pointArray.length,
+            "Call count was not right."
+          );
         });
       });
     });
