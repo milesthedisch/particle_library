@@ -111,7 +111,6 @@ Vector.prototype.getAngle = function getAngle() {
 /**
  * add - Should add vectors together given a vector
  * @memberOf Vector
- * @name add
  * @alias ["+"]
  * @param {Vector} - A given vector to add.
  * @return {Vector} - A vector with cooridnates, or multiple vectors.
@@ -139,7 +138,6 @@ Vector.prototype.add = Vector.prototype["+"] = function add(v2) {
  * subtract - should subtract the given vector with its own vector.
  * @memberOf Vector
  * @example {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
- * @name subtract
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector} A vector that contains a reduced state.
  */
@@ -166,7 +164,6 @@ Vector.prototype.subtract = Vector.prototype["-"] = function subtract(v2) {
  * Mulitplying vectors together
  * @memberOf Vector
  * @example {x: 2, y: 2} * {x: 2, y: 2} = {x: 4, y: 4}
- * @name multiply
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
@@ -180,7 +177,6 @@ Vector.prototype.multiply = Vector.prototype["*"] = function multiply(v2) {
 /**
  * Divide vectors together.
  * @memberOf Vector
- * @name Divide
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
@@ -253,7 +249,6 @@ Vector.prototype.random = function rVector(min=1, max=10) {
 };
 
 /**
- * @name randomBetween
  * @memberOf Vector
  * @description Return a vector that has a x between the given range.
  *              and y given a range.

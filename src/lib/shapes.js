@@ -13,7 +13,6 @@ function Shapes(ctx, document) {
 
 /**
  * @memberOf Shapes
- * @name  circle
  * @description draw a circle.
  * @param {Number} x     The x coordinate of the circle.
  * @param {Number} y     The y coordinate of the circle.
@@ -28,7 +27,6 @@ Shapes.prototype.circle = function drawCircle(x=4, y=4, r=2, color="#000000") {
 };
 
 /**
- * @name  rect
  * @memberOf Shapes
  * @description Fill a rectangle
  * @param  {Number} x     Starting point X
@@ -76,7 +74,6 @@ Shapes.prototype.pRect = function particleRect(p) {
 };
 
 /**
- * @name  drawLineXY
  * @memberOf Shapes
  * @description Draw a line between these two points.
  * @param  {Number} x0
@@ -94,7 +91,6 @@ Shapes.prototype.drawLineXY = function(x0, y0, x1, y1, style="#000000") {
 };
 
 /**
- * @name drawLineVec
  * @memberOf Shapes
  * @param  {Vector} vec0
  * @param  {Vector} vec1
@@ -121,7 +117,6 @@ Shapes.prototype.drawLineArray = function({x: sx, y: sy}, points) {
 };
 
 /**
- * @name grid
  * @memberOf Shapes
  * @param  {number} width
  * @param  {number} height

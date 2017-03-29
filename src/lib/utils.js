@@ -60,7 +60,6 @@ Utils.map = function map(value, srcMin, srcMax, destMin, destMax) {
 };
 
 /**
- * @name  precent
  * @description Takes a value and returns a precentage.
  *              you can pass arbitrary large numbers in but thats not
  *              the intended purpose of this function.
@@ -73,7 +72,6 @@ Utils.percent = function(val) {
 };
 
 /**
- * @name  clamp
  * @description Given a number and a range return the
  *              value between that range or the max number or min number.
  * @memberOf Utils
@@ -89,7 +87,6 @@ Utils.clamp = function(value, min, max) {
 /**
  * @memberOf  Utils
  * @description Given two numbers return a random number between the two.
- * @name  randomRange
  * @param  {Integer} x
  * @param  {Integer} y
  * @return {Integer}
@@ -101,7 +98,6 @@ Utils.randomBetween = function(x, y) {
 };
 
 /**
- * @name  distanceXY
  * @description Given two coordinates return the distance between the two.
  * @memberOf Utils
  * @param  {Number} x0
@@ -117,7 +113,6 @@ Utils.distanceXY = function(x0, y0, x1, y1) {
 };
 
 /**
- * @name  distanceVec
  * @description Given two vectors return the distance between the two.
  * @memberOf Utils
  * @param  {Vector} v1
@@ -130,7 +125,6 @@ Utils.distanceVec = function(v1, v2) {
 };
 
 /**
- * @name  inRange
  * @description given a number
  * @memberOf Utils
  * @param  {Number} val
@@ -143,7 +137,6 @@ Utils.inRange = function(val, min, max) {
 };
 
 /**
- * @name  rangeIntersect
  * @description Given a two ranges see if both intersect each other.
  * @memberOf Utils
  * @param  {Number} min0
@@ -160,7 +153,6 @@ Utils.rangeIntersect = function(min0, max0, min1, max1) {
 };
 
 /**
- * @name  vectorIntersect
  * @description Given twos vectors see if they intersect.
  * @memberOf Utils
  * @param  {Vector} vec0
@@ -176,7 +168,6 @@ Utils.vectorIntersect = function(vec0, vec1) {
 };
 
 /**
- * @name  collisionRect
  * @description Given two rectange see if the intersect.
  * @memberOf Utils
  * @param  {Particle} r0
@@ -201,7 +192,6 @@ Utils.collisionRect = function(r0, r1) {
 };
 
 /**
- * @name  collisionCircle
  * @description Given to particle with radi return wether they collide are not
  * @memberOf Utils
  * @param  {Particle} c1
@@ -219,7 +209,6 @@ Utils.collisionCircle = function(c1, c2) {
 };
 
 /**
- * @name  circlePointCollision
  * @description Given a point and a circle return a boolean regarding wether they are colliding.
  * @memberOf Utils
  * @param  {Number}   x
@@ -239,7 +228,6 @@ Utils.collisionCirclePoint = function(x, y, circle) {
 };
 
 /**
- * @name  collisionCircleVec
  * @description detect a collision between circles a vector.
  * @memberOf Utils
  * @param  {Vector}   vec
@@ -256,7 +244,6 @@ Utils.collisionCircleVec = function(vec, circle) {
 };
 
 /**
- * @name  collisionRectPoint
  * @description detect collision of a rectangle and a point.
  * @memberOf Utils
  * @param  {Number}   x
@@ -274,7 +261,6 @@ Utils.collisionRectPoint = function(x, y, rect) {
 };
 
 /**
- * @name collisionRectVec
  * @description Given a vector and a retangle check wether they collided.
  * @memberOf Utils
  * @param  {Vector}   vec
@@ -286,7 +272,6 @@ Utils.collisionRectVec = function(vec, rect) {
 };
 
 /**
- * @name throttle
  * @memberOf Utils
  * @description Run a function only if the given time to allow the function execute
  * has passed. If
@@ -330,7 +315,6 @@ Utils.throttle = function throttle(func, wait, options) {
 };
 
 /**
- * @name setLength
  * @memberOf Utils
  * @description - Setting the length of a vector.
  * @param   {number} length
@@ -353,7 +337,6 @@ Utils.setLength = function(length, x, y) {
 };
 
 /**
- * @name setAngle
  * @memberOf Utils
  * @description - Setting the angle of a vector.
  * @param   {number} angle
@@ -376,7 +359,6 @@ Utils.setAngle = function(angle, x, y) {
 };
 
 /**
- * @name degToRad
  * @memberOf Utils
  * @description Coverts degrees to radians
  * @param  {number} deg Degress
@@ -387,7 +369,6 @@ Utils.degToRad = function(deg) {
 };
 
 /**
- * @name radToDeg
  * @memberOf Utils
  * @description Coverts radians to degress
  * @param  {number} rad
@@ -398,7 +379,6 @@ Utils.radToDeg = function(rad) {
 };
 
 /**
- * @name  roundToPlaces
  * @memberOf Utils
  * @description Round to nearest place given.
  * @param  {number} val
@@ -411,7 +391,6 @@ Utils.roundToPlaces = function(val, places) {
 };
 
 /**
- * @name roundToMultiple
  * @memberOf Utils
  * @param  {number} val
  * @param  {number} nearest
@@ -425,7 +404,6 @@ Utils.roundToMultiple = function(val, nearest) {
 };
 
 /**
- * @name quadraticBezier
  * @memberOf Utils
  * @param  {number} v0
  * @param  {number} v1
@@ -439,7 +417,6 @@ Utils.quadraticBezier = function(v0, v1, v2, t) {
 };
 
 /**
- * @name cubicBezier
  * @memberOf Utils
  * @param  {number} v0
  * @param  {number} v1
@@ -457,7 +434,6 @@ Utils.cubicBezier = function(v0, v1, v2, v3, t) {
 };
 
 /**
- * @name quadtraticBezierPoint
  * @memberOf Utils
  * @param  {number} p0
  * @param  {number} p1
@@ -477,7 +453,6 @@ Utils.quadraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
 };
 
 /**
- * @name cubicBezierPoint
  * @memberOf Utils
  * @param  {number} p0
  * @param  {number} p1
@@ -501,7 +476,6 @@ Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
 };
 
 /**
- * @name multiCurve
  * @memberOf Utils
  * @description Given points on the plane draw a curved line between
  * all of them.
