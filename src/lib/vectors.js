@@ -111,7 +111,6 @@ Vector.prototype.getAngle = function getAngle() {
 /**
  * add - Should add vectors together given a vector
  * @memberOf Vector
- * @alias ["+"]
  * @param {Vector} - A given vector to add.
  * @return {Vector} - A vector with cooridnates, or multiple vectors.
  */
