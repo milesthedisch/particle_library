@@ -110,7 +110,7 @@ describe("#Shapes", function() {
       });
     });
 
-    describe.only("#Lines", function() {
+    describe("#Lines", function() {
       describe("Shapes.drawLinePoints", function() {
         it("Should throw an error if not given the first argument", function() {
           utils.forEachFalsy(function(ø) {

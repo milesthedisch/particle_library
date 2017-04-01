@@ -235,6 +235,17 @@ Vector.prototype.divideBy = function divideBy(v2) {
 };
 
 /**
+ * @memberOf Vector
+ * @param  {Number} angle A number of radians to rotate clockwise by.
+ * @return {Object} State of the vector.
+ */
+Vector.prototype.rotate = function(angle) {
+  this.state.x = this.state.x * cos(angle) - this.state.y * sin(angle);
+  this.state.y = this.state.y * cos(angle) + this.state.x * sin(angle);
+  return this.state;
+};
+
+/**
  * random generate a vector with random states.
  * @memberOf Vector
  * @param {Number} min - A min range on the random vector state.

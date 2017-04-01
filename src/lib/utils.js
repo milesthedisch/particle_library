@@ -442,14 +442,10 @@ Utils.cubicBezier = function(v0, v1, v2, v3, t) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.quadraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
-  pFinal.x = Math.pow(1 - t, 2) * p0.x +
-             (1 - t) * 2 * t * p1.x +
-             t * t * p2.x;
-  pFinal.y = Math.pow(1 - t, 2) * p0.y +
-             (1 - t) * 2 * t * p1.y +
-             t * t * p2.y;
-  return pFinal;
+Utils.quadraticBezierPoint = function(p0, p1, p2, t) {
+  const x = this.quadraticBezier(p0.x, p1.x, p2.x, t);
+  const y = this.quadraticBezier(p0.y, p1.y, p2.y, t);
+  return {x, y};
 };
 
 /**
@@ -462,17 +458,10 @@ Utils.quadraticBezierPoint = function(p0, p1, p2, t, pFinal={}) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.cubicBezierPoint = function(p0, p1, p2, p3, t, pFinal={}) {
-  pFinal.x = Math.pow(1 - t, 3) * p0.x +
-             Math.pow(1 - t, 2) * 3 * t * p1.x +
-             (1 - t) * 3 * t * t * p2.x +
-             t * t * t + p3.x;
-  pFinal.y = Math.pow(1 - t, 3) * p0.y +
-             Math.pow(1 - t, 2) * 3 * t * p1.y +
-             (1 - t) * 3 * t * t * p2.y +
-             t * t * t +
-             p3.x;
-  return pFinal;
+Utils.cubicBezierPoint = function(p0, p1, p2, p3, t) {
+  x = this.cubicBezier(p0.x, p1.x, p2.x, t);
+  y = this.cubicBezier(p0.y, p1.y, p2.y, t);
+  return {x, y};
 };
 
 /**

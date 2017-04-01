@@ -358,15 +358,43 @@ describe("#Util", function() {
 
   describe("#bezier", function() {
     describe("#quadraticBezier", function() {
-      for (let i = 0; i < 1; i += 0.01) {
-        assert(utils.quadraticBezier(1, 2, 3, i) >= 1 && utils.quadraticBezier(1, 2, 3, i) <= 3);
-      }
+      it("should return number that are in range of the the three value given", function() {
+        for (let i = 0; i < 1; i += 0.01) {
+          assert(utils.quadraticBezier(1, 2, 3, i) >= 1 && utils.quadraticBezier(1, 2, 3, i) <= 3);
+        }
+      });
     });
 
     describe("#cubicBezier", function() {
-      for (let i = 0; i < 1; i += 0.01) {
-        assert(utils.cubicBezier(1, 2, 3, 1, i) >= 2 && utils.cubicBezier(1, 2, 3, 1, i) <= 3.2);
-      }
+      it("should return number that are in range of the the three value given", function() {
+        for (let i = 0; i < 1; i += 0.01) {
+          assert(utils.cubicBezier(1, 2, 3, 1, i) >= 2 && utils.cubicBezier(1, 2, 3, 1, i) <= 3.2);
+        }
+      });
+    });
+
+    describe("#quadraticBezierPoint", function() {
+      it("Given some points and the last argument as one, the test should return the exact values of the last point", function() {
+        const points = [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 1}];
+        assert.deepEqual(utils.quadraticBezierPoint(...points, 1), {x: 3, y: 1});
+      });
+
+      it("Given some points and the last argument as one, the test should return the exact values of the first point", function() {
+        const points = [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 1}];
+        assert.deepEqual(utils.quadraticBezierPoint(...points, 0), {x: 1, y: 1});
+      });
+    });
+
+    describe("#quadraticBezierPoint", function() {
+      it("Given some points and the last argument as one, the test should return the exact values of the last point", function() {
+        const points = [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 1}];
+        assert.deepEqual(utils.quadraticBezierPoint(...points, 1), {x: 3, y: 1});
+      });
+
+      it("Given some points and the last argument as one, the test should return the exact values of the first point", function() {
+        const points = [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 1}];
+        assert.deepEqual(utils.quadraticBezierPoint(...points, 0), {x: 1, y: 1});
+      });
     });
   });
 });
