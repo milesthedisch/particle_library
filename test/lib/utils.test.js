@@ -406,7 +406,7 @@ describe("#Util", function() {
         assert(utils.ease(0.5, a, b) === false);
       });
 
-      it("should return a halfed range given a ease value of 0.5", function() {
+      it("should return a value that is half of the range given a ease value of 0.5", function() {
         const a = 0;
         const b = 2;
         assert.equal(utils.ease(0.5, a, b), 1);
@@ -414,7 +414,19 @@ describe("#Util", function() {
     });
 
     describe("#easeTo", function() {
-      it.skip("should return false if the distance between the points is below 0.1", function() {
+      it("should return false if the distance between the points is below 0.1", function() {
+        const a = {x: 1, y: 1};
+        const b = {x: 1, y: 1};
+        assert(utils.easeTo(0.5, a, b) === false);
+      });
+
+      it("should return a value that is half of the distance given a ease value of 0.5", function() {
+        const a = {x: 0, y: 0};
+        const b = {x: 1, y: 1};
+        const distance = {x: b.x - a.x, y: b.y - a.y};
+        const halfOfDistance = {x: distance.x * 0.5, y: distance.y * 0.5};
+
+        assert.deepEqual(utils.easeTo(0.5, a, b), halfOfDistance);
       });
     });
   });
