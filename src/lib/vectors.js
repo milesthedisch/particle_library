@@ -237,12 +237,16 @@ Vector.prototype.divideBy = function divideBy(v2) {
 /**
  * @memberOf Vector
  * @param  {Number} angle A number of radians to rotate clockwise by.
- * @return {Object} State of the vector.
- */
-Vector.prototype.rotate = function(angle) {
-  this.state.x = this.state.x * cos(angle) - this.state.y * sin(angle);
-  this.state.y = this.state.y * cos(angle) + this.state.x * sin(angle);
-  return this.state;
+*/
+Vector.prototype.rotate = function(delta) {
+  const cos = Math.cos(delta);
+  const sin = Math.sin(delta);
+
+  const x = this.state.x * cos - this.state.y * sin;
+  const y = this.state.y * cos + this.state.x * sin;
+
+  this.state.x = x;
+  this.state.y = y;
 };
 
 /**
