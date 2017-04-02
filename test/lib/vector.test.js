@@ -1,5 +1,7 @@
 /* eslint max-len: 0  */
 const Vector = require("../../src/lib/vectors.js");
+const utils = require("../../src/lib/utils.js");
+const sinon = require("sinon");
 const assert = require("chai").assert;
 
 describe("#Vector", function() {
@@ -232,6 +234,12 @@ describe("#Vector", function() {
   });
 
   describe("vector.randomBetween", function() {
+    var rndBetweenSpy;
+
+    before(function() {
+      rndBetweenSpy = sinon.spy(utils, "randomBetween");
+    });
+
     it("should return a random vector between a given range", function() {
       const minX = 0;
       const maxX = 100;
@@ -241,6 +249,20 @@ describe("#Vector", function() {
       const randomVector = vec.randomBetween(minX, maxX, minY, maxY);
       assert(maxX >= randomVector.get("x") && minX <= randomVector.get("x"), "x is not in range");
       assert(maxY >= randomVector.get("y") && minY <= randomVector.get("y"), "Y is not in range");
+    });
+
+    it("'should call utils.randomBetween twice with the min and max numbers", function() {
+      const minX = 0;
+      const maxX = 100;
+      const minY = 0;
+      const maxY = 100;
+
+      vec.randomBetween(minX, maxX, minY, maxY);
+      assert.equal(rndBetweenSpy.getCall(0).args[0], 0);
+      assert.equal(rndBetweenSpy.getCall(0).args[1], 100);
+      assert.equal(rndBetweenSpy.getCall(1).args[0], 0);
+      assert.equal(rndBetweenSpy.getCall(1).args[1], 100);
+      assert(rndBetweenSpy.calledTwice);
     });
   });
 });

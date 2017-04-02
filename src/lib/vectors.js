@@ -273,10 +273,10 @@ Vector.prototype.random = function rVector(min=1, max=10) {
  * @return {Vector}
  */
 Vector.prototype.randomBetween = function rBetween(xMin=0, xMax=10, yMin=0, yMax=10) {
-  xMin = Math.max(xMin, xMax);
-  xMax = Math.min(xMin, xMax);
-  yMin = Math.max(yMin, yMax);
-  yMax = Math.min(yMin, yMax);
+  xMax = Math.max(xMin, xMax);
+  xMin = Math.min(xMin, xMax);
+  yMax = Math.max(yMin, yMax);
+  yMin = Math.min(yMin, yMax);
 
   const y = utils.randomBetween(yMin, yMax);
   const x = utils.randomBetween(xMin, xMax);

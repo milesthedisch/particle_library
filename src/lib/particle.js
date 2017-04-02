@@ -321,8 +321,8 @@ Particle.prototype.updatePos = function updatePos(vx, vy) {
     return {x: this.state.x, y: this.state.y};
   }
 
-  this.state.x += (+vx);
-  this.state.y += (+vy);
+  this.state.x += vx;
+  this.state.y += vy;
   return {x: this.state.x, y: this.state.y};
 };
 
