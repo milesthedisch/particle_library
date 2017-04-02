@@ -514,7 +514,6 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
   const dx = target.x - origin.x;
   const dy = target.y - origin.y;
 
-  console.log(dx, dy);
   // the delta can get extremely small and its not performant to keep
   // on rendering or calculating for animation purposes.
   if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
