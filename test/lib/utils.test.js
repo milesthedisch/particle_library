@@ -397,4 +397,25 @@ describe("#Util", function() {
       });
     });
   });
+
+  describe.only("#easeing/tweening", function() {
+    describe("#ease", function() {
+      it("should return false if the range between the number is below 0.1", function() {
+        const a = 1;
+        const b = 1;
+        assert(utils.ease(0.5, a, b) === false);
+      });
+
+      it("should return a halfed range given a ease value of 0.5", function() {
+        const a = 0;
+        const b = 2;
+        assert.equal(utils.ease(0.5, a, b), 1);
+      });
+    });
+
+    describe("#easeTo", function() {
+      it.skip("should return false if the distance between the points is below 0.1", function() {
+      });
+    });
+  });
 });
