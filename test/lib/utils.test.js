@@ -398,7 +398,7 @@ describe("#Util", function() {
     });
   });
 
-  describe.only("#easeing/tweening", function() {
+  describe("#easeing/tweening", function() {
     describe("#ease", function() {
       it("should return false if the range between the number is below 0.1", function() {
         const a = 1;

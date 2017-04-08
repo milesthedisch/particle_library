@@ -279,6 +279,7 @@ Utils.collisionRectVec = function(vec, rect) {
  * @param  {Number} wait The minimum time to wait.
  * @param  {Object} options
  * @return {Function}
+ * @see underscore
  */
 Utils.throttle = function throttle(func, wait, options) {
   let context;
@@ -516,7 +517,7 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
 
   // the delta can get extremely small and its not performant to keep
   // on rendering or calculating for animation purposes.
-  if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+  if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) {
     return false;
   }
 
@@ -526,4 +527,4 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
   return origin;
 };
 
-module.exports = Utils;
+module.exports = Object.create(Utils);
