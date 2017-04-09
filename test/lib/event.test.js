@@ -4,14 +4,14 @@ const assert = require("chai").assert;
 
 describe("#Event", function() {
   let eventInstance;
-  let noop
+  let noop;
+
+  beforeEach(function() {
+    noop = function noop() {};
+    eventInstance = Object.create(event).init();
+  });
 
   describe("#on", function() {
-    beforeEach(function() {
-      noop = function noop(){};
-      eventInstance = Object.create(event).init();
-    });
-
     it("should add a listener to the list of listeners on that type", function() {
       const doOnType = function doOnType() {};
 
@@ -49,6 +49,11 @@ describe("#Event", function() {
       eventInstance.on("type1 type2", function() {});
       eventInstance.on("type3", function() {});
       assert.deepEqual(eventInstance.listeners(), ["type1", "type2", "type3"]);
+    });
+
+    it("should return listeners for the one event if given an event", function() {
+      eventInstance.on("type1", noop);
+      assert.deepEqual(eventInstance.listeners("type1"), [noop]);
     });
   });
   describe("#emit", function() {});

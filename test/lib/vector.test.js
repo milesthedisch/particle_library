@@ -242,7 +242,7 @@ describe("#Vector", function() {
 
     afterEach(function() {
       rndBetweenSpy.restore();
-    })
+    });
 
     it("should return a random vector between a given range", function() {
       const minX = 0;

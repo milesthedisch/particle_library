@@ -28,7 +28,7 @@ Event.emit = function emit(...args) {
   const [event, ...rest] = args;
 
   if (!event) {
-    throw new TypeError("Please provide truthy arguments");
+    throw new TypeError("Event: Please provide truthy arguments");
   }
 
   this.callbacks[event] = this.callbacks[event] || [];
@@ -52,7 +52,7 @@ Event.emit = function emit(...args) {
  */
 Event.on = function on(event, fn, context) {
   if (!event || !fn) {
-    throw new TypeError("Please provide truthy arguments");
+    throw new TypeError("Event: Please provide truthy arguments");
   }
 
   if (context) {
@@ -77,8 +77,8 @@ Event.on = function on(event, fn, context) {
       if (cb !== fn) {
         this.callbacks[e].push(fn);
       }
-      console.warn(`That function ${cb} has already been declared a handler` +
-      "for this event.");
+      console.warn(`Event: That function ${cb} has already been declared a` +
+      "handler for this event.");
     });
   });
 
@@ -103,7 +103,7 @@ Event.off = function off(...args) {
   let callbacks = this.callbacks[event];
 
   if (!callbacks) {
-    console.warn(`No event named ${event} has been registered`);
+    console.warn(`Event: No event named ${event} has been registered`);
     return this;
   }
 
@@ -124,7 +124,11 @@ Event.listeners = function listeners(...args) {
     return Object.keys(this.callbacks);
   }
 
-  return this.callback[event];
+  if (!this.callbacks[event]) {
+    console.warn(`Event: No event named ${event} has been registered`);
+  }
+
+  return this.callbacks[event];
 };
 
 // Aliases //
