@@ -3,22 +3,27 @@ const utils = require("./utils.js");
 // Inherits from utils;
 const Event = Object.create(utils);
 
-Event.callbacks = {};
+Event.init = function() {
+  this.callbacks = {};
+  return this;
+};
 
 Event.emit = function emit(...args) {
   const [event, ...rest] = args;
 
   if (!event) {
-    throw new TypeError("Please prived truthy arguments");
+    throw new TypeError("Please provide truthy arguments");
   }
 
   this.callbacks[event] = this.callbacks[event] || [];
 
-  if (this.callback[event].length) {
-    this.callback[event].forEach((callback) => {
+  if (this.callbacks[event].length) {
+    this.callbacks[event].forEach((callback) => {
       callback(...rest);
     });
   }
+
+  return this;
 };
 
 Event.on = function on(event, fn, context) {
@@ -30,9 +35,16 @@ Event.on = function on(event, fn, context) {
     fn.bind(context);
   }
 
+  const events = event.split(" ");
+
   this.callbacks = this.callbacks || {};
-  this.callbacks[event] = this.callbacks[event] || [];
-  this.callbacks.push(fn);
+
+  events.forEach((e) => {
+    this.callbacks[e] = this.callbacks[e] || [];
+    this.callbacks[e].push(fn);
+  });
+
+  return this;
 };
 
 Event.off = function off(...args) {
@@ -40,11 +52,12 @@ Event.off = function off(...args) {
 
   if (!event) {
     this.callbacks = {};
+    return this;
   }
 
   let callbacks = this.callbacks[event];
 
-  if (!callback) {
+  if (!callbacks) {
     console.warn(`No event named ${event} has been registered`);
     return this;
   }
@@ -55,16 +68,27 @@ Event.off = function off(...args) {
   }
 
   this.callbacks[event] = callbacks.filter((cb) => cb !== fn);
+
   return this;
 };
 
-Event.alias = function aliasWrapper(fn) {
-  return function aliasInnerWrapper(...args) {
-    return fn(...args);
-  };
+Event.listeners = function listeners(...args) {
+  const [event] = args;
+
+  if (!event) {
+    return Object.keys(this.callbacks);
+  }
+
+  return this.callback[event];
 };
 
-Event.remove = function remove() {};
-Event.listeners = function listeners() {};
+// Aliases //
+Event.emit = Event.fire;
+
+Event.addListener = Event.on;
+
+Event.remove =
+Event.removeListener =
+Event.removeAllListeners = Event.off;
 
 module.exports = Event;

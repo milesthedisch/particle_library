@@ -1,12 +1,9 @@
 /* eslint max-len: 0*/
 const extend = require("extend");
 const assert = require("chai").assert;
-const util = require("util");
-const clone = require("lodash/cloneDeep");
 
 const Particle = require("../../src/lib/particle.js");
 const Vector = require("../../src/lib/vectors.js");
-const utils = require("../../src/lib/utils.js");
 
 const vector = new Vector();
 

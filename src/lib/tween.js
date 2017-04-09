@@ -7,28 +7,32 @@
  */
 
 const event = require("./event");
+
+// Inherits from event
 const YAT = Object.create(event);
 
-/**
- * easingFns
- * @description All easing function are orignially written
- * by robert penner
- * @see {@link http://robertpenner.com/easing/}
- * @type {Object}
- */
-YAT.easingFns = {
-  ease() {},
-  easeOutQuad() {},
-  easeInQuad() {},
-  easeInOutQuad() {},
-};
+YAT.init = function init() {
+  /**
+   * easingFns
+   * @description All easing function are orignially written
+   * by robert penner
+   * @see {@link http://robertpenner.com/easing/}
+   * @type {Object}
+   */
+  this.easingFns = {
+    ease() {},
+    easeInOutQuad() {},
+    easeInQuad() {},
+    easeOutQuad() {},
+  };
 
-/**
- * tweens
- * @description A list of all the available tweens.
- * @type {Array}
- */
-YAT.tweens = [];
+  /**
+   * tweens
+   * @description A list of all the available tweens.
+   * @type {Array}
+   */
+  this.tweens = [];
+};
 
 YAT.init = function(opts) {
   opts.obj;
