@@ -1,13 +1,29 @@
 const utils = require("./utils.js");
 
-// Inherits from utils;
+/**
+ * Event
+ * @type {Object}
+ * @implements {utils}
+ */
 const Event = Object.create(utils);
 
+/**
+ * init
+ * @memberOf Event
+ * @description Initializes the event object.
+ * @return {Event}
+ */
 Event.init = function() {
   this.callbacks = {};
   return this;
 };
 
+/**
+ * emit
+ * @description Executes the handeler that assocaited with the emitted event.
+ * @param {...String} args
+ * @return {Event}
+ */
 Event.emit = function emit(...args) {
   const [event, ...rest] = args;
 
@@ -26,6 +42,14 @@ Event.emit = function emit(...args) {
   return this;
 };
 
+/**
+ * on
+ * @description Attach a handler to an event.
+ * @param  {String}   event
+ * @param  {Function} fn
+ * @param  {Object}   context
+ * @return {Event}
+ */
 Event.on = function on(event, fn, context) {
   if (!event || !fn) {
     throw new TypeError("Please provide truthy arguments");
@@ -41,12 +65,33 @@ Event.on = function on(event, fn, context) {
 
   events.forEach((e) => {
     this.callbacks[e] = this.callbacks[e] || [];
-    this.callbacks[e].push(fn);
+
+    if (!this.callbacks[e].length) {
+      this.callbacks[e].push(fn);
+      return this;
+    }
+
+    // Dont create duplicates of the same handeled function.
+    // If you want your function run twice wrap it in a function.
+    this.callbacks[e].forEach((cb, i, col) => {
+      if (cb !== fn) {
+        this.callbacks[e].push(fn);
+      }
+      console.warn(`That function ${cb} has already been declared a handler` +
+      "for this event.");
+    });
   });
 
   return this;
 };
 
+/**
+ * off
+ * @description Remove an event handeler.
+ * @param  {String}   event
+ * @param  {Function} fn
+ * @return {Event}
+ */
 Event.off = function off(...args) {
   const [event, fn] = args;
 

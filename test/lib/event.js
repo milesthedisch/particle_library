@@ -4,9 +4,11 @@ const assert = require("chai").assert;
 
 describe("#Event", function() {
   let eventInstance;
+  let noop
 
-  describe.only("#on", function() {
+  describe("#on", function() {
     beforeEach(function() {
+      noop = function noop(){};
       eventInstance = Object.create(event).init();
     });
 
@@ -31,11 +33,24 @@ describe("#Event", function() {
       assert.equal(eventInstance.callbacks["type2"][0], doOnBothTypes);
     });
 
+    it("should not create duplicate events of the same name", function() {
+      eventInstance.on("type1", noop);
+      eventInstance.on("type1", noop);
+      assert.deepEqual(eventInstance.callbacks, {"type1": [noop]});
+    });
+
     it("should throw an error if not given first and second argument", function() {
       assert.throws(eventInstance.on.bind(null), "Please provide truthy arguments");
     });
   });
+
+  describe("#listeners", function() {
+    it("should return the all listeners if not given arguments", function() {
+      eventInstance.on("type1 type2", function() {});
+      eventInstance.on("type3", function() {});
+      assert.deepEqual(eventInstance.listeners(), ["type1", "type2", "type3"]);
+    });
+  });
   describe("#emit", function() {});
-  describe("#listeners", function() {});
   describe("#remove", function() {});
 });

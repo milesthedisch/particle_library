@@ -234,11 +234,15 @@ describe("#Vector", function() {
   });
 
   describe("vector.randomBetween", function() {
-    var rndBetweenSpy;
+    let rndBetweenSpy;
 
-    before(function() {
+    beforeEach(function() {
       rndBetweenSpy = sinon.spy(utils, "randomBetween");
     });
+
+    afterEach(function() {
+      rndBetweenSpy.restore();
+    })
 
     it("should return a random vector between a given range", function() {
       const minX = 0;
@@ -262,7 +266,7 @@ describe("#Vector", function() {
       assert.equal(rndBetweenSpy.getCall(0).args[1], 100);
       assert.equal(rndBetweenSpy.getCall(1).args[0], 0);
       assert.equal(rndBetweenSpy.getCall(1).args[1], 100);
-      assert(rndBetweenSpy.calledTwice);
+      assert.equal(rndBetweenSpy.callCount, 2);
     });
   });
 });
