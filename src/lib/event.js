@@ -132,12 +132,10 @@ Event.listeners = function listeners(...args) {
 };
 
 // Aliases //
-Event.emit = Event.fire;
-
-Event.addListener = Event.on;
-
 Event.remove =
 Event.removeListener =
 Event.removeAllListeners = Event.off;
+Event.emit = Event.fire;
+Event.addListener = Event.on;
 
 module.exports = Event;

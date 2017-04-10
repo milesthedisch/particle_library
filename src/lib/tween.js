@@ -14,8 +14,8 @@ const YAT = Object.create(event);
 YAT.init = function init() {
   /**
    * easingFns
-   * @description All easing function are orignially written
-   * by robert penner
+   * @description All easing functions are orignially written
+   * by robert penner, the tweening god.
    * @see {@link http://robertpenner.com/easing/}
    * @type {Object}
    */

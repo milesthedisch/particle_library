@@ -56,6 +56,16 @@ describe("#Event", function() {
       assert.deepEqual(eventInstance.listeners("type1"), [noop]);
     });
   });
+
+  describe("Aliases", function() {
+    it("should have a on aliases", function() {
+      assert(eventInstance.on === eventInstance.addListener);
+      assert(eventInstance.off === eventInstance.remove);
+      assert(eventInstance.off === eventInstance.removeListener);
+      assert(eventInstance.off === eventInstance.removeAllListeners);
+    });
+  });
+
   describe("#emit", function() {});
   describe("#remove", function() {});
 });
