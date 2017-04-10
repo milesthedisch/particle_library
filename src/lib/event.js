@@ -73,14 +73,11 @@ Event.on = function on(event, fn, context) {
 
     // Dont create duplicates of the same handeled function.
     // If you want your function run twice wrap it in a function.
-    this.callbacks[e].forEach((cb, i, col) => {
-      if (cb !== fn) {
-        this.callbacks[e].push(fn);
-      } else {
-        console.warn(`Event: That function ${cb} has already been declared a` +
+    return this.callbacks[e].every((cb, i, col) => {
+      return cb !== fn;
+    }) ? this.callbacks[e].push(fn) :
+      console.warn(`Event: That function ${fn} has already been declared a` +
         "handler for this event.");
-      }
-    });
   });
 
   return this;
@@ -138,5 +135,6 @@ Event.removeListener =
 Event.removeAllListeners = Event.off;
 Event.fire = Event.emit;
 Event.addListener = Event.on;
+Event.get = Event.listeners;
 
 module.exports = Event;

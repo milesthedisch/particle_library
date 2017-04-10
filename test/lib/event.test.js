@@ -91,7 +91,7 @@ describe("#Event", function() {
       assert.deepEqual(actualCalls, expectedCalls);
     });
 
-    it.only("should call all handelers attached to emitted events", function() {
+    it("should call all handelers attached to emitted events", function() {
       let actualCalls = [];
       let expectedCalls = ["a", "b", "a", "b", "a", "b"];
 
@@ -117,7 +117,46 @@ describe("#Event", function() {
     });
   });
 
-  // describe("#remove", function() {});
+  describe("#off", function() {
+    it("should remove an event thats been attached", function() {
+      eventInstance.on("type1", noop);
+      eventInstance.off("type1");
+      assert.deepEqual(eventInstance.callbacks, {});
+    });
+
+    it("should remove an events function", function() {
+      const a = ()=>{};
+      eventInstance.on("type1", a);
+      eventInstance.on("type1", noop);
+      eventInstance.off("type1", noop);
+      assert.deepEqual(eventInstance.listeners("type1"), [a]);
+    });
+
+    it("should remove all event given no params", function() {
+      const b = ()=>{};
+      const a = ()=>{};
+
+      eventInstance.on("type1", a);
+      eventInstance.on("type2", noop);
+      eventInstance.on("type3", b);
+
+      eventInstance.removeAllListeners();
+      assert.deepEqual(eventInstance.callbacks, {});
+    });
+
+    it("should only remove the handler that its given on the specific event", function() {
+      const a = ()=>{};
+      const b = ()=>{};
+      const c = ()=>{};
+
+      eventInstance.on("type1", a);
+      eventInstance.on("type1", b);
+      eventInstance.on("type1", c);
+      eventInstance.off("type1", a);
+
+      assert.deepEqual(eventInstance.get("type1"), [b, c]);
+    });
+  });
 
   describe("Aliases", function() {
     it("should have a on aliases", function() {
