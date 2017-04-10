@@ -76,9 +76,10 @@ Event.on = function on(event, fn, context) {
     this.callbacks[e].forEach((cb, i, col) => {
       if (cb !== fn) {
         this.callbacks[e].push(fn);
+      } else {
+        console.warn(`Event: That function ${cb} has already been declared a` +
+        "handler for this event.");
       }
-      console.warn(`Event: That function ${cb} has already been declared a` +
-      "handler for this event.");
     });
   });
 
@@ -135,7 +136,7 @@ Event.listeners = function listeners(...args) {
 Event.remove =
 Event.removeListener =
 Event.removeAllListeners = Event.off;
-Event.emit = Event.fire;
+Event.fire = Event.emit;
 Event.addListener = Event.on;
 
 module.exports = Event;

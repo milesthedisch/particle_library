@@ -1,6 +1,7 @@
 /* eslint max-len: 0*/
-const event = require("../../src/lib/event");
 const assert = require("chai").assert;
+const event = require("../../src/lib/event");
+const utils = require("../utils");
 
 describe("#Event", function() {
   let eventInstance;
@@ -57,6 +58,67 @@ describe("#Event", function() {
     });
   });
 
+  describe("#emit", function() {
+    it("should throw a error when given falsy or no arguements", function() {
+      utils.forEachFalsy(function(falsy) {
+        assert.throws(
+          eventInstance.emit.bind(null, falsy),
+          "Event: Please provide truthy arguments"
+        );
+      });
+    });
+
+    it("should create the event that its given if the event doesn't exsist.", function() {
+      eventInstance.emit("type1");
+      assert.equal(eventInstance.callbacks["type1"].length, 0);
+    });
+
+    it("should call the methods attached to event that was emitted", function() {
+      let actualCalls = [];
+      let expectedCalls = ["a", "b"];
+
+      const a = () => {
+        actualCalls.push("a");
+      };
+      const b = () => {
+        actualCalls.push("b");
+      };
+
+      eventInstance.on("type1", a);
+      eventInstance.on("type1", b);
+      eventInstance.emit("type1");
+
+      assert.deepEqual(actualCalls, expectedCalls);
+    });
+
+    it.only("should call all handelers attached to emitted events", function() {
+      let actualCalls = [];
+      let expectedCalls = ["a", "b", "a", "b", "a", "b"];
+
+      const a = () => {
+        actualCalls.push("a");
+      };
+      const b = () => {
+        actualCalls.push("b");
+      };
+
+      eventInstance.on("type1", a);
+      eventInstance.on("type1", b);
+      eventInstance.on("type2", a);
+      eventInstance.on("type2", b);
+      eventInstance.on("type3", a);
+      eventInstance.on("type3", b);
+
+      eventInstance.emit("type1");
+      eventInstance.emit("type2");
+      eventInstance.emit("type3");
+
+      assert.deepEqual(actualCalls, expectedCalls);
+    });
+  });
+
+  // describe("#remove", function() {});
+
   describe("Aliases", function() {
     it("should have a on aliases", function() {
       assert(eventInstance.on === eventInstance.addListener);
@@ -65,7 +127,4 @@ describe("#Event", function() {
       assert(eventInstance.off === eventInstance.removeAllListeners);
     });
   });
-
-  describe("#emit", function() {});
-  describe("#remove", function() {});
 });
