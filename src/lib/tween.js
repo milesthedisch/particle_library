@@ -7,11 +7,22 @@
  */
 
 const event = require("./event");
+const extend = require("extend");
+const clone = require("lodash/cloneDeep");
+
+const DEFAULTS = {
+  obj: {x: 0, y: 0},
+  props: {x: 100, y: 100},
+  easingFn: "ease",
+  duration: 1000,
+};
 
 // Inherits from event
 const YAT = Object.create(event);
 
-YAT.init = function init() {
+YAT.init = function init(opts=clone(DEFAULTS)) {
+  this.opts = extend({}, opts);
+
   /**
    * easingFns
    * @description All easing functions are orignially written
@@ -20,10 +31,34 @@ YAT.init = function init() {
    * @type {Object}
    */
   this.easingFns = {
-    ease() {},
-    easeInOutQuad() {},
-    easeInQuad() {},
-    easeOutQuad() {},
+    ease(change, norm, begin) {
+      return c * n + b;
+    },
+    easeInOutQuad(c, n, a) {
+      if ((n*=2) < 1) {
+        return c/2* (n*n) + b;
+      }
+      return -c/2 * ((--n)*(n-2) - 1) + b;
+    },
+    easeInQuad(c, n, a) {
+      return c * (n * n) + a;
+    },
+    easeOutQuad() {
+      return c * (n * (2 - n)) + b;
+    },
+  };
+
+  this.rpFns = {
+    easeInQuad(x, t, b, c, d) {
+      return c*(t/=d)*t + b;
+    },
+    easeOutQuad(x, t, b, c, d) {
+      return -c *(t/=d)*(t-2) + b;
+    },
+    easeInOutQuad(x, t, b, c, d) {
+      if ((t/=d/2) < 1) return c/2*t*t + b;
+      return -c/2 * ((--t)*(t-2) - 1) + b;
+    },
   };
 
   /**
@@ -32,13 +67,6 @@ YAT.init = function init() {
    * @type {Array}
    */
   this.tweens = [];
-};
-
-YAT.init = function(opts) {
-  opts.obj;
-  opts.props;
-  opts.duration;
-  opts.easingFn;
 };
 
 YAT.create = function(id, opts) {
