@@ -12,7 +12,7 @@ describe("#Tween", function() {
   describe("#finish", function() {});
   describe("#init", function() {});
   describe("#reset", function() {});
-  describe("#reverse", function() {});
+  describe("#rewind", function() {});
   describe("#start", function() {});
   describe("#stop", function() {});
 });

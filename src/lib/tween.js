@@ -6,11 +6,14 @@
  * right mind actaully benefits from this then so be it.
  */
 
-const event = require("./event");
+
 const extend = require("extend");
 const clone = require("lodash/cloneDeep");
+const event = require("./event");
+const clock = require("./clock");
 
 const DEFAULTS = {
+  current: {x: 0, y: 0},
   obj: {x: 0, y: 0},
   props: {x: 100, y: 100},
   easingFn: "ease",
@@ -27,37 +30,32 @@ YAT.init = function init(opts=clone(DEFAULTS)) {
    * easingFns
    * @description All easing functions are orignially written
    * by robert penner, the tweening god.
+   * Here each method is passed a normalized value. Which is
+   * usually a number between 0 and 1. You can think of this number as
+   * a percentage of a range. With that normlized value / percentage we
+   * can map that percentage to another range. This is called interpolation.
    * @see {@link http://robertpenner.com/easing/}
    * @type {Object}
    */
   this.easingFns = {
-    ease(c, n, b) {
+    // Here this ease function is linear as there is only one
+    // n value. Each ease function can be mapped to a polynomial.
+    ease(c, n, b) { // polynomial: ax + b = c; where x is the normalized value
       return c * n + b;
+    },
+    easeInQuad(c, n, a) { // polynomial: 1x^2 + 0x + 0 = d;
+      return c * (n * n) + a;
+    },
+    easeOutQuad() { // polynomial: -1x^2 + 2x + 0 = d;
+      return c * (n * (2 - n)) + b;
     },
     easeInOutQuad(change, norm, begin) {
       if ((n*=2) < 1) {
-        return c/2* (n*n) + b;
+        return c/2 * (n*n) + b; // Polynomial for half the range:
+        // 2x^2 + 0x + 0 = d;
       }
-      return -c/2 * ((--n)*(n-2) - 1) + b;
-    },
-    easeInQuad(c, n, a) {
-      return c * (n * n) + a;
-    },
-    easeOutQuad() {
-      return c * (n * (2 - n)) + b;
-    },
-  };
-
-  this.rpFns = {
-    easeInQuad(x, t, b, c, d) {
-      return c*(t/=d)*t + b;
-    },
-    easeOutQuad(x, t, b, c, d) {
-      return -c *(t/=d)*(t-2) + b;
-    },
-    easeInOutQuad(x, t, b, c, d) {
-      if ((t/=d/2) < 1) return c/2*t*t + b;
-      return -c/2 * ((--t)*(t-2) - 1) + b;
+      return -c/2 * ((--n)*(n-2) - 1) + b; // Polynomial for the the upper
+      // half of the range: -2x^2 + 4x - 1
     },
   };
 
@@ -67,6 +65,8 @@ YAT.init = function init(opts=clone(DEFAULTS)) {
    * @type {Array}
    */
   this.tweens = [];
+
+  this.ticker = opts.ticker || window.requestAnimationFrame;
 };
 
 YAT.create = function(id, opts) {
@@ -74,7 +74,8 @@ YAT.create = function(id, opts) {
   YATInstance.init(opts);
 
   // Array.push will return an index of where it pushed to.
-  YATInstance.id = this.tweens.push(YATInstance);
+  YATInstance.id = id === undefined ?
+    id : this.tweens.push(YATInstance);
 };
 
 YAT.get = function(id) {
@@ -91,8 +92,48 @@ YAT.get = function(id) {
   return false;
 };
 
-YAT.reverse = function() {};
-YAT.start = function(id) {};
+YAT.rewind = function(id=this.id) {
+  const tween = this.get(id);
+
+  if (!this.stopped) {
+    tween.stop();
+  }
+
+  // Figure out a way to cache the old props //
+  this.opts.obj = this.opts.props;
+  this.opts.props = this.opts.propsBeforeTween;
+
+  tween.start();
+};
+
+YAT.start = function(...args) {
+  if (typeof args[0] === "object") {
+    /* eslint-disable */
+    var {
+      id = this.id, 
+      props = this.opts.props, 
+      easingFn = this.opts.easingFn, 
+      duration = this.opts.duration,
+    } = args[0];
+    /* eslint-enable */
+  } else {
+    /* eslint-disable */
+    var [
+      id = this.id, 
+      props = this.opts.props, 
+      easingFn = this.opts.easingFn, 
+      duration = this.opts.duration,
+    ] = args;
+    /* eslint-enable */
+  }
+
+  // I need to create a clock function. It needs to be able to tick every rAF or
+  // if given an interval tick based on that. Needs to be able to tick for a given duration
+  // and a given interval. Should be able to cancel the ticker, start the ticker
+  // and stop the ticker. It should also be able to get its current progress.
+  this.ticker
+};
+
 YAT.stop = function() {};
 YAT.finish = function() {};
 YAT.continue = function() {};
