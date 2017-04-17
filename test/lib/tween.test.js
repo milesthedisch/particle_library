@@ -1,11 +1,12 @@
 /* eslint max-len: 0*/
 const tween = require("../../src/lib/tween.js");
-const util = require("util");
-const utils = require("../../src/lib/utils.js");
+// const util = require("util");
+// const utils = require("../../src/lib/utils.js");
 
 describe("#Tween", function() {
   describe("#create", function() {
-    it.skip("test", function() {
+    it.only("test", function() {
+      console.log(tween.create());
     });
   });
   describe("#continue", function() {});

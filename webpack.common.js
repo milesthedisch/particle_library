@@ -1,5 +1,6 @@
 /* eslint-disable */
 const webpack = require("webpack");
+const PolyfillsPlugin = require('webpack-polyfills-plugin');
 const path = require("path");
 
 const paths = {
@@ -38,5 +39,11 @@ module.exports = {
 	    },
 		],
 	},
+	plugins: [
+		new PolyfillsPlugin([
+			'performance/now',
+			'requestAnimationFrame',
+		]),
+	],
 	target: "web",
 };

@@ -44,7 +44,8 @@
     "nodemon": "^1.11.0",
     "sinon": "^1.17.7",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-polyfills-plugin": "0.0.9"
   },
   "dependencies": {
     "lodash": "^4.17.4"

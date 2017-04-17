@@ -10,6 +10,7 @@
 const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 const event = require("./event");
+const utils = require("./utils");
 const clock = require("./clock");
 
 const DEFAULTS = {
@@ -20,10 +21,12 @@ const DEFAULTS = {
   duration: 1000,
 };
 
-// Inherits from event
-const YAT = Object.create(event);
+// Can use Event and Clock methods.
+const YAT = Object.assign(utils, event.init());
 
-YAT.init = function init(opts=clone(DEFAULTS)) {
+YAT.init = function initTween(opts=clone(DEFAULTS)) {
+  this._event = event;
+  this._clock = clock;
   this.opts = extend({}, opts);
 
   /**
@@ -66,7 +69,7 @@ YAT.init = function init(opts=clone(DEFAULTS)) {
    */
   this.tweens = [];
 
-  this.ticker = opts.ticker || window.requestAnimationFrame;
+  return this;
 };
 
 YAT.create = function(id, opts) {
@@ -74,8 +77,17 @@ YAT.create = function(id, opts) {
   YATInstance.init(opts);
 
   // Array.push will return an index of where it pushed to.
-  YATInstance.id = id === undefined ?
-    id : this.tweens.push(YATInstance);
+  if (YATInstance.id) {
+    if (this.tween.every((x) => x.id !== id)) {
+      YATInstance.id = id;
+      this.tweens.push(YATInstance);
+    }
+
+    throw new Error(`The tween with id: ${id} already exsists.`);
+  }
+
+  YATInstance.id = this.tweens.push(YATInstance);
+  return YATInstance;
 };
 
 YAT.get = function(id) {
@@ -128,10 +140,11 @@ YAT.start = function(...args) {
   }
 
   // I need to create a clock function. It needs to be able to tick every rAF or
-  // if given an interval tick based on that. Needs to be able to tick for a given duration
-  // and a given interval. Should be able to cancel the ticker, start the ticker
+  // if given an interval tick based on that. Needs to
+  // be able to tick for a given duration and a given interval.
+  // Should be able to cancel the ticker, start the ticker
   // and stop the ticker. It should also be able to get its current progress.
-  this.ticker
+  this.ticker = this._clock.init(id);
 };
 
 YAT.stop = function() {};

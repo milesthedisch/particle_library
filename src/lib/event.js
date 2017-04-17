@@ -1,11 +1,9 @@
-const utils = require("./utils.js");
-
 /**
  * Event
  * @type {Object}
  * @implements {utils}
  */
-const Event = Object.create(utils);
+const Event = Object.create(null);
 
 /**
  * init
@@ -13,7 +11,7 @@ const Event = Object.create(utils);
  * @description Initializes the event object.
  * @return {Event}
  */
-Event.init = function() {
+Event.init = function initEvent() {
   this.callbacks = {};
   return this;
 };
