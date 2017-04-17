@@ -1,29 +1,60 @@
-const event = require("./event");
+const ticker = require("./ticker");
 const Clock = Object.create(null);
 
 Clock.init = function initClock() {
   this.slaves = [];
-  this.beginingOfTime = performance.now();
+  this.timeStamp = performance.now();
+  this.rAF;
 
-  function loop(delta) {
-    this.whipSlaves();
-    window.requestAnimationFrame(loop.bind(this));
+  let tick = 0;
+  let delta = 0;
+  let beginingOfTime = this.timeStamp;
+  let lastTime = beginingOfTime;
+
+  /**
+   * loop - A animation Loop
+   * @private
+   * @param  {Number} now
+   */
+  function loop(now) {
+    tick++;
+    delta = this.lastTime - now;
+    runningTime += delta;
+
+    this.whipSlaves({tick, delta, runningTime, lastTime, now});
+
+    lastTime = now;
+
+    this.rAF = window.requestAnimationFrame(loop.bind(this));
   }
 
   loop(this.beginingOfTime);
 };
 
-Clock.whipSlaves = function () {
+Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
 
-  this.slaves.filter((slave) => {
-    return slave.needsUpdate;
+  this.slaves.forEach((slave) => {
+    if (slave.needsUpdate) {
+      slave.nudge(state);
+    }
   });
 };
 
-Clock.create = function create(id) {
-  const ticker = Object.assign(Object.create(Clock), event.init());
-  ticker.id = id || this.slaves.push({ticker});
+Clock.addSlave = function addSlave(slave) {
+  this.slaves.push(slave);
+};
+
+Clock.createSlave = function create({id, duration}) {
+  const timeStamp = performance.now();
+  const ticker = Object.create(ticker).init({timeStamp, id, duration});
+
+  if (id) {
+    ticker.id = id;
+    this.slaves.push({ticker});
+  }
+
+  ticker.id = this.slaves.push({ticker});
 };
 
 module.exports = Clock;

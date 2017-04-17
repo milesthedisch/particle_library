@@ -144,7 +144,7 @@ YAT.start = function(...args) {
   // be able to tick for a given duration and a given interval.
   // Should be able to cancel the ticker, start the ticker
   // and stop the ticker. It should also be able to get its current progress.
-  this.ticker = this._clock.init(id);
+  this.ticker = this.clock.createSlave({id, duration});
 };
 
 YAT.stop = function() {};

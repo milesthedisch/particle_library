@@ -257,6 +257,7 @@ Particle.prototype.gravitateTo = function(p2) {
   return this.accelerate(ax, ay);
 };
 
+// This generatorr function is pretty gross Miles fix this you lazy pile of developer.
 /**
  * @memberOf Particle
  * @description generate a bunch of particles.
