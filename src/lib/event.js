@@ -128,9 +128,7 @@ Event.listeners = function listeners(...args) {
 };
 
 // Aliases //
-Event.remove =
-Event.removeListener =
-Event.removeAllListeners = Event.off;
+Event.removeListener = Event.removeAllListeners = Event.off;
 Event.fire = Event.emit;
 Event.addListener = Event.on;
 Event.get = Event.listeners;

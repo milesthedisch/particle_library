@@ -41,13 +41,10 @@ Clock.whipSlaves = function whipSlaves(state) {
   });
 };
 
-Clock.addSlave = function addSlave(slave) {
-  this.slaves.push(slave);
-};
-
 Clock.createSlave = function create({id, duration}) {
   const timeStamp = performance.now();
-  const ticker = Object.create(ticker).init({timeStamp, id, duration});
+  const ticker = Object.create(ticker)
+    .init({timeStamp, id, duration});
 
   if (id) {
     ticker.id = id;
@@ -56,5 +53,17 @@ Clock.createSlave = function create({id, duration}) {
 
   ticker.id = this.slaves.push({ticker});
 };
+
+Clock.removeSlave = function removeSlave(id) {
+
+};
+
+Clock.clearSlaves = function clearSlaves() {
+  while(this.slaves.length) {
+    this.slaves[this.slaves.length - 1].pop();
+  }
+};
+
+ Clock.removeAllSalves = Clock.clearSlaves;
 
 module.exports = Clock;

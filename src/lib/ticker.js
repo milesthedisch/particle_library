@@ -14,6 +14,7 @@ Ticker.init = function({
   // I dont need to update when im initialized.
   this.needsUpdate = false;
   this.initializedTime = timestamp;
+  this.start();
 };
 
 Ticker.tickFor = function(duration=1000) {
@@ -23,29 +24,42 @@ Ticker.tickFor = function(duration=1000) {
 
   return (string) => {
     switch (string) {
-    case "frames": case "f": {
-      this.duration = {type: "frames", duration};
+    case "frames": case "f":
+      this.duration = {
+        type: "frames",
+        value: duration,
+        ms: duration * MAX_FPS,
+      };
       return;
-    }
-    case "seconds": case "s": {
-      this.duration = {type: "seconds", duration};
+    case "seconds": case "s":
+      this.duration = {
+        type: "seconds",
+        value: duration,
+        ms: duration * 1000,
+      };
       return;
-    }
-    case "milliseconds": case "ms": 
-    default: {
-      this.duration = {type: "milliseconds", duration};
+    case "milliseconds": case "ms": default:
+      this.duration = {
+        type: "milliseconds",
+        value: duration,
+        ms: duration,
+      };
       return;
-    }
+    };
   };
-};
-
-Ticker.onComplete = function() {
-  this.emit("done");
 };
 
 Ticker.start = function() {
   this.needsUpdate = true;
   this.startTime = performance.now();
+};
+
+Ticker.stop = function() {
+  // Now what time it stopped.
+  // so that if it starts again it
+  // it can recalculate how for it needs to go.
+  this.timeLeft = this.timeSinceStart - duration;
+  this.stopTime = performance.now();
 };
 
 Ticker.nudge = function nudge(state) {
@@ -58,11 +72,10 @@ Ticker.nudge = function nudge(state) {
   this.startTime = state.now;
 
   if (timeSinceStart > duration) {
-    this.needsUpdate = false;
+    this.emit("tick");
   }
 
-  if (timeSinceStart < duration) {
-    this.needsUpdate = true;
+  if (timeLeft > 0) {
+    this.emit("complete");
   }
-  // Figure out based on state wether or not I need to update.
 };
