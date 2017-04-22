@@ -1,15 +1,17 @@
 const ticker = require("./ticker");
 const Clock = Object.create(null);
+const MAX_FPS = 1000/60;
 
-Clock.init = function initClock() {
+Clock.init = function initClock({fps=1000/60}) {
   this.slaves = [];
   this.timeStamp = performance.now();
+  this.fps = fps > MAX_FPS ? MAX_FPS : fps;
   this.rAF;
 
   let tick = 0;
   let delta = 0;
-  let beginingOfTime = this.timeStamp;
-  let lastTime = beginingOfTime;
+  let clockStartTime = this.timeStamp;
+  let lastTime = clockStartTime;
 
   /**
    * loop - A animation Loop
@@ -17,31 +19,36 @@ Clock.init = function initClock() {
    * @param  {Number} now
    */
   function loop(now) {
-    tick++;
-    delta = this.lastTime - now;
+    if (!now) now = clockStartTime;
+    this.rAF = window.requestAnimationFrame(loop.bind(this));
+    delta = now - lastTime;
     runningTime += delta;
 
-    this.whipSlaves({tick, delta, runningTime, lastTime, now});
-
-    lastTime = now;
-
-    this.rAF = window.requestAnimationFrame(loop.bind(this));
+    if (delta > this.fps) {
+      this.whipSlaves({tick, delta, runningTime, lastTime, now});
+      lastTime = now - (delta % fps);
+      tick++;
+    }
   }
 
-  loop(this.beginingOfTime);
+  loop(clockStartTime);
 };
 
 Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
 
-  this.slaves.forEach((slave) => {
+  this.slaves.forEach((slave, index) => {
+    if (slave.done) {
+      this.removeSlave(slave.id);
+    }
+
     if (slave.needsUpdate) {
       slave.nudge(state);
     }
   });
 };
 
-Clock.createSlave = function create({id, duration}) {
+Clock.createSlave = function createSlave({id, duration}) {
   const timeStamp = performance.now();
   const ticker = Object.create(ticker)
     .init({timeStamp, id, duration});
@@ -55,15 +62,19 @@ Clock.createSlave = function create({id, duration}) {
 };
 
 Clock.removeSlave = function removeSlave(id) {
-
+  this.slaves = this.slaves.filter((slave) => {
+    if (slave.id !== id) {
+      return true;
+    }
+    slave.removeAllListeners();
+    return false;
+  });
 };
 
 Clock.clearSlaves = function clearSlaves() {
-  while(this.slaves.length) {
-    this.slaves[this.slaves.length - 1].pop();
-  }
+  if (this.slaves.length) this.slaves = [];
 };
 
- Clock.removeAllSalves = Clock.clearSlaves;
+Clock.removeAllSalves = Clock.clearSlaves;
 
 module.exports = Clock;

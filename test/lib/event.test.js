@@ -43,6 +43,15 @@ describe("#Event", function() {
     it("should throw an error if not given first and second argument", function() {
       assert.throws(eventInstance.on.bind(null), "Please provide truthy arguments");
     });
+
+    it.only("should bind the context of the last argument to the provided callback", function() {
+      const testFn = function testFn() {
+        return this.foo;
+      };
+
+      eventInstance.on("type1", testFn, {foo: "bar"});
+      assert.equal(eventInstance.listeners("type1")[0](), "bar");
+    });
   });
 
   describe("#listeners", function() {

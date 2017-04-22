@@ -3,11 +3,28 @@
         "browser": true,
         "es6": true
     },
-    "extends": "./node_modules/eslint-config-google/index.js",
+    "settings": {
+        "import/extensions": [".test.js", ".js"]
+    },
+    "extends": [
+        "./node_modules/eslint-config-google/index.js",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+    ],
+    "plugins": [
+        "import"
+    ],
     "rules": {
         "indent": [
             "error",
             2
+        ],
+        "import/no-unresolved": [
+            2, 
+            {
+                "commonjs": true, 
+                "amd": true
+            }
         ],
         "linebreak-style": [
             "error",

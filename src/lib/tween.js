@@ -145,11 +145,35 @@ YAT.start = function(...args) {
   // Should be able to cancel the ticker, start the ticker
   // and stop the ticker. It should also be able to get its current progress.
   this.ticker = this.clock.createSlave({id, duration});
+  this.ticker.on("tick", function onTick() {
+
+  });
+  return this;
 };
 
-YAT.stop = function() {};
-YAT.finish = function() {};
+YAT.delay = function delay(duration) {
+  this.ticker.stop();
+  setTimeout(() => this.ticker.start());
+  return this;
+};
+
+YAT.stop = function stop() {
+  this.ticker.stop();
+  return this;
+};
+
+YAT.finish = function finish() {
+  this.ticker.stop();
+  this._clock.removeSlave(this.ticker.id);
+  update();
+  return this;
+};
+
 YAT.continue = function() {};
+
+function update() {
+
+}
 
 module.exports = YAT;
 

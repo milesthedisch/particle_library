@@ -35,6 +35,7 @@
     "chai": "^3.5.0",
     "eslint": "^3.8.1",
     "eslint-config-google": "^0.7.0",
+    "eslint-plugin-import": "^2.2.0",
     "extend": "^3.0.0",
     "glob": "^7.1.1",
     "gutil": "^1.6.4",

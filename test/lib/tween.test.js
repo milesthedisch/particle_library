@@ -5,7 +5,7 @@ const tween = require("../../src/lib/tween.js");
 
 describe("#Tween", function() {
   describe("#create", function() {
-    it.only("test", function() {
+    it.skip("test", function() {
       console.log(tween.create());
     });
   });
