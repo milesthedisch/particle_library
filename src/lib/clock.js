@@ -1,37 +1,55 @@
 const ticker = require("./ticker");
-const Clock = Object.create(null);
+const Clock = Object.create({});
 const MAX_FPS = 1000/60;
 
-Clock.init = function initClock({fps=1000/60}) {
+Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.slaves = [];
-  this.timeStamp = performance.now();
-  this.fps = fps > MAX_FPS ? MAX_FPS : fps;
   this.rAF;
+  this.fps = opts.fps > MAX_FPS ?
+    MAX_FPS :
+    (opts.fps || MAX_FPS);
 
-  let tick = 0;
-  let delta = 0;
-  let clockStartTime = this.timeStamp;
-  let lastTime = clockStartTime;
+  return this;
+};
 
-  /**
-   * loop - A animation Loop
-   * @private
-   * @param  {Number} now
-   */
-  function loop(now) {
-    if (!now) now = clockStartTime;
-    this.rAF = window.requestAnimationFrame(loop.bind(this));
-    delta = now - lastTime;
-    runningTime += delta;
-
-    if (delta > this.fps) {
-      this.whipSlaves({tick, delta, runningTime, lastTime, now});
-      lastTime = now - (delta % fps);
-      tick++;
-    }
+Clock.start = function start(fps=60) {
+  if (fps > 60) {
+    throw new Error("The given fps is too high");
   }
 
-  loop(clockStartTime);
+  if (!fps) {
+    throw new Error("The given fps is not valid");
+  }
+
+  this.fps = 1000 / fps;
+  // Zero based frame count.
+  this.index = -1;
+  this.timeSinceStart = 0;
+  this.startTime = performance.now();
+  this.lastTime = this.startTime;
+
+  this.tick();
+  return this;
+};
+
+Clock.tick = function tick(newTime) {
+  this.rAF = requestAnimationFrame(tick.bind(this));
+  let delta = newTime - this.lastTime;
+  this.timeSinceStart = newTime - this.startTime;
+
+  console.log(delta);
+
+  if (delta > this.fps) {
+    ++this.index;
+    this.whipSlaves({
+      newTime,
+      delta,
+      index: this.index,
+      lastTime: this.lastTime,
+      timesSinceStart: this.timeSinceStart,
+    });
+    this.lastTime = newTime - (delta % this.fps);
+  }
 };
 
 Clock.whipSlaves = function whipSlaves(state) {

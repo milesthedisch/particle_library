@@ -54,7 +54,7 @@ Event.on = function on(event, fn, context) {
   }
 
   if (context) {
-    fn.bind(context);
+    fn = fn.bind(context);
   }
 
   const events = event.split(" ");
