@@ -4,7 +4,11 @@ const MAX_FPS = 1000/60;
 
 Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.slaves = [];
+
+  // Save a reference to the animation frame so we can cancel it
   this.rAF;
+
+  // The maximum FPS the browser can deliver is 60.
   this.fps = opts.fps > MAX_FPS ?
     MAX_FPS :
     (opts.fps || MAX_FPS);
@@ -28,6 +32,7 @@ Clock.start = function start(fps=60) {
   this.startTime = performance.now();
   this.lastTime = this.startTime;
 
+  // Start ticking
   this.tick();
   return this;
 };
@@ -36,8 +41,6 @@ Clock.tick = function tick(newTime) {
   this.rAF = requestAnimationFrame(tick.bind(this));
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
-
-  console.log(delta);
 
   if (delta > this.fps) {
     ++this.index;
