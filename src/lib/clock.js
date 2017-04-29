@@ -33,7 +33,7 @@ Clock.start = function start(fps=60) {
   this.lastTime = this.startTime;
 
   // Start ticking
-  this.tick();
+  this.tick(this.startTime);
   return this;
 };
 
