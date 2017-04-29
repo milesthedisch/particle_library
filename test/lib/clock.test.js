@@ -7,7 +7,7 @@ const sinon = require("sinon");
 const assert = require("chai").assert;
 const clock = require("../../src/lib/clock.js");
 
-describe.only("#Clock", function() {
+describe("#Clock", function() {
   let clockInstance;
   let whipSlavesSpy;
 
@@ -66,6 +66,26 @@ describe.only("#Clock", function() {
       // Once we've called tick the ticker will keep running every rAF.
       requestAnimationFrame.step();
       assert.equal(clockInstance.index, 0);
+    });
+
+    it("should update based on start time given and lastTime state", function() {
+      // Start time and last time should be equal on the first tick.
+      clockInstance.lastTime = 100;
+      clockInstance.tick(200);
+
+      // Once we've called tick the ticker will keep running every rAF.
+      requestAnimationFrame.step();
+      assert.equal(clockInstance.index, 0);
+    });
+
+    it("should update based on start time given and lastTime state", function() {
+      // Start time and last time should be equal on the first tick.
+      clockInstance.lastTime = 200;
+      clockInstance.tick(100);
+
+      // Once we've called tick the ticker will keep running every rAF.
+      requestAnimationFrame.step();
+      assert.equal(clockInstance.index, -1);
     });
   });
 

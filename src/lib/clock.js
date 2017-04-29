@@ -1,6 +1,6 @@
 const ticker = require("./ticker");
 const event = require("./event");
-const Clock = Object.create({});
+const Clock = Object.create(event);
 const MAX_FPS = 1000/60;
 
 /**
@@ -120,7 +120,7 @@ Clock.stop = function stopClock() {
  * @param  {Object} state
  * @return {Clock}
  */
-Clock.whipSlaves = function whipSlaves(state, done) {
+Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
 
   this.slaves.forEach((slave, index) => {
@@ -135,7 +135,7 @@ Clock.whipSlaves = function whipSlaves(state, done) {
     }
   });
 
-  done();
+  this.emit("whipedAllSlaves");
 
   return this;
 };

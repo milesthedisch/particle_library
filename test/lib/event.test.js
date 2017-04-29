@@ -44,7 +44,7 @@ describe("#Event", function() {
       assert.throws(eventInstance.on.bind(null), "Please provide truthy arguments");
     });
 
-    it.only("should bind the context of the last argument to the provided callback", function() {
+    it("should bind the context of the last argument to the provided callback", function() {
       const testFn = function testFn() {
         return this.foo;
       };
@@ -169,10 +169,9 @@ describe("#Event", function() {
 
   describe("Aliases", function() {
     it("should have a on aliases", function() {
-      assert(eventInstance.on === eventInstance.addListener);
-      assert(eventInstance.off === eventInstance.remove);
-      assert(eventInstance.off === eventInstance.removeListener);
-      assert(eventInstance.off === eventInstance.removeAllListeners);
+      assert.ok(eventInstance.on === eventInstance.addListener);
+      assert.ok(eventInstance.off === eventInstance.removeListener);
+      assert.ok(eventInstance.off === eventInstance.removeAllListeners);
     });
   });
 });
