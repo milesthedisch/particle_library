@@ -25,8 +25,12 @@ const DEFAULTS = {
 const YAT = Object.assign(utils, event.init());
 
 YAT.init = function initTween(opts=clone(DEFAULTS)) {
-  this._event = event;
-  this._clock = clock;
+  this._clock = Object.create(clock);
+  this.uses = {
+    event,
+    utils,
+  };
+
   this.opts = extend({}, opts);
 
   /**

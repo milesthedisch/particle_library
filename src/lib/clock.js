@@ -5,8 +5,17 @@ const MAX_FPS = 1000/60;
 Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.slaves = [];
 
+  // Zero based frame count.
+  this.index = -1;
+
   // Save a reference to the animation frame so we can cancel it
   this.rAF;
+
+  // Time properties
+  this.startTime;
+  this.lastTime;
+  this.stopTime;
+  this.timeSinceStart;
 
   // The maximum FPS the browser can deliver is 60.
   this.fps = opts.fps > MAX_FPS ?
@@ -26,8 +35,6 @@ Clock.start = function start(fps=60) {
   }
 
   this.fps = 1000 / fps;
-  // Zero based frame count.
-  this.index = -1;
   this.timeSinceStart = 0;
   this.startTime = performance.now();
   this.lastTime = this.startTime;
@@ -53,6 +60,30 @@ Clock.tick = function tick(newTime) {
     });
     this.lastTime = newTime - (delta % this.fps);
   }
+};
+
+Clock.stop = function stopClock() {
+  // Record when we stopped.
+  this.stopTime = performance.now();
+
+  // Given the stop time see what the last delta was.
+  const lastDelta = this.timeSinceStart - this.stopTime;
+
+  // If the delta was greater than the last fps update one last time.
+  if (lastDelta > this.fps) {
+    ++this.index;
+    this.whipSlaves({
+      newTime,
+      delta,
+      index: this.index,
+      lastTime: this.lastTime,
+      timesSinceStart: this.timeSinceStart,
+    });
+    this.lastTime = newTime - (delta % this.fps);
+  }
+
+  this.timeSinceStart = this.startTime - this.stopTime;
+  cancelAnimationFrame(this.rAF);
 };
 
 Clock.whipSlaves = function whipSlaves(state) {

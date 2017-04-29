@@ -12,8 +12,8 @@ describe.only("#Clock", function() {
   let whipSlavesSpy;
 
   beforeEach(function() {
-    clockInstance = clock.init();
-    whipSlavesSpy = sinon.spy(clockInstance, "whipSlaves");
+    clockInstance = Object.create(clock).init();
+    whipSlavesSpy = sinon.spy(Object.getPrototypeOf(clockInstance), "whipSlaves");
   });
 
   afterEach(function() {
@@ -34,7 +34,7 @@ describe.only("#Clock", function() {
       assert.equal(whipSlavesSpy.callCount, 2);
 
       // Which frame we are in. Its a zero based index. So the first frame is 0.
-      assert.equal(clock.index, 1);
+      assert.equal(clockInstance.index, 1);
     });
 
     it("should run a loop that calls whipSlaves every given a fps", function() {
@@ -46,7 +46,7 @@ describe.only("#Clock", function() {
       requestAnimationFrame.step(1, 1000/FPS);
       requestAnimationFrame.step(1, 1000/FPS);
       assert.equal(whipSlavesSpy.callCount, 2);
-      assert.equal(clock.index, 1);
+      assert.equal(clockInstance.index, 1);
     });
 
 
@@ -54,6 +54,18 @@ describe.only("#Clock", function() {
     it("should run a loop that runs every 16.66..7ms given a interval that is less that 16.66..7ms", function() {
       const FPS_TO_HIGH = 70;
       assert.throw(clockInstance.start.bind(null, FPS_TO_HIGH));
+    });
+  });
+
+  describe("#tick", function() {
+    it("should update based on start time given and lastTime state", function() {
+      // Start time and last time should be equal on the first tick.
+      clockInstance.lastTime = 0;
+      clockInstance.tick(0);
+
+      // Once we've called tick the ticker will keep running every rAF.
+      requestAnimationFrame.step();
+      assert.equal(clockInstance.index, 0);
     });
   });
 });

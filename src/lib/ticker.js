@@ -3,7 +3,7 @@ const MAX_FPS = 1000/60;
 const Ticker = Object.create(event);
 const STATE = {
   STOPPED: "STOPPED",
-  RUNING: "RUNNING",
+  RUNNING: "RUNNING",
   DONE: "DONE",
 };
 
@@ -13,12 +13,20 @@ Ticker.init = function({
   duration=1000,
   interval=MAX_FPS,
 }) {
-  this.duration = tickFor(duration)("ms");
+  this.parent = event;
+  this.duration = this.tickFor(duration)("ms");
 
   // Probably cant support this??
   // You have to have your own clock.
   this.interval = interval;
   this.start(duration);
+
+  this.STATE;
+  this.needsUpdate;
+  this.delta;
+  this.startTime;
+  this.stopTime;
+  this.timeSinceStart;
 };
 
 Ticker.tickFor = function(duration) {
@@ -63,7 +71,7 @@ Ticker.stop = function() {
   // Know what time it stopped.
   // so that if it starts again it
   // it can recalculate how far it needs to go.
-  this.duration = this.runningTime - this.duration.ms;
+  this.duration = this.timeSinceStart - this.duration.ms;
   this.stopTime = performance.now();
 };
 
@@ -78,10 +86,11 @@ Ticker.nudge = function nudge(state) {
   }
 
   this.delta = state.now - this.startTime;
-  this.runningTime += delta;
+  this.timeSinceStart += delta;
   this.startTime = state.now;
+  this.STATE = STATE.RUNNING;
 
-  if (runningTime > this.duration.ms) {
+  if (timeSinceStart > this.duration.ms) {
     this.needsUpdate = true;
     return this.emit("tick");
   } else {
