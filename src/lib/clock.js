@@ -1,7 +1,14 @@
 const ticker = require("./ticker");
+const event = require("./event");
 const Clock = Object.create({});
 const MAX_FPS = 1000/60;
 
+/**
+ * init - Initalizes the clock with correct properties.
+ * @param  {Object} opts
+ * @param  {Number} opts.fps The fps you want the clock to tick at.
+ * @return {Clock}
+ */
 Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.slaves = [];
 
@@ -25,6 +32,11 @@ Clock.init = function initClock(opts={fps: MAX_FPS}) {
   return this;
 };
 
+/**
+ * start - Starts the clock with starting time properties.
+ * @param  {Number} fps The fps you want the clock to tick at.
+ * @return {Clock}
+ */
 Clock.start = function start(fps=60) {
   if (fps > 60) {
     throw new Error("The given fps is too high");
@@ -44,8 +56,14 @@ Clock.start = function start(fps=60) {
   return this;
 };
 
+/**
+ * tick
+ * @param  {Number} newTime A value in ms that is equal to the current time.
+ * @return {Clock}
+ */
 Clock.tick = function tick(newTime) {
   this.rAF = requestAnimationFrame(tick.bind(this));
+
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
 
@@ -60,8 +78,14 @@ Clock.tick = function tick(newTime) {
     });
     this.lastTime = newTime - (delta % this.fps);
   }
+
+  return this;
 };
 
+/**
+ * stop - Stop the clock and call the last tick if needed.
+ * @return {Clock}
+ */
 Clock.stop = function stopClock() {
   // Record when we stopped.
   this.stopTime = performance.now();
@@ -72,6 +96,7 @@ Clock.stop = function stopClock() {
   // If the delta was greater than the last fps update one last time.
   if (lastDelta > this.fps) {
     ++this.index;
+
     this.whipSlaves({
       newTime,
       delta,
@@ -79,14 +104,23 @@ Clock.stop = function stopClock() {
       lastTime: this.lastTime,
       timesSinceStart: this.timeSinceStart,
     });
+
     this.lastTime = newTime - (delta % this.fps);
   }
 
   this.timeSinceStart = this.startTime - this.stopTime;
   cancelAnimationFrame(this.rAF);
+
+  return this;
 };
 
-Clock.whipSlaves = function whipSlaves(state) {
+/**
+ * whipSlaves - Run all slaves in sequence and pass in
+ * the given state of the clock.
+ * @param  {Object} state
+ * @return {Clock}
+ */
+Clock.whipSlaves = function whipSlaves(state, done) {
   if (!this.slaves.length) return;
 
   this.slaves.forEach((slave, index) => {
@@ -95,9 +129,15 @@ Clock.whipSlaves = function whipSlaves(state) {
     }
 
     if (slave.needsUpdate) {
+      // Can i set a timeout here and have the nudges run async?
+      // Give it a shoot.
       slave.nudge(state);
     }
   });
+
+  done();
+
+  return this;
 };
 
 Clock.createSlave = function createSlave({id, duration}) {
@@ -106,7 +146,6 @@ Clock.createSlave = function createSlave({id, duration}) {
     .init({timeStamp, id, duration});
 
   if (id) {
-    ticker.id = id;
     this.slaves.push({ticker});
   }
 

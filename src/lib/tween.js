@@ -11,27 +11,31 @@ const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 const event = require("./event");
 const utils = require("./utils");
-const clock = require("./clock");
 
 const DEFAULTS = {
-  current: {x: 0, y: 0},
   obj: {x: 0, y: 0},
   props: {x: 100, y: 100},
   easingFn: "ease",
   duration: 1000,
 };
 
-// Can use Event and Clock methods.
-const YAT = Object.assign(utils, event.init());
+const eventInstance = event.init();
+// Inherit methods from eventInstance
+const YAT = Object.create(eventInstance);
 
-YAT.init = function initTween(opts=clone(DEFAULTS)) {
-  this._clock = Object.create(clock);
-  this.uses = {
-    event,
-    utils,
-  };
+/**
+ * tweens
+ * @description A list of all the available tweens.
+ * @type {Array}
+ */
+const tweens = [];
 
+YAT.init = function initTween(opts) {
   this.opts = extend({}, opts);
+
+  // Can and uses Event and Clock methods.
+  this._clock = Object.create(opts.clock); // Miles makes sure you a pass the clock instance in.
+  this.parent = eventInstance;
 
   /**
    * easingFns
@@ -50,13 +54,13 @@ YAT.init = function initTween(opts=clone(DEFAULTS)) {
     ease(c, n, b) { // polynomial: ax + b = c; where x is the normalized value
       return c * n + b;
     },
-    easeInQuad(c, n, a) { // polynomial: 1x^2 + 0x + 0 = d;
-      return c * (n * n) + a;
+    easeInQuad(c, n, b) { // polynomial: 1x^2 + 0x + 0 = d;
+      return c * (n * n) + b;
     },
-    easeOutQuad() { // polynomial: -1x^2 + 2x + 0 = d;
+    easeOutQuad(c, n, b) { // polynomial: -1x^2 + 2x + 0 = d;
       return c * (n * (2 - n)) + b;
     },
-    easeInOutQuad(change, norm, begin) {
+    easeInOutQuad(c, n, b) {
       if ((n*=2) < 1) {
         return c/2 * (n*n) + b; // Polynomial for half the range:
         // 2x^2 + 0x + 0 = d;
@@ -66,19 +70,28 @@ YAT.init = function initTween(opts=clone(DEFAULTS)) {
     },
   };
 
-  /**
-   * tweens
-   * @description A list of all the available tweens.
-   * @type {Array}
-   */
-  this.tweens = [];
-
+  this._clock.on("whipedAllSalves", updateAllTweens, this);
   return this;
 };
 
-YAT.create = function(id, opts) {
+YAT.updateAllTween = function updateAllTweens() {
+  this.tweens.forEach((tween) => {
+    if (tween.ticker.needsUpdate) {
+      tween.update();
+    }
+
+    if (tween.ticker.done) {
+      tween.remove();
+    }
+
+    if (tween.ticker.stopped) {
+      console.log("Your tween is stopped.");
+    }
+  });
+};
+
+YAT.create = function(opts=clone(DEFAULTS)) {
   const YATInstance = Object.create(YAT);
-  YATInstance.init(opts);
 
   // Array.push will return an index of where it pushed to.
   if (YATInstance.id) {
@@ -90,7 +103,12 @@ YAT.create = function(id, opts) {
     throw new Error(`The tween with id: ${id} already exsists.`);
   }
 
+  YATInstance.obj = opts.obj;
+  YATInstance.props = opts.props;
+  YATInstance.easing = YATInstance.easingFn[opts.easingFn];
+  YATInstance.ticker = this._clock.createSlave({id, duration});
   YATInstance.id = this.tweens.push(YATInstance);
+
   return YATInstance;
 };
 
@@ -148,16 +166,12 @@ YAT.start = function(...args) {
   // be able to tick for a given duration and a given interval.
   // Should be able to cancel the ticker, start the ticker
   // and stop the ticker. It should also be able to get its current progress.
-  this.ticker = this.clock.createSlave({id, duration});
-  this.ticker.on("tick", function onTick() {
-
-  });
   return this;
 };
 
 YAT.delay = function delay(duration) {
   this.ticker.stop();
-  setTimeout(() => this.ticker.start());
+  setTimeout(() => this.ticker.start(), duration);
   return this;
 };
 
@@ -173,11 +187,24 @@ YAT.finish = function finish() {
   return this;
 };
 
-YAT.continue = function() {};
+YAT.remove = function remove(id=this.id) {
+  this.tweens = this.tween.filter((t) => {
+    if (t.id === id) {
+      this._clock.removeSlave(t.ticker.id);
+      return false;
+    }
 
-function update() {
+    return true;
+  });
+};
 
-}
+YAT.update = function update() {
+  const norm = utils.normalize(
+    this.ticker.timeSinceStart, 0, this.ticker.duration.ms
+  );
+
+  this.easing(this.obj, norm, this.props);
+};
 
 module.exports = YAT;
 

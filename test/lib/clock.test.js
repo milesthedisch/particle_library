@@ -68,4 +68,10 @@ describe.only("#Clock", function() {
       assert.equal(clockInstance.index, 0);
     });
   });
+
+  describe("#stop", function() {});
+  describe("#start", function() {});
+  describe("#createSlave", function() {});
+  describe("#removeSlave", function() {});
+  describe("#whipSlaves", function() {});
 });
