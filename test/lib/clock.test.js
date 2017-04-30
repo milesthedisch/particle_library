@@ -190,7 +190,7 @@ describe("#Clock", function() {
     });
   });
 
-  describe.only("#whipSlaves", function() {
+  describe("#whipSlaves", function() {
     let fakeSlave;
     let nudgeSpy;
     let removeAllListenersSpy;
@@ -215,20 +215,32 @@ describe("#Clock", function() {
     it("should remove all slaves that are done", function() {
       clockInstance.slaves = [fakeSlave, fakeSlave].map((s) => {
         s.done = true;
+        s.needsUpdate = false;
         return s;
       });
 
       clockInstance.whipSlaves();
-      // assert.notOk(nudgeSpy.called);
+      assert.notOk(nudgeSpy.called);
       assert.ok(removeAllListenersSpy.calledTwice);
     });
 
-    it("should emit an event after all slave have been iterated through.", function() {
+    it("should emit an event after all slave have been iterated through.", function(done) {
+      clockInstance.slaves = [fakeSlave, fakeSlave].map((s) => {
+        s.needsUpdate = true;
+        return s;
+      });
+
+      clockInstance.on("whipedAllSlaves", function complete() {
+        assert.ok(nudgeSpy.calledTwice);
+        done();
+      });
       clockInstance.whipSlaves();
     });
 
     it("should not emit done event if there is no slaves", function() {
       clockInstance.whipSlaves();
+      assert.notOk(nudgeSpy.called);
+      assert.notOk(removeAllListenersSpy.called);
     });
   });
 });
