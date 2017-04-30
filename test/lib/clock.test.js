@@ -156,7 +156,7 @@ describe("#Clock", function() {
     });
   });
 
-  describe.only("#createSlave", function() {
+  describe("#createSlave", function() {
     it("should throw an error if not given any arguments", function() {
       assert.throw(clockInstance.createSlave);
     });
@@ -164,9 +164,18 @@ describe("#Clock", function() {
     it("should create a ticker with a given id", function() {
       assert.equal(clockInstance.slaves.length, 0);
       clockInstance.createSlave({id: "ticker1"});
+      assert.equal(clockInstance.slaves.length, 1);
+      assert.equal(clockInstance.slaves[0].id, "ticker1");
     });
   });
 
-  describe("#removeSlave", function() {});
+  describe.only("#removeSlave", function() {
+    it("should not remove a slave from the slaves array if given no argumets", function() {
+      clockInstance.createSlave({id: "ticker1"});
+      clockInstance.removeSlave();
+      assert.equal(clockInstance.slaves.length, 1);
+    });
+  });
+
   describe("#whipSlaves", function() {});
 });

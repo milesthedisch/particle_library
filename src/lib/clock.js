@@ -154,11 +154,10 @@ Clock.createSlave = function createSlave(opts) {
 
   if (id) {
     this.slaves.push(slave);
+    return this;
   }
 
   slave.id = this.slaves.push(slave);
-
-  console.log(this.slaves);
   return this;
 };
 
