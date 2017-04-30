@@ -141,16 +141,25 @@ Clock.whipSlaves = function whipSlaves(state) {
   return this;
 };
 
-Clock.createSlave = function createSlave({id, duration}) {
+Clock.createSlave = function createSlave(opts) {
+  if (!opts) {
+    throw new Error("Please provide a options object");
+  }
+
+  const {id, duration} = opts;
   const timeStamp = performance.now();
-  const ticker = Object.create(ticker)
+
+  const slave = Object.create(ticker)
     .init({timeStamp, id, duration});
 
   if (id) {
-    this.slaves.push({ticker});
+    this.slaves.push(slave);
   }
 
-  ticker.id = this.slaves.push({ticker});
+  slave.id = this.slaves.push(slave);
+
+  console.log(this.slaves);
+  return this;
 };
 
 Clock.removeSlave = function removeSlave(id) {

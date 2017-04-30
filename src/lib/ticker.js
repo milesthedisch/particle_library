@@ -16,6 +16,7 @@ Ticker.init = function({
 }) {
   this.id = id;
   this.parent = event;
+  this.parent.name = "event";
   this.duration = this.tickFor(duration, "ms");
 
   // Probably cant support this??
@@ -29,6 +30,8 @@ Ticker.init = function({
   this.startTime;
   this.stopTime;
   this.timeSinceStart;
+
+  return this;
 };
 
 Ticker.tickFor = function(duration, string) {
@@ -104,3 +107,5 @@ Ticker.nudge = function nudge(state) {
     this.needsUpdate = false;
   }
 };
+
+module.exports = Ticker;

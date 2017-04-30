@@ -121,7 +121,7 @@ describe("#Clock", function() {
     });
   });
 
-  describe.only("#start", function() {
+  describe("#start", function() {
     let tickSpy;
 
     beforeEach(function() {
@@ -156,7 +156,17 @@ describe("#Clock", function() {
     });
   });
 
-  describe("#createSlave", function() {});
+  describe.only("#createSlave", function() {
+    it("should throw an error if not given any arguments", function() {
+      assert.throw(clockInstance.createSlave);
+    });
+
+    it("should create a ticker with a given id", function() {
+      assert.equal(clockInstance.slaves.length, 0);
+      clockInstance.createSlave({id: "ticker1"});
+    });
+  });
+
   describe("#removeSlave", function() {});
   describe("#whipSlaves", function() {});
 });
