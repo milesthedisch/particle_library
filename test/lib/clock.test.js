@@ -22,6 +22,14 @@ describe("#Clock", function() {
     whipSlavesSpy.restore();
   });
 
+  it.only("should have methods from event object", function() {
+    const event = Object.getPrototypeOf(clock);
+    const Event = require("../../src/lib/event.js");
+    const eventMethods = Object.keys(Event);
+
+    assert.deepEqual(eventMethods, Object.keys(event));
+  });
+
   describe("#init", function() {
     it("should run a loop that calls whipSlaves every 16.67 milliseconds defaultly", function() {
       clockInstance.start();
@@ -82,8 +90,8 @@ describe("#Clock", function() {
     });
   });
 
-  describe.only("#stop", function() {
-    it.skip("should cancel the next frame", function() {
+  describe("#stop", function() {
+    it("should cancel the next frame", function() {
       clockInstance.start();
 
       requestAnimationFrame.step(1, clockInstance.startTime);
@@ -122,6 +130,17 @@ describe("#Clock", function() {
     it("should throw an error given an fps that is not an integer.", function() {
       const BAD_FPS = null;
       assert.throw(clockInstance.start.bind(null, BAD_FPS));
+    });
+
+    it("should setup the right properties for too calculate time intervals", function() {
+      clockInstance.start();
+      assert.equal(clockInstance.startTime, performance.now());
+      assert.equal(clockInstance.lastTime, performance.now());
+      assert.equal(clockInstance.timeSinceStart, 0);
+    });
+
+    it("should call tick to start the loop", function() {
+      clockInstance.start();
     });
   });
 
