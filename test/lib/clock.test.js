@@ -2,7 +2,8 @@
 // Stub framework for requestAnimationFrame
 require("raf-stub").replaceRaf();
 // Polyfill for perf now
-require("../utils.js").perfNowPolyfill(global);
+const utils = require("../utils.js");
+utils.perfNowPolyfill(global);
 const sinon = require("sinon");
 const assert = require("chai").assert;
 const clock = require("../../src/lib/clock.js");
@@ -22,7 +23,7 @@ describe("#Clock", function() {
     whipSlavesSpy.restore();
   });
 
-  it.only("should have methods from event object", function() {
+  it("should have methods from event object", function() {
     const event = Object.getPrototypeOf(clock);
     const Event = require("../../src/lib/event.js");
     const eventMethods = Object.keys(Event);
@@ -120,7 +121,17 @@ describe("#Clock", function() {
     });
   });
 
-  describe("#start", function() {
+  describe.only("#start", function() {
+    let tickSpy;
+
+    beforeEach(function() {
+      tickSpy = sinon.spy(Object.getPrototypeOf(clockInstance), "tick");
+    });
+
+    afterEach(function() {
+      tickSpy.restore();
+    });
+
     // rAF cant to tick faster than the 16.667ms between intervals.
     it("should throw an error given an fps that is to high.", function() {
       const FPS_TO_HIGH = 70;
@@ -128,19 +139,20 @@ describe("#Clock", function() {
     });
 
     it("should throw an error given an fps that is not an integer.", function() {
-      const BAD_FPS = null;
-      assert.throw(clockInstance.start.bind(null, BAD_FPS));
+      utils.forEachFalsy((falsy) => {
+        assert.throw(clockInstance.start.bind(null, falsy));
+      });
     });
 
     it("should setup the right properties for too calculate time intervals", function() {
       clockInstance.start();
-      assert.equal(clockInstance.startTime, performance.now());
-      assert.equal(clockInstance.lastTime, performance.now());
+      assert.equal(clockInstance.startTime, clockInstance.lastTime);
       assert.equal(clockInstance.timeSinceStart, 0);
     });
 
     it("should call tick to start the loop", function() {
       clockInstance.start();
+      assert.ok(tickSpy.calledOnce, "Tick was not called once");
     });
   });
 
