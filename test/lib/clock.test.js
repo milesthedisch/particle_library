@@ -48,13 +48,6 @@ describe("#Clock", function() {
       assert.equal(whipSlavesSpy.callCount, 2);
       assert.equal(clockInstance.index, 1);
     });
-
-
-    // rAF cant to tick faster than the 16.667ms between intervals.
-    it("should run a loop that runs every 16.66..7ms given a interval that is less that 16.66..7ms", function() {
-      const FPS_TO_HIGH = 70;
-      assert.throw(clockInstance.start.bind(null, FPS_TO_HIGH));
-    });
   });
 
   describe("#tick", function() {
@@ -119,7 +112,19 @@ describe("#Clock", function() {
     });
   });
 
-  describe("#start", function() {});
+  describe("#start", function() {
+    // rAF cant to tick faster than the 16.667ms between intervals.
+    it("should throw an error given an fps that is to high.", function() {
+      const FPS_TO_HIGH = 70;
+      assert.throw(clockInstance.start.bind(null, FPS_TO_HIGH));
+    });
+
+    it("should throw an error given an fps that is not an integer.", function() {
+      const BAD_FPS = null;
+      assert.throw(clockInstance.start.bind(null, BAD_FPS));
+    });
+  });
+
   describe("#createSlave", function() {});
   describe("#removeSlave", function() {});
   describe("#whipSlaves", function() {});

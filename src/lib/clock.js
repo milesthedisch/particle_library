@@ -43,7 +43,7 @@ Clock.start = function start(fps=60) {
     throw new Error("The given fps is too high");
   }
 
-  if (!fps) {
+  if (+fps === NaN) {
     throw new Error("The given fps is not valid");
   }
 
@@ -66,7 +66,6 @@ Clock.tick = function tick(newTime) {
   this.rAF = requestAnimationFrame(tick.bind(this));
 
   let delta = newTime - this.lastTime;
-  console.log(delta);
   this.timeSinceStart = newTime - this.startTime;
 
   if (delta > this.fps) {
