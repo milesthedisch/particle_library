@@ -167,13 +167,26 @@ describe("#Clock", function() {
       assert.equal(clockInstance.slaves.length, 1);
       assert.equal(clockInstance.slaves[0].id, "ticker1");
     });
+
+    it("should create a ticker where it was pushed to", function() {
+      clockInstance.createSlave({});
+      assert.equal(clockInstance.slaves[0].id, 1);
+      clockInstance.createSlave({});
+      assert.equal(clockInstance.slaves[1].id, 2);
+    });
   });
 
-  describe.only("#removeSlave", function() {
+  describe("#removeSlave", function() {
     it("should not remove a slave from the slaves array if given no argumets", function() {
       clockInstance.createSlave({id: "ticker1"});
       clockInstance.removeSlave();
       assert.equal(clockInstance.slaves.length, 1);
+    });
+
+    it("should remove a slave with given id", function() {
+      clockInstance.createSlave({});
+      clockInstance.removeSlave(1);
+      assert.equal(clockInstance.slaves.length, 0);
     });
   });
 
