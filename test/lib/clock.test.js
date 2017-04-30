@@ -190,5 +190,45 @@ describe("#Clock", function() {
     });
   });
 
-  describe("#whipSlaves", function() {});
+  describe.only("#whipSlaves", function() {
+    let fakeSlave;
+    let nudgeSpy;
+    let removeAllListenersSpy;
+
+    beforeEach(function() {
+      nudgeSpy = sinon.spy();
+      removeAllListenersSpy = sinon.spy();
+      fakeSlave = {
+        id: null,
+        nudge: nudgeSpy,
+        needsUpdate: true,
+        removeAllListeners: removeAllListenersSpy,
+      };
+    });
+
+    it("should nudge all slaves that need to be updated", function() {
+      clockInstance.slaves = [fakeSlave, fakeSlave];
+      clockInstance.whipSlaves();
+      assert.ok(nudgeSpy.calledTwice);
+    });
+
+    it("should remove all slaves that are done", function() {
+      clockInstance.slaves = [fakeSlave, fakeSlave].map((s) => {
+        s.done = true;
+        return s;
+      });
+
+      clockInstance.whipSlaves();
+      // assert.notOk(nudgeSpy.called);
+      assert.ok(removeAllListenersSpy.calledTwice);
+    });
+
+    it("should emit an event after all slave have been iterated through.", function() {
+      clockInstance.whipSlaves();
+    });
+
+    it("should not emit done event if there is no slaves", function() {
+      clockInstance.whipSlaves();
+    });
+  });
 });
