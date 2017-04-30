@@ -1,5 +1,5 @@
 const ticker = require("./ticker");
-const event = require("./event");
+const event = require("./event").init();
 const Clock = Object.create(event);
 const MAX_FPS = 1000/60;
 
@@ -11,6 +11,7 @@ const MAX_FPS = 1000/60;
  */
 Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.slaves = [];
+  this.parent = event;
 
   // Zero based frame count.
   this.index = -1;
@@ -65,6 +66,7 @@ Clock.tick = function tick(newTime) {
   this.rAF = requestAnimationFrame(tick.bind(this));
 
   let delta = newTime - this.lastTime;
+  console.log(delta);
   this.timeSinceStart = newTime - this.startTime;
 
   if (delta > this.fps) {
@@ -108,7 +110,7 @@ Clock.stop = function stopClock() {
     this.lastTime = newTime - (delta % this.fps);
   }
 
-  this.timeSinceStart = this.startTime - this.stopTime;
+  this.timeSinceStart = this.stopTime - this.startTime;
   this.clearSlaves();
   cancelAnimationFrame(this.rAF);
 

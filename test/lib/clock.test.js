@@ -104,17 +104,18 @@ describe("#Clock", function() {
       assert.equal(clockInstance.index, 0);
     });
 
-    it("should clear the slaves queue and save the timeSinceStart and the stopped time", function() {
+    it("should clear the slaves queue and save the timeSinceStart and the stopped time", function(done) {
       clockInstance.start();
+
       requestAnimationFrame.step(1, clockInstance.startTime);
       requestAnimationFrame.step(1, 1000/60);
-      requestAnimationFrame(() => {
+
+      setTimeout(function() {
         clockInstance.stop();
-        assert.isAtLeast(
-          clockInstance.stopTime,
-          clockInstance.startTime + 1000/60
-        );
-      });
+        assert.isAtLeast(clockInstance.stopTime, clockInstance.startTime + 1000/60);
+        assert.isAtLeast(clockInstance.timeSinceStart, clockInstance.stopTime - clockInstance.startTime);
+        done();
+      }, 1000/60);
     });
   });
 
