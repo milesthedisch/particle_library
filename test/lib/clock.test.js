@@ -89,7 +89,35 @@ describe("#Clock", function() {
     });
   });
 
-  describe("#stop", function() {});
+  describe.only("#stop", function() {
+    it.skip("should cancel the next frame", function() {
+      clockInstance.start();
+
+      requestAnimationFrame.step(1, clockInstance.startTime);
+      requestAnimationFrame.step(1, 1000/60);
+
+      clockInstance.stop();
+
+      // This frame should not get called and not update index.
+      requestAnimationFrame.step(1, 1000/60);
+      assert.equal(whipSlavesSpy.callCount, 1);
+      assert.equal(clockInstance.index, 0);
+    });
+
+    it("should clear the slaves queue and save the timeSinceStart and the stopped time", function() {
+      clockInstance.start();
+      requestAnimationFrame.step(1, clockInstance.startTime);
+      requestAnimationFrame.step(1, 1000/60);
+      requestAnimationFrame(() => {
+        clockInstance.stop();
+        assert.isAtLeast(
+          clockInstance.stopTime,
+          clockInstance.startTime + 1000/60
+        );
+      });
+    });
+  });
+
   describe("#start", function() {});
   describe("#createSlave", function() {});
   describe("#removeSlave", function() {});

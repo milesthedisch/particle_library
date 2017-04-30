@@ -109,6 +109,7 @@ Clock.stop = function stopClock() {
   }
 
   this.timeSinceStart = this.startTime - this.stopTime;
+  this.clearSlaves();
   cancelAnimationFrame(this.rAF);
 
   return this;
@@ -136,7 +137,6 @@ Clock.whipSlaves = function whipSlaves(state) {
   });
 
   this.emit("whipedAllSlaves");
-
   return this;
 };
 
@@ -166,6 +166,6 @@ Clock.clearSlaves = function clearSlaves() {
   if (this.slaves.length) this.slaves = [];
 };
 
-Clock.removeAllSalves = Clock.clearSlaves;
+Clock.removeAllSlaves = Clock.clearSlaves;
 
 module.exports = Clock;
