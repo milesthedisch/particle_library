@@ -32,7 +32,12 @@ const tweens = [];
 
 YAT.init = function initTween(opts) {
   // Can and uses Event and Clock methods.
-  this._clock = Object.create(opts.clock).init();
+
+  if (!opts.clock) {
+    throw new Error("Please provide a clock API.");
+  }
+
+  this._clock = opts.clock.init();
   this.parent = eventInstance;
   this.tweens = tweens;
 

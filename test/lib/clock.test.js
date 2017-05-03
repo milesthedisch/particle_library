@@ -31,10 +31,11 @@ describe("#Clock", function() {
     assert.deepEqual(eventMethods, Object.keys(event));
   });
 
-  it.only("should have reference to its parent 'event'", function() {
+  it("should have reference to its parent 'event'", function() {
     const Event = require("../../src/lib/event.js");
-    assert.equal(clockInstance.parent, Event);
+    assert.deepEqual(clockInstance.parent, Event);
   });
+
 
   describe("#init", function() {
     it("should run a loop that calls whipSlaves every 16.67 milliseconds defaultly", function() {
@@ -68,7 +69,7 @@ describe("#Clock", function() {
     it("should update based on start time given and lastTime state", function() {
       // Start time and last time should be equal on the first tick.
       clockInstance.lastTime = 0;
-      clockInstance.tick(0);
+      clockInstance.loop(0);
 
       // Once we've called tick the ticker will keep running every rAF.
       requestAnimationFrame.step();
@@ -78,7 +79,7 @@ describe("#Clock", function() {
     it("should update based on start time given and lastTime state", function() {
       // Start time and last time should be equal on the first tick.
       clockInstance.lastTime = 100;
-      clockInstance.tick(200);
+      clockInstance.loop(200);
 
       // Once we've called tick the ticker will keep running every rAF.
       requestAnimationFrame.step();
@@ -88,7 +89,7 @@ describe("#Clock", function() {
     it("should update based on start time given and lastTime state", function() {
       // Start time and last time should be equal on the first tick.
       clockInstance.lastTime = 200;
-      clockInstance.tick(100);
+      clockInstance.loop(100);
 
       // Once we've called tick the ticker will keep running every rAF.
       requestAnimationFrame.step();
@@ -130,7 +131,7 @@ describe("#Clock", function() {
     let tickSpy;
 
     beforeEach(function() {
-      tickSpy = sinon.spy(Object.getPrototypeOf(clockInstance), "tick");
+      tickSpy = sinon.spy(Object.getPrototypeOf(clockInstance), "loop");
     });
 
     afterEach(function() {
@@ -235,7 +236,7 @@ describe("#Clock", function() {
         return s;
       });
 
-      clockInstance.on("whipedAllSlaves", function complete() {
+      clockInstance.on("tick", function complete() {
         assert.ok(nudgeSpy.calledTwice);
         done();
       });
