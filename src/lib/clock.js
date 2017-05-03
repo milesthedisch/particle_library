@@ -53,7 +53,7 @@ Clock.start = function start(fps=60) {
   this.lastTime = this.startTime;
 
   // Start ticking
-  this.tick(this.startTime);
+  this.loop(this.startTime);
   return this;
 };
 
@@ -62,8 +62,8 @@ Clock.start = function start(fps=60) {
  * @param  {Number} newTime A value in ms that is equal to the current time.
  * @return {Clock}
  */
-Clock.tick = function tick(newTime) {
-  this.rAF = requestAnimationFrame(tick.bind(this));
+Clock.loop = function loop(newTime) {
+  this.rAF = requestAnimationFrame(loop.bind(this));
 
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
@@ -137,7 +137,7 @@ Clock.whipSlaves = function whipSlaves(state) {
     }
   });
 
-  this.emit("whipedAllSlaves");
+  this.emit("tick");
   return this;
 };
 

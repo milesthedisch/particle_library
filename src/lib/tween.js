@@ -31,11 +31,10 @@ const YAT = Object.create(eventInstance);
 const tweens = [];
 
 YAT.init = function initTween(opts) {
-  this.opts = extend({}, opts);
-
   // Can and uses Event and Clock methods.
-  this._clock = Object.create(opts.clock); // Miles makes sure you a pass the clock instance in.
+  this._clock = Object.create(opts.clock).init();
   this.parent = eventInstance;
+  this.tweens = tweens;
 
   /**
    * easingFns
@@ -70,11 +69,11 @@ YAT.init = function initTween(opts) {
     },
   };
 
-  this._clock.on("whipedAllSalves", updateAllTweens, this);
+  this._clock.on("tick", this.updateTweens, this);
   return this;
 };
 
-YAT.updateAllTween = function updateAllTweens() {
+YAT.updateTweens = function updateTweens() {
   this.tweens.forEach((tween) => {
     if (tween.ticker.needsUpdate) {
       tween.update();
@@ -90,24 +89,30 @@ YAT.updateAllTween = function updateAllTweens() {
   });
 };
 
-YAT.create = function(opts=clone(DEFAULTS)) {
+YAT.create = function(opts) {
   const YATInstance = Object.create(YAT);
+  const _opts = Object.assign(clone(DEFAULTS), opts);
 
-  // Array.push will return an index of where it pushed to.
+  YATInstance.duration = _opts.duration;
+  YATInstance.obj = _opts.obj;
+  YATInstance.props = _opts.props;
+  YATInstance.easing = YATInstance.easingFn[_opts.easingFn];
+
   if (YATInstance.id) {
     if (this.tween.every((x) => x.id !== id)) {
       YATInstance.id = id;
       this.tweens.push(YATInstance);
+      return YATInstance;
     }
 
     throw new Error(`The tween with id: ${id} already exsists.`);
   }
 
-  YATInstance.obj = opts.obj;
-  YATInstance.props = opts.props;
-  YATInstance.easing = YATInstance.easingFn[opts.easingFn];
-  YATInstance.ticker = this._clock.createSlave({id, duration});
   YATInstance.id = this.tweens.push(YATInstance);
+  YATInstance.ticker = this._clock.createSlave({
+    id: YATInstance.id,
+    duration: YATInstance.duration,
+  });
 
   return YATInstance;
 };

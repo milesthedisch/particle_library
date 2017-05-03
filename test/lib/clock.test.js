@@ -31,6 +31,11 @@ describe("#Clock", function() {
     assert.deepEqual(eventMethods, Object.keys(event));
   });
 
+  it.only("should have reference to its parent 'event'", function() {
+    const Event = require("../../src/lib/event.js");
+    assert.equal(clockInstance.parent, Event);
+  });
+
   describe("#init", function() {
     it("should run a loop that calls whipSlaves every 16.67 milliseconds defaultly", function() {
       clockInstance.start();
