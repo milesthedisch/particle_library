@@ -94,14 +94,19 @@ YAT.updateTweens = function updateTweens() {
   });
 };
 
-YAT.create = function(opts) {
+YAT.create = function(opts={}) {
   const YATInstance = Object.create(YAT);
-  const _opts = Object.assign(clone(DEFAULTS), opts);
+  const _opts = Object.assign(opts, clone(DEFAULTS));
+  const {duration, obj, props, easingFn} = _opts;
 
-  YATInstance.duration = _opts.duration;
-  YATInstance.obj = _opts.obj;
-  YATInstance.props = _opts.props;
-  YATInstance.easing = YATInstance.easingFn[_opts.easingFn];
+  if (!YATInstance.easingFns[easingFn]) {
+    throw new Error(`The easing function ${easing} does not exsist`);
+  }
+
+  YATInstance.duration = duration;
+  YATInstance.obj = obj;
+  YATInstance.props = props;
+  YATInstance.easing = YATInstance.easingFns[easingFn];
 
   if (YATInstance.id) {
     if (this.tween.every((x) => x.id !== id)) {

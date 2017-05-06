@@ -1,4 +1,4 @@
-const FALSY = [false, 0, "", undefined, NaN];
+const FALSY = [false, 0, "", undefined, NaN, '']; // eslint-disable-line
 
 const testUtils = {
   forEachFalsy(fn) {

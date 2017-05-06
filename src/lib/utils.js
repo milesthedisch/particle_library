@@ -527,4 +527,13 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
   return origin;
 };
 
+/**
+ * isPlainObject
+ * @param  {*}  data
+ * @return {Boolean}
+ */
+Utils.isObject = function(data) {
+  return typeof data === "object" && ({}).toString.call(data);
+};
+
 module.exports = Object.create(Utils);

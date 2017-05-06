@@ -43,15 +43,16 @@ describe.only("#Tween", function() {
 
   describe("#create", function() {
     it("should create a default tween given no arguments", function() {
-      tweenInstance.create();
+      const tween1 = tweenInstance.create();
       const actual = {
-        duration: tweenInstance.duration,
-        props: tweenInstance.props,
-        obj: tweenInstance.obj,
-        easing: tweenInstance.easing,
+        duration: tween1.duration,
+        props: tween1.props,
+        obj: tween1.obj,
+        easingFn: "ease",
       };
-    
-      assert.deepEqual(actual, DEFAULTS);
+
+      assert.deepEqual(DEFAULTS, actual);
+      assert.equal(DEFAULTS.easingFn, tween1.easing.name);
     });
   });
 
