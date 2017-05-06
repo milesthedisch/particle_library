@@ -15,7 +15,7 @@ const utils = require("./utils");
 const DEFAULTS = {
   obj: {x: 0, y: 0},
   props: {x: 100, y: 100},
-  easingFn: "ease",
+  easing: "ease",
   duration: 1000,
 };
 
@@ -97,16 +97,16 @@ YAT.updateTweens = function updateTweens() {
 YAT.create = function(opts={}) {
   const YATInstance = Object.create(YAT);
   const _opts = Object.assign(opts, clone(DEFAULTS));
-  const {duration, obj, props, easingFn} = _opts;
+  const {duration, obj, props, easing} = _opts;
 
-  if (!YATInstance.easingFns[easingFn]) {
+  if (!YATInstance.easingFns[easing]) {
     throw new Error(`The easing function ${easing} does not exsist`);
   }
 
   YATInstance.duration = duration;
   YATInstance.obj = obj;
   YATInstance.props = props;
-  YATInstance.easing = YATInstance.easingFns[easingFn];
+  YATInstance.easing = YATInstance.easingFns[easing];
 
   if (YATInstance.id) {
     if (this.tween.every((x) => x.id !== id)) {

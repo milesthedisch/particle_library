@@ -9,7 +9,7 @@ describe.only("#Tween", function() {
   const DEFAULTS = {
     obj: {x: 0, y: 0},
     props: {x: 100, y: 100},
-    easingFn: "ease",
+    easing: "ease",
     duration: 1000,
   };
 
@@ -48,11 +48,19 @@ describe.only("#Tween", function() {
         duration: tween1.duration,
         props: tween1.props,
         obj: tween1.obj,
-        easingFn: "ease",
+        easing: "ease",
       };
 
       assert.deepEqual(DEFAULTS, actual);
-      assert.equal(DEFAULTS.easingFn, tween1.easing.name);
+      assert.equal(DEFAULTS.easing, tween1.easing.name);
+    });
+
+    it("should throw an error when given a non exsistant easing function", function() {
+      const willThrow = tweenInstance.create.bind(null, {
+        "easing": "badEasing",
+      });
+
+      assert.throw(willThrow);
     });
   });
 
