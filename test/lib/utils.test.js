@@ -3,7 +3,7 @@ const utils = require("../../src/lib/utils");
 const Vector = require("../../src/lib/vectors");
 const Particle = require("../../src/lib/particle");
 const testUtils = require("../utils");
-const assert = require("assert");
+const assert = require("chai").assert;
 
 describe("#Util", function() {
   let util;
@@ -431,10 +431,32 @@ describe("#Util", function() {
       });
     });
 
-    describe.only("#isObject", function() {
-      it("should return true for all object like things", function() {
+    describe("#isObject", function() {
+      it("should return false for all falsy things", function() {
         testUtils.forEachFalsy(function(falsy) {
-          
+          assert.isFalse(utils.isObject(falsy));
+        });
+      });
+
+      it("should return true object like things", function() {
+        [{}, Object.create({}), Object.create(null), new Object()].map((obj) => { // eslint-disable-line
+          assert.isTrue(utils.isObject(obj));
+        });
+      });
+
+      it("should return false for no object things", function() {
+        [
+          new String(),
+          new Number(),
+          new Function(),
+          new Date(),
+          [],
+          new Error(),
+          Object.__proto__,
+          NaN.__proto__,
+          NaN.prototype,
+        ].map((obj) => {
+          assert.isFalse(utils.isObject(obj));
         });
       });
     });

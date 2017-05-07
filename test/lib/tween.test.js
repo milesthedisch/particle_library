@@ -3,6 +3,7 @@ const tween = require("../../src/lib/tween.js");
 const event = require("../../src/lib/event.js");
 const clock = require("../../src/lib/clock.js");
 const assert = require("chai").assert;
+const sinon = require("sinon");
 
 describe.only("#Tween", function() {
   let tweenInstance;
@@ -43,24 +44,45 @@ describe.only("#Tween", function() {
 
   describe("#create", function() {
     it("should create a default tween given no arguments", function() {
-      const tween1 = tweenInstance.create();
+      const t1 = tweenInstance.create();
       const actual = {
-        duration: tween1.duration,
-        props: tween1.props,
-        obj: tween1.obj,
-        easing: "ease",
+        duration: t1.duration,
+        props: t1.props,
+        obj: t1.obj,
+        easing: t1.easing.name,
       };
 
       assert.deepEqual(DEFAULTS, actual);
-      assert.equal(DEFAULTS.easing, tween1.easing.name);
     });
 
-    it("should throw an error when given a non exsistant easing function", function() {
-      const willThrow = tweenInstance.create.bind(null, {
+    it("should throw an error when given a non existant easing function", function() {
+      const willThrow = tweenInstance.create.bind(tweenInstance, {
         "easing": "badEasing",
       });
 
-      assert.throw(willThrow);
+      assert.throws(willThrow);
+    });
+
+    it("should use the id that the tweens index is at", function() {
+      const t1 = tweenInstance.create();
+      const t2 = tweenInstance.create();
+      assert.deepEqual([t1.id, t2.id], tweenInstance.tweens.map((x) => x.id));
+    });
+
+    it("should attach the id thats given", function() {
+      const tweenA = tweenInstance.create({id: "A"});
+      assert.equal(tweenA.id, "A");
+    });
+
+    it("should throw an error when the id of a tween already exists", function() {
+      tweenInstance.create({id: "A"});
+      const willThrow = tweenInstance.create.bind(tweenInstance, {id: "A"});
+      assert.throws(willThrow, Error, /already exists/);
+    });
+
+    it("should create a slave and attach it to the tween", function() {
+      const t1 = tweenInstance.create();
+      assert.ok(t1.ticker);
     });
   });
 

@@ -23,13 +23,6 @@ const eventInstance = event.init();
 // Inherit methods from eventInstance
 const YAT = Object.create(eventInstance);
 
-/**
- * tweens
- * @description A list of all the available tweens.
- * @type {Array}
- */
-const tweens = [];
-
 YAT.init = function initTween(opts) {
   // Can and uses Event and Clock methods.
 
@@ -39,7 +32,7 @@ YAT.init = function initTween(opts) {
 
   this._clock = opts.clock.init();
   this.parent = eventInstance;
-  this.tweens = tweens;
+  this.tweens = [];
 
   /**
    * easingFns
@@ -96,11 +89,11 @@ YAT.updateTweens = function updateTweens() {
 
 YAT.create = function(opts={}) {
   const YATInstance = Object.create(YAT);
-  const _opts = Object.assign(opts, clone(DEFAULTS));
-  const {duration, obj, props, easing} = _opts;
+  const _opts = Object.assign(clone(DEFAULTS), opts);
+  const {duration, obj, props, easing, id} = _opts;
 
   if (!YATInstance.easingFns[easing]) {
-    throw new Error(`The easing function ${easing} does not exsist`);
+    throw new Error(`The easing function ${easing} does not exists`);
   }
 
   YATInstance.duration = duration;
@@ -108,22 +101,22 @@ YAT.create = function(opts={}) {
   YATInstance.props = props;
   YATInstance.easing = YATInstance.easingFns[easing];
 
-  if (YATInstance.id) {
-    if (this.tween.every((x) => x.id !== id)) {
-      YATInstance.id = id;
-      this.tweens.push(YATInstance);
-      return YATInstance;
+  if (id) {
+    if (this.tweens.some((x) => x.id === id)) {
+      throw new Error(`The tween with id: ${id} already exists.`);
     }
 
-    throw new Error(`The tween with id: ${id} already exsists.`);
+    YATInstance.id = id;
+  } else {
+    YATInstance.id = this.tweens.length + 1;
   }
 
-  YATInstance.id = this.tweens.push(YATInstance);
   YATInstance.ticker = this._clock.createSlave({
     id: YATInstance.id,
     duration: YATInstance.duration,
   });
 
+  this.tweens.push(YATInstance);
   return YATInstance;
 };
 
@@ -176,11 +169,6 @@ YAT.start = function(...args) {
     /* eslint-enable */
   }
 
-  // I need to create a clock function. It needs to be able to tick every rAF or
-  // if given an interval tick based on that. Needs to
-  // be able to tick for a given duration and a given interval.
-  // Should be able to cancel the ticker, start the ticker
-  // and stop the ticker. It should also be able to get its current progress.
   return this;
 };
 

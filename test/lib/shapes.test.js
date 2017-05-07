@@ -1,7 +1,7 @@
 const Shapes = require("../../src/lib/shapes.js");
 const utils = require("../utils");
 const sinon = require("sinon");
-const assert = require("assert");
+const assert = require("chai").assert;
 
 describe("#Shapes", function() {
   let context;
