@@ -90,7 +90,7 @@ describe.only("#Tween", function() {
     });
   });
 
-  describe.only("#startAll", function() {
+  describe("#startAll", function() {
     afterEach(function() {
       requestAnimationFrame.reset();
     });
@@ -136,12 +136,18 @@ describe.only("#Tween", function() {
   });
 
   describe("#stop", function() {
-    it("should call stop method on its ticker", function() {
-      // const t1 = tweenInstance.create();
+    it("should call stop method on its ticker and change its state to STOPPED", function() {
+      const t1 = tweenInstance.create();
+      tweenInstance.startAll();
+      assert.equal(t1.ticker.STATE, "RUNNING");
+      t1.stop();
+      assert.equal(t1.ticker.STATE, "STOPPED");
     });
   });
-  describe("#finish", function() {});
-  describe("#reset", function() {});
-  describe("#rewind", function() {});
-  describe("#continue", function() {});
+
+  describe("#update", function() {
+    it("should update the tween per tick", function() {
+
+    });
+  });
 });

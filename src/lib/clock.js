@@ -155,11 +155,11 @@ Clock.createSlave = function createSlave(opts) {
 
   if (id) {
     this.slaves.push(slave);
-    return this;
+    return slave;
   }
 
   slave.id = this.slaves.push(slave);
-  return this;
+  return slave;
 };
 
 Clock.removeSlave = function removeSlave(id) {

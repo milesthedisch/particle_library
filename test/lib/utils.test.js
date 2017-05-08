@@ -460,5 +460,12 @@ describe("#Util", function() {
         });
       });
     });
+    describe("#unique", function() {
+      it("should return values that in an array that are not dupliactes", function() {
+        const sample = [1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 6, 7, 7, 8, 8, 8, 9, 10, 10];
+        assert.equal(utils.unique(sample).length, 10);
+        assert.equal(utils.unique(sample).reduce((x, y) => x+y), 55);
+      });
+    });
   });
 });

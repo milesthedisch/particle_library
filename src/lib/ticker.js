@@ -37,21 +37,21 @@ Ticker.init = function({
 Ticker.tickFor = function(duration, string) {
   switch (string) {
   case "frames": case "f":
-    this.duration = {
+    return {
       type: "frames",
       value: duration,
       ms: duration * MAX_FPS,
     };
     return;
   case "seconds": case "s":
-    this.duration = {
+    return {
       type: "seconds",
       value: duration,
       ms: duration * 1000,
     };
     return;
   case "milliseconds": case "ms": default:
-    this.duration = {
+    return {
       type: "milliseconds",
       value: duration,
       ms: duration,
@@ -73,7 +73,7 @@ Ticker.stop = function() {
   // Know what time it stopped.
   // so that if it starts again it
   // it can recalculate how far it needs to go.
-  const newDuration = this.timeSinceStart - this.duration.ms;
+  const newDuration = this.timeSinceStart - this.duration.ms || 0;
 
   this.duration = {
     type: "frames",

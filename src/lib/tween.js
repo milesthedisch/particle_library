@@ -106,9 +106,9 @@ YAT.create = function(opts={}) {
     YATInstance.id = this.tweens.length + 1;
   }
 
-  YATInstance.duration = duration;
   YATInstance.obj = obj;
   YATInstance.props = props;
+  YATInstance.duration = duration;
   YATInstance.easing = YATInstance.easingFns[easing];
   YATInstance.ticker = this._clock.createSlave({
     id: YATInstance.id,
@@ -213,9 +213,8 @@ YAT.remove = function remove(id=this.id) {
 };
 
 YAT.update = function update() {
-  const norm = utils.normalize(
-    this.ticker.timeSinceStart, 0, this.ticker.duration.ms
-  );
+  const norm = utils.normalize(this.ticker.timeSinceStart,
+    0, this.ticker.duration.ms);
 
   this.easing(this.obj, norm, this.props);
 };

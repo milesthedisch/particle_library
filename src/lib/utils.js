@@ -537,4 +537,16 @@ Utils.isObject = function(data) {
   return typeof data === "object" && ({}).toString.call(data) === "[object Object]";
 };
 
+/**
+ * unique return an array with no duplicate values
+ * @param  {Array} array
+ * @return {Array}
+ */
+Utils.unique = function(array) {
+  return array.reduce((x, y) => {
+    if (x.indexOf(y) === -1) x.push(y);
+    return x;
+  }, []);
+};
+
 module.exports = Object.create(Utils);
