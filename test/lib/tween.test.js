@@ -2,20 +2,24 @@
 const tween = require("../../src/lib/tween.js");
 const event = require("../../src/lib/event.js");
 const clock = require("../../src/lib/clock.js");
+
+// Testing dependcies //
+const utils = require("../utils.js").perfNowPolyfill(global); // eslint-disable-line
+const rAF = require("raf-stub").replaceRaf(); // eslint-disable-line
 const assert = require("chai").assert;
-const sinon = require("sinon");
+
+
+const DEFAULTS = {
+  obj: {x: 0, y: 0},
+  props: {x: 100, y: 100},
+  easing: "ease",
+  duration: 1000,
+};
 
 describe.only("#Tween", function() {
   let tweenInstance;
-  const DEFAULTS = {
-    obj: {x: 0, y: 0},
-    props: {x: 100, y: 100},
-    easing: "ease",
-    duration: 1000,
-  };
 
   beforeEach(function() {
-    // Pass clock instance
     tweenInstance = tween.init({clock});
   });
 
@@ -86,10 +90,58 @@ describe.only("#Tween", function() {
     });
   });
 
-  describe("#continue", function() {});
+  describe.only("#startAll", function() {
+    afterEach(function() {
+      requestAnimationFrame.reset();
+    });
+
+    it("should start initalize all the tickers start times", function() {
+      const t1 = tweenInstance.create();
+      const t2 = tweenInstance.create();
+      const t3 = tweenInstance.create();
+      tweenInstance.startAll();
+
+      const actual = [t1, t2, t3]
+        .map((x) => x.ticker.startTime)
+        .reduce((x, y) => {
+          if (x.indexOf(y) === -1) x.push(y);
+          return x;
+        }, [])
+        .length;
+
+      const expected = 1;
+      // All the startTimes should be the same.
+      assert.equal(actual, expected);
+    });
+
+    it("should start the clock and the ticker, there start times should be equal", function() {
+      const t1 = tweenInstance.create();
+      tweenInstance.startAll();
+      assert.equal(t1.ticker.startTime, tweenInstance._clock.startTime);
+    });
+
+    it("should emit tick event once enough time has passed", function(done) {
+      tweenInstance._clock.on("tick", function() {
+        done();
+      });
+
+      tweenInstance.create();
+      tweenInstance.startAll();
+      requestAnimationFrame.step(1, 60);
+    });
+
+    it("should throw an error if given no tweens", function() {
+      assert.throws(tweenInstance.startAll.bind(tweenInstance));
+    });
+  });
+
+  describe("#stop", function() {
+    it("should call stop method on its ticker", function() {
+      // const t1 = tweenInstance.create();
+    });
+  });
   describe("#finish", function() {});
   describe("#reset", function() {});
   describe("#rewind", function() {});
-  describe("#start", function() {});
-  describe("#stop", function() {});
+  describe("#continue", function() {});
 });

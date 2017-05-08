@@ -17,7 +17,7 @@ Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.index = -1;
 
   // Save a reference to the animation frame so we can cancel it
-  this.rAF;
+  this.rAF = 0;
 
   // Time properties
   this.startTime;
@@ -63,6 +63,7 @@ Clock.start = function start(fps=60) {
  * @return {Clock}
  */
 Clock.loop = function loop(newTime) {
+  console.log("LOOPED");
   this.rAF = requestAnimationFrame(loop.bind(this));
 
   let delta = newTime - this.lastTime;
@@ -173,6 +174,13 @@ Clock.removeSlave = function removeSlave(id) {
 
 Clock.clearSlaves = function clearSlaves() {
   if (this.slaves.length) this.slaves = [];
+};
+
+Clock.reset = function() {
+  this.stop();
+  this.clearSlaves();
+  this.removeAllListeners();
+  this.rAF = 0;
 };
 
 Clock.removeAllSlaves = Clock.clearSlaves;

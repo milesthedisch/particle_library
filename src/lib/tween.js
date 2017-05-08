@@ -96,11 +96,6 @@ YAT.create = function(opts={}) {
     throw new Error(`The easing function ${easing} does not exists`);
   }
 
-  YATInstance.duration = duration;
-  YATInstance.obj = obj;
-  YATInstance.props = props;
-  YATInstance.easing = YATInstance.easingFns[easing];
-
   if (id) {
     if (this.tweens.some((x) => x.id === id)) {
       throw new Error(`The tween with id: ${id} already exists.`);
@@ -111,6 +106,10 @@ YAT.create = function(opts={}) {
     YATInstance.id = this.tweens.length + 1;
   }
 
+  YATInstance.duration = duration;
+  YATInstance.obj = obj;
+  YATInstance.props = props;
+  YATInstance.easing = YATInstance.easingFns[easing];
   YATInstance.ticker = this._clock.createSlave({
     id: YATInstance.id,
     duration: YATInstance.duration,
@@ -172,6 +171,18 @@ YAT.start = function(...args) {
   return this;
 };
 
+YAT.startAll = function startAll() {
+  if (!this.tweens.length) {
+    throw new Error("There are no tweens to start");
+  }
+
+  this.tweens.forEach((t) => {
+    t.ticker.start();
+  });
+
+  this._clock.start();
+};
+
 YAT.delay = function delay(duration) {
   this.ticker.stop();
   setTimeout(() => this.ticker.start(), duration);
@@ -184,7 +195,7 @@ YAT.stop = function stop() {
 };
 
 YAT.finish = function finish() {
-  this.ticker.stop();
+  this.stop();
   this._clock.removeSlave(this.ticker.id);
   update();
   return this;
