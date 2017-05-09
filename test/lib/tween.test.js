@@ -98,7 +98,7 @@ describe.only("#Tween", function() {
       spy.restore();
     });
 
-    it.only("should bind the start and end times to normalize", function() {
+    it("should bind the start and end times to normalize", function() {
       const t1 = tweenInstance.create();
       t1.ticker.duration.ms = 100;
       tweenInstance.startAll();
