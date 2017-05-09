@@ -54,7 +54,7 @@ describe.only("#Tween", function() {
         duration: t1.duration,
         props: t1.props,
         obj: t1.obj,
-        easing: t1.easing.name,
+        easing: t1.easing.name.replace("bound ", ""),
       };
 
       assert.deepEqual(DEFAULTS, actual);
