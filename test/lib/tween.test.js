@@ -1,4 +1,5 @@
 /* eslint max-len: 0*/
+const sinon = require("sinon");
 const tween = require("../../src/lib/tween.js");
 const event = require("../../src/lib/event.js");
 const clock = require("../../src/lib/clock.js");
@@ -87,6 +88,22 @@ describe.only("#Tween", function() {
     it("should create a slave and attach it to the tween", function() {
       const t1 = tweenInstance.create();
       assert.ok(t1.ticker);
+    });
+
+    it("should bind the props and objects to the ease function", function() {
+      const spy = sinon.spy(tweenInstance.easingFns, "ease");
+      const t1 = tweenInstance.create();
+      t1.easing();
+      assert.deepEqual(spy.getCall(0).args, [t1.obj, t1.props]);
+      spy.restore();
+    });
+
+    it.only("should bind the start and end times to normalize", function() {
+      const t1 = tweenInstance.create();
+      t1.ticker.duration.ms = 100;
+      tweenInstance.startAll();
+      assert.equal(t1.normalizer(0), 0);
+      assert.equal(t1.normalizer(100), 1);
     });
   });
 

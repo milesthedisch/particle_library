@@ -48,16 +48,16 @@ YAT.init = function initTween(opts) {
   this.easingFns = {
     // Here this ease function is linear as there is only one
     // n value. Each ease function can be mapped to a polynomial.
-    ease(c, n, b) { // polynomial: ax + b = c; where x is the normalized value
+    ease(c, b, n) { // polynomial: ax + b = c; where x is the normalized value
       return c * n + b;
     },
-    easeInQuad(c, n, b) { // polynomial: 1x^2 + 0x + 0 = d;
+    easeInQuad(c, b, n) { // polynomial: 1x^2 + 0x + 0 = d;
       return c * (n * n) + b;
     },
-    easeOutQuad(c, n, b) { // polynomial: -1x^2 + 2x + 0 = d;
+    easeOutQuad(c, b, n) { // polynomial: -1x^2 + 2x + 0 = d;
       return c * (n * (2 - n)) + b;
     },
-    easeInOutQuad(c, n, b) {
+    easeInOutQuad(c, b, n) {
       if ((n*=2) < 1) {
         return c/2 * (n*n) + b; // Polynomial for half the range:
         // 2x^2 + 0x + 0 = d;
@@ -109,7 +109,11 @@ YAT.create = function(opts={}) {
   YATInstance.obj = obj;
   YATInstance.props = props;
   YATInstance.duration = duration;
-  YATInstance.easing = YATInstance.easingFns[easing];
+  YATInstance.easing = bindEasingFn(
+    YATInstance.obj,
+    YATInstance.props,
+    YATInstance.easingFns[easing]
+  );
   YATInstance.ticker = this._clock.createSlave({
     id: YATInstance.id,
     duration: YATInstance.duration,
@@ -178,6 +182,7 @@ YAT.startAll = function startAll() {
 
   this.tweens.forEach((t) => {
     t.ticker.start();
+    t.normalizer = bindNormalize(0, t.ticker.duration.ms);
   });
 
   this._clock.start();
@@ -212,12 +217,37 @@ YAT.remove = function remove(id=this.id) {
   });
 };
 
-YAT.update = function update() {
-  const norm = utils.normalize(this.ticker.timeSinceStart,
-    0, this.ticker.duration.ms);
+YAT.update = function update(ticker) {
+  const {timeSinceStart: delta} = ticker;
+  const norm = this.normalizer(delta);
 
-  this.easing(this.obj, norm, this.props);
+  for (key in this.obj) {
+    if (this.obj.hasOwnProperty(key)) {
+      if (this.obj[key] !== undefined && this.props[key] !== undefined) {
+        this.state[key] = this.easing(norm);
+      }
+    }
+  }
 };
+
+/**
+ * bindEasingFn - To bind the ease function with its inital props and objs.
+ * @param  {Object} a
+ * @param  {Object} b
+ * @param  {Function} ease
+ * @param  {Object} ctx
+ * @return {Function}
+ */
+function bindEasingFn(a, b, ease, ctx=null) {
+  if (typeof ease !== "function") {
+    throw new TypeError("Please provide a function");
+  }
+  return ease.bind(ctx, a, b);
+};
+
+function bindNormalize(a, b, normlize) {
+  return (delta) => utils.normalize(delta, a, b);
+}
 
 module.exports = YAT;
 
