@@ -182,7 +182,7 @@ YAT.startAll = function startAll() {
 
   this.tweens.forEach((t) => {
     t.ticker.start();
-    t.normalizer = bindNormalize(0, t.ticker.duration.ms);
+    t.normalizer = bindNormalize(0, t.ticker.duration.ms, utils.normalize);
   });
 
   this._clock.start();
@@ -245,8 +245,15 @@ function bindEasingFn(a, b, ease, ctx=null) {
   return ease.bind(ctx, a, b);
 };
 
-function bindNormalize(a, b, normlize) {
-  return (delta) => utils.normalize(delta, a, b);
+/**
+ * bindNormalize - To bind normalizer values.
+ * @param  {Number} a
+ * @param  {Number} b
+ * @param  {Function} normalize
+ * @return {Function}
+ */
+function bindNormalize(a, b, normalize) {
+  return (delta) => normalize(delta, a, b);
 }
 
 module.exports = YAT;
