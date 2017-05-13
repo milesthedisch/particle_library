@@ -70,6 +70,7 @@ Clock.loop = function loop(newTime) {
   this.timeSinceStart = newTime - this.startTime;
 
   if (delta > this.fps) {
+    console.log("WHIP!");
     ++this.index;
     this.whipSlaves({
       newTime,
@@ -126,7 +127,10 @@ Clock.stop = function stopClock() {
 Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
 
+  console.log("WHIPING");
+
   this.slaves.forEach((slave, index) => {
+    console.log(slave.done, slave.needsUpdate, "DONE, NEEDS UPDATE");
     if (slave.done) {
       this.removeSlave(slave.id);
     }

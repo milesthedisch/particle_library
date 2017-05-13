@@ -167,6 +167,21 @@ describe("#Event", function() {
     });
   });
 
+  describe.only("#once", function() {
+    it("should only called the given call back once", function() {
+      let calledLength = 0;
+      const a = () => {
+        ++calledLength;
+      };
+
+      eventInstance.once("type1", a);
+      eventInstance.emit("type1");
+      eventInstance.emit("type1");
+
+      assert.equal(calledLength, 1);
+    });
+  });
+
   describe("Aliases", function() {
     it("should have a on aliases", function() {
       assert.ok(eventInstance.on === eventInstance.addListener);

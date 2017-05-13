@@ -113,6 +113,11 @@ Event.off = function off(...args) {
   return this;
 };
 
+/**
+ * listeners - Return all callbacks attached to a certain event
+ * @param  {...[*]} args
+ * @return {function.<Array>}
+ */
 Event.listeners = function listeners(...args) {
   const [event] = args;
 
@@ -125,6 +130,18 @@ Event.listeners = function listeners(...args) {
   }
 
   return this.callbacks[event];
+};
+
+Event.once = function once(...args) {
+  const self = this;
+  const [event, fn, context] = args;
+
+  const wrap = function wrap() {
+    fn.bind(context)();
+    self.off(event, wrap);
+  };
+
+  this.on(event, wrap, context);
 };
 
 // Aliases //

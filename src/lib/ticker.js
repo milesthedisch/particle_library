@@ -17,7 +17,6 @@ Ticker.init = function({
   this.id = id;
   this.parent = event;
   this.parent.name = "event";
-  this.duration = this.tickFor(duration, "ms");
 
   // Probably cant support this??
   // You have to have your own clock.
@@ -25,11 +24,13 @@ Ticker.init = function({
   this.start(duration);
 
   this.STATE;
-  this.needsUpdate;
   this.delta;
   this.startTime;
   this.stopTime;
-  this.timeSinceStart;
+  this.timeSinceStart = 0;
+
+  // Fire the first time you get called.
+  this.needsUpdate = true;
 
   return this;
 };
@@ -64,6 +65,7 @@ Ticker.start = function(duration) {
   if (this.STATE === STATE.RUNNING) return false;
   this.STATE = STATE.RUNNING;
   this.startTime = performance.now();
+  this.duration = this.tickFor(duration + this.startTime, "ms");
 };
 
 Ticker.stop = function() {
@@ -85,6 +87,8 @@ Ticker.stop = function() {
 };
 
 Ticker.nudge = function nudge(state) {
+  console.log("OUCH!");
+
   if (!state) {
     throw new Error("Please provide a state object");
   }
@@ -96,11 +100,13 @@ Ticker.nudge = function nudge(state) {
 
   this.STATE = STATE.RUNNING;
 
-  this.delta = state.now - this.startTime;
-  this.timeSinceStart += delta;
-  this.startTime = state.now;
+  this.delta = state.newTime - this.startTime;
+  this.timeSinceStart += this.delta;
+  this.startTime = state.newTime;
 
-  if (timeSinceStart < this.duration.ms) {
+  console.log("TIME SINCE START", this.timeSinceStart);
+
+  if (this.timeSinceStart < this.duration.ms) {
     this.needsUpdate = true;
   } else {
     this.STATE = STATE.DONE;

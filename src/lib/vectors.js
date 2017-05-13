@@ -242,6 +242,7 @@ Vector.prototype.rotate = function(delta) {
   const cos = Math.cos(delta);
   const sin = Math.sin(delta);
 
+  //
   const x = this.state.x * cos - this.state.y * sin;
   const y = this.state.y * cos + this.state.x * sin;
 

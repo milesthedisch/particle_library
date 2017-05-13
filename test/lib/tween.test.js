@@ -17,11 +17,15 @@ const DEFAULTS = {
   duration: 1000,
 };
 
-describe.only("#Tween", function() {
+describe("#Tween", function() {
   let tweenInstance;
 
   beforeEach(function() {
     tweenInstance = tween.init({clock});
+  });
+
+  afterEach(function() {
+    requestAnimationFrame.reset();
   });
 
   describe("#init", function() {
@@ -108,10 +112,6 @@ describe.only("#Tween", function() {
   });
 
   describe("#startAll", function() {
-    afterEach(function() {
-      requestAnimationFrame.reset();
-    });
-
     it("should start initalize all the tickers start times", function() {
       const t1 = tweenInstance.create();
       const t2 = tweenInstance.create();
@@ -163,8 +163,20 @@ describe.only("#Tween", function() {
   });
 
   describe("#update", function() {
-    it("should update the tween per tick", function() {
+    let t1;
+    let normalizerSpy;
+    let easingSpy;
 
+    beforeEach(function() {
+      t1 = tweenInstance.create({duration: 120});
+      tweenInstance.startAll();
+      normalizerSpy = sinon.spy(t1, "normalizer");
+      easingSpy = sinon.spy(t1, "easing");
+    });
+
+    it("should call normalizer with the delta", function(done) {
+      requestAnimationFrame.step(3, t1.ticker.duration.ms);
+      assert.ok(normalizerSpy.called);
     });
   });
 });

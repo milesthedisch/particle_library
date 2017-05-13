@@ -74,7 +74,7 @@ YAT.init = function initTween(opts) {
 YAT.updateTweens = function updateTweens() {
   this.tweens.forEach((tween) => {
     if (tween.ticker.needsUpdate) {
-      tween.update();
+      tween.update(tween.ticker);
     }
 
     if (tween.ticker.done) {
@@ -106,6 +106,7 @@ YAT.create = function(opts={}) {
     YATInstance.id = this.tweens.length + 1;
   }
 
+  YATInstance.start = clone(obj);
   YATInstance.obj = obj;
   YATInstance.props = props;
   YATInstance.duration = duration;
@@ -221,10 +222,10 @@ YAT.update = function update(ticker) {
   const {timeSinceStart: delta} = ticker;
   const norm = this.normalizer(delta);
 
-  for (key in this.obj) {
+  for (let key in this.obj) {
     if (this.obj.hasOwnProperty(key)) {
       if (this.obj[key] !== undefined && this.props[key] !== undefined) {
-        this.state[key] = this.easing(norm);
+        this.obj[key] = this.easing(norm);
       }
     }
   }
