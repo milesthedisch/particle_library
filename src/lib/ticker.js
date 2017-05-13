@@ -43,21 +43,18 @@ Ticker.tickFor = function(duration, string) {
       value: duration,
       ms: duration * MAX_FPS,
     };
-    return;
   case "seconds": case "s":
     return {
       type: "seconds",
       value: duration,
       ms: duration * 1000,
     };
-    return;
   case "milliseconds": case "ms": default:
     return {
       type: "milliseconds",
       value: duration,
       ms: duration,
     };
-    return;
   };
 };
 
