@@ -167,7 +167,7 @@ describe("#Event", function() {
     });
   });
 
-  describe.only("#once", function() {
+  describe("#once", function() {
     it("should only called the given call back once", function() {
       let calledLength = 0;
       const a = () => {
