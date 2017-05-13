@@ -23,7 +23,7 @@ Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.startTime;
   this.lastTime;
   this.stopTime;
-  this.timeSinceStart;
+  this.timeSinceStart = 0;
 
   // The maximum FPS the browser can deliver is 60.
   this.fps = opts.fps > MAX_FPS ?
@@ -48,7 +48,6 @@ Clock.start = function start(fps=60) {
   }
 
   this.fps = 1000 / fps;
-  this.timeSinceStart = 0;
   this.startTime = performance.now();
   this.lastTime = this.startTime;
 
@@ -63,15 +62,13 @@ Clock.start = function start(fps=60) {
  * @return {Clock}
  */
 Clock.loop = function loop(newTime) {
-  console.log("LOOPED");
   this.rAF = requestAnimationFrame(loop.bind(this));
 
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
 
   if (delta > this.fps) {
-    console.log("WHIP!");
-    ++this.index;
+    this.index++;
     this.whipSlaves({
       newTime,
       delta,
@@ -90,31 +87,14 @@ Clock.loop = function loop(newTime) {
  * @return {Clock}
  */
 Clock.stop = function stopClock() {
-  // Record when we stopped.
-  this.stopTime = performance.now();
-
-  // Given the stop time see what the last delta was.
-  const lastDelta = this.timeSinceStart - this.stopTime;
-
-  // If the delta was greater than the last fps update one last time.
-  if (lastDelta > this.fps) {
-    ++this.index;
-
-    this.whipSlaves({
-      newTime,
-      delta,
-      index: this.index,
-      lastTime: this.lastTime,
-      timesSinceStart: this.timeSinceStart,
-    });
-
-    this.lastTime = newTime - (delta % this.fps);
-  }
-
-  this.timeSinceStart = this.stopTime - this.startTime;
-  this.clearSlaves();
   cancelAnimationFrame(this.rAF);
 
+  // Record when we stopped.
+  this.stopTime = performance.now();
+  this.timeSinceStart += this.stopTime - this.startTime;
+  this.clearSlaves();
+
+  this.emit("stopped");
   return this;
 };
 
@@ -127,10 +107,8 @@ Clock.stop = function stopClock() {
 Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
 
-  console.log("WHIPING");
 
   this.slaves.forEach((slave, index) => {
-    console.log(slave.done, slave.needsUpdate, "DONE, NEEDS UPDATE");
     if (slave.done) {
       this.removeSlave(slave.id);
     }

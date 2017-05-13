@@ -72,6 +72,7 @@ YAT.init = function initTween(opts) {
 };
 
 YAT.updateTweens = function updateTweens() {
+  console.log('tween.updateTweens()');
   this.tweens.forEach((tween) => {
     if (tween.ticker.needsUpdate) {
       tween.update(tween.ticker);
@@ -106,15 +107,11 @@ YAT.create = function(opts={}) {
     YATInstance.id = this.tweens.length + 1;
   }
 
-  YATInstance.start = clone(obj);
+  YATInstance.state = clone(obj);
   YATInstance.obj = obj;
   YATInstance.props = props;
   YATInstance.duration = duration;
-  YATInstance.easing = bindEasingFn(
-    YATInstance.obj,
-    YATInstance.props,
-    YATInstance.easingFns[easing]
-  );
+  YATInstance.easing = YATInstance.easingFns[easing];
   YATInstance.ticker = this._clock.createSlave({
     id: YATInstance.id,
     duration: YATInstance.duration,
@@ -225,25 +222,10 @@ YAT.update = function update(ticker) {
   for (let key in this.obj) {
     if (this.obj.hasOwnProperty(key)) {
       if (this.obj[key] !== undefined && this.props[key] !== undefined) {
-        this.obj[key] = this.easing(norm);
+        this.state[key] = this.easing(this.props[key], this.obj[key], norm);
       }
     }
   }
-};
-
-/**
- * bindEasingFn - To bind the ease function with its inital props and objs.
- * @param  {Object} a
- * @param  {Object} b
- * @param  {Function} ease
- * @param  {Object} ctx
- * @return {Function}
- */
-function bindEasingFn(a, b, ease, ctx=null) {
-  if (typeof ease !== "function") {
-    throw new TypeError("Please provide a function");
-  }
-  return ease.bind(ctx, a, b);
 };
 
 /**

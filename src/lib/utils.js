@@ -533,7 +533,6 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
  * @return {Boolean}
  */
 Utils.isObject = function(data) {
-  console.log(typeof data, ({}).toString.call(data));
   return typeof data === "object" && ({}).toString.call(data) === "[object Object]";
 };
 

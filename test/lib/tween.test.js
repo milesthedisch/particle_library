@@ -8,6 +8,7 @@ const clock = require("../../src/lib/clock.js");
 const utils = require("../utils.js").perfNowPolyfill(global); // eslint-disable-line
 const rAF = require("raf-stub").replaceRaf(); // eslint-disable-line
 const assert = require("chai").assert;
+const clone = require("lodash/cloneDeep");
 
 
 const DEFAULTS = {
@@ -17,19 +18,21 @@ const DEFAULTS = {
   duration: 1000,
 };
 
-describe("#Tween", function() {
+describe.only("#Tween", function() {
   let tweenInstance;
 
   beforeEach(function() {
+    requestAnimationFrame.reset();
     tweenInstance = tween.init({clock});
   });
 
   afterEach(function() {
     requestAnimationFrame.reset();
+    tweenInstance._clock.reset();
   });
 
   describe("#init", function() {
-    it("should have methods from event object", function() {
+    it("should have methods from event class", function() {
       const event = Object.getPrototypeOf(tweenInstance);
       const Event = require("../../src/lib/event.js");
       const eventMethods = Object.keys(Event);
@@ -126,25 +129,19 @@ describe("#Tween", function() {
         }, [])
         .length;
 
-      const expected = 1;
+      const expected = 2;
       // All the startTimes should be the same.
-      assert.equal(actual, expected);
-    });
-
-    it("should start the clock and the ticker, there start times should be equal", function() {
-      const t1 = tweenInstance.create();
-      tweenInstance.startAll();
-      assert.equal(t1.ticker.startTime, tweenInstance._clock.startTime);
+      assert.isAtMost(actual, expected);
     });
 
     it("should emit tick event once enough time has passed", function(done) {
+      tweenInstance.create();
+      tweenInstance.startAll();
       tweenInstance._clock.on("tick", function() {
         done();
       });
 
-      tweenInstance.create();
-      tweenInstance.startAll();
-      requestAnimationFrame.step(1, 60);
+      requestAnimationFrame.step(1, tweenInstance._clock.startTime);
     });
 
     it("should throw an error if given no tweens", function() {
@@ -162,21 +159,41 @@ describe("#Tween", function() {
     });
   });
 
-  describe("#update", function() {
+  describe.only("#update", function() {
     let t1;
     let normalizerSpy;
     let easingSpy;
 
     beforeEach(function() {
-      t1 = tweenInstance.create({duration: 120});
+      t1 = tweenInstance.create({duration: 1000});
       tweenInstance.startAll();
       normalizerSpy = sinon.spy(t1, "normalizer");
       easingSpy = sinon.spy(t1, "easing");
     });
 
-    it("should call normalizer with the delta", function(done) {
-      requestAnimationFrame.step(3, t1.ticker.duration.ms);
-      assert.ok(normalizerSpy.called);
+    afterEach(function() {
+      normalizerSpy.restore();
+      easingSpy.restore();
+      requestAnimationFrame.reset();
+    });
+
+    it("should call normalizer with the delta", function() {
+      requestAnimationFrame.step(1, tweenInstance._clock.startTime);
+      requestAnimationFrame.step(1, 1000/60);
+      assert.equal(normalizerSpy.callCount, 2);
+    });
+
+    it("should call easing fn mulitple times based on the amount of props", function() {
+      requestAnimationFrame.step(1, tweenInstance._clock.startTime);
+      requestAnimationFrame.step(1, 1000/60);
+      assert.equal(easingSpy.callCount, 4);
+    });
+
+    it("should update state", function() {
+      const oldState = clone(t1.state);
+      requestAnimationFrame.step(1, tweenInstance._clock.startTime);
+      requestAnimationFrame.step(1, 1000/60);
+      assert.notEqual(t1.state, oldState);
     });
   });
 });

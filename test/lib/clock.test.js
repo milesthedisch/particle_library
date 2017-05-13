@@ -20,6 +20,7 @@ describe("#Clock", function() {
   afterEach(function() {
     // Clean up requestAnimationFrame stub.
     requestAnimationFrame.reset();
+    // clockInstance.stop();
     whipSlavesSpy.restore();
   });
 
@@ -40,19 +41,18 @@ describe("#Clock", function() {
   describe("#init", function() {
     it("should run a loop that calls whipSlaves every 16.67 milliseconds defaultly", function() {
       clockInstance.start();
-      // We need to warm the clock up because the first few
-      // frames willneed to catch up to the start time
+
       requestAnimationFrame.step(1, clockInstance.startTime);
       requestAnimationFrame.step(1, 1000/60);
       requestAnimationFrame.step(1, 1000/60);
 
-      assert.equal(whipSlavesSpy.callCount, 2);
+      assert.equal(whipSlavesSpy.callCount, 3, "whipSlaves call count");
 
       // Which frame we are in. Its a zero based index. So the first frame is 0.
-      assert.equal(clockInstance.index, 1);
+      assert.equal(clockInstance.index, 2, "frame index");
     });
 
-    it("should run a loop that calls whipSlaves every given a fps", function() {
+    it("should run a loop that calls whipSlaves every given fps", function() {
       // 50fps translates to one frame every 20sec.
       const FPS = 50;
       clockInstance.start(FPS);
@@ -60,13 +60,14 @@ describe("#Clock", function() {
       requestAnimationFrame.step(1, clockInstance.startTime);
       requestAnimationFrame.step(1, 1000/FPS);
       requestAnimationFrame.step(1, 1000/FPS);
-      assert.equal(whipSlavesSpy.callCount, 2);
-      assert.equal(clockInstance.index, 1);
+
+      assert.equal(whipSlavesSpy.callCount, 3, "whipSlaves call count");
+      assert.equal(clockInstance.index, 2, "frame index");
     });
   });
 
   describe("#tick", function() {
-    it("should update based on start time given and lastTime state", function() {
+    it("should update based on startTime given and lastTime state", function() {
       // Start time and last time should be equal on the first tick.
       clockInstance.lastTime = 0;
       clockInstance.loop(0);
@@ -78,21 +79,9 @@ describe("#Clock", function() {
 
     it("should update based on start time given and lastTime state", function() {
       // Start time and last time should be equal on the first tick.
-      clockInstance.lastTime = 100;
-      clockInstance.loop(200);
-
-      // Once we've called tick the ticker will keep running every rAF.
-      requestAnimationFrame.step();
-      assert.equal(clockInstance.index, 0);
-    });
-
-    it("should update based on start time given and lastTime state", function() {
-      // Start time and last time should be equal on the first tick.
       clockInstance.lastTime = 200;
       clockInstance.loop(100);
 
-      // Once we've called tick the ticker will keep running every rAF.
-      requestAnimationFrame.step();
       assert.equal(clockInstance.index, -1);
     });
   });
@@ -102,14 +91,11 @@ describe("#Clock", function() {
       clockInstance.start();
 
       requestAnimationFrame.step(1, clockInstance.startTime);
-      requestAnimationFrame.step(1, 1000/60);
 
       clockInstance.stop();
 
-      // This frame should not get called and not update index.
-      requestAnimationFrame.step(1, 1000/60);
-      assert.equal(whipSlavesSpy.callCount, 1);
-      assert.equal(clockInstance.index, 0);
+      assert.equal(whipSlavesSpy.callCount, 1, "whip salves call count");
+      assert.equal(clockInstance.index, 0, "frame index");
     });
 
     it("should clear the slaves queue and save the timeSinceStart and the stopped time", function(done) {
@@ -148,12 +134,6 @@ describe("#Clock", function() {
       utils.forEachFalsy((falsy) => {
         assert.throw(clockInstance.start.bind(null, falsy));
       });
-    });
-
-    it("should setup the right properties for too calculate time intervals", function() {
-      clockInstance.start();
-      assert.equal(clockInstance.startTime, clockInstance.lastTime);
-      assert.equal(clockInstance.timeSinceStart, 0);
     });
 
     it("should call tick to start the loop", function() {
