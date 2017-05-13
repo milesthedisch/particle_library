@@ -18,7 +18,7 @@ const DEFAULTS = {
   duration: 1000,
 };
 
-describe.only("#Tween", function() {
+describe("#Tween", function() {
   let tweenInstance;
 
   beforeEach(function() {
@@ -97,14 +97,6 @@ describe.only("#Tween", function() {
       assert.ok(t1.ticker);
     });
 
-    it("should bind the props and objects to the ease function", function() {
-      const spy = sinon.spy(tweenInstance.easingFns, "ease");
-      const t1 = tweenInstance.create();
-      t1.easing();
-      assert.deepEqual(spy.getCall(0).args, [t1.obj, t1.props]);
-      spy.restore();
-    });
-
     it("should bind the start and end times to normalize", function() {
       const t1 = tweenInstance.create();
       t1.ticker.duration.ms = 100;
@@ -159,7 +151,7 @@ describe.only("#Tween", function() {
     });
   });
 
-  describe.only("#update", function() {
+  describe("#update", function() {
     let t1;
     let normalizerSpy;
     let easingSpy;
