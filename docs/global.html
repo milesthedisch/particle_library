@@ -96,16 +96,26 @@
 
         
             
-<h4 class="name" id="addMass"><span class="type-signature"></span>addMass<span class="type-signature"></span></h4>
+<h4 class="name" id="Event"><span class="type-signature">(constant) </span>Event<span class="type-signature"> :Object</span></h4>
 
 
 
 
 <div class="description">
-    Append a particle to the masses array.
+    Event
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -124,6 +134,13 @@
     
 
     
+    <dt class="implements">Implements:</dt>
+    <dd class="implements"><ul>
+        
+            <li>utils</li>
+        
+    </ul></dd>
+    
 
     
 
@@ -140,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line215">line 215</a>
+        <a href="event.js.html">event.js</a>, <a href="event.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -158,13 +175,17 @@
 
         
             
-<h4 class="name" id="handleMasses"><span class="type-signature"></span>handleMasses<span class="type-signature"></span></h4>
+<h4 class="name" id="extend"><span class="type-signature">(constant) </span>extend<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    For each mass in the masses array apply gravitate to it.
+    YAT stands for Yet Another Tween.
+Why not have one more package that does the same thing as the 50 out there?
+Well thats a good question that will not be answered in this comment block.
+To be honest its for practice and learning purposes. And if anyone in their
+right mind actaully benefits from this then so be it.
 </div>
 
 
@@ -202,7 +223,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line413">line 413</a>
+        <a href="tween.js.html">tween.js</a>, <a href="tween.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -217,16 +238,26 @@
 
 
 
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
 
         
             
-<h4 class="name" id="handleSprings"><span class="type-signature"></span>handleSprings<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id="bindNormalize"><span class="type-signature"></span>bindNormalize<span class="signature">(a, b, normalize)</span><span class="type-signature"> &rarr; {function}</span></h4>
+
+    
 
 
 
 <div class="description">
-    Apply spring point to all internal springs.
+    bindNormalize - To bind normalizer values.
 </div>
 
 
@@ -235,62 +266,101 @@
 
 
 
-<dl class="details">
 
+
+    <h5>Parameters:</h5>
     
 
-    
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line400">line 400</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
             
-<h4 class="name" id="removeMass"><span class="type-signature"></span>removeMass<span class="type-signature"></span></h4>
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
 
 
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
 
 
-<div class="description">
-    Remove a particle for the masses array.
-</div>
+            
+            </td>
 
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>normalize</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -326,7 +396,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="particle.js.html">particle.js</a>, <a href="particle.js.html#line225">line 225</a>
+        <a href="tween.js.html">tween.js</a>, <a href="tween.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -342,9 +412,35 @@
 
 
 
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
         
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">function</span>
+
+
+    </dd>
+</dl>
+
     
 
+
+
+        
     
 
     
@@ -360,13 +456,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addMass">addMass</a></li><li><a href="global.html#handleMasses">handleMasses</a></li><li><a href="global.html#handleSprings">handleSprings</a></li><li><a href="global.html#removeMass">removeMass</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Particle.html">Particle</a></li><li><a href="Shapes.html">Shapes</a></li><li><a href="Utils.html">Utils</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#bindNormalize">bindNormalize</a></li><li><a href="global.html#Event">Event</a></li><li><a href="global.html#extend">extend</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Mar 29 2017 19:03:06 GMT+1100 (AEDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun May 14 2017 00:35:33 GMT+1000 (AEST)
 </footer>
 
 <script> prettyPrint(); </script>
