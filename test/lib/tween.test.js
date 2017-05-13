@@ -188,4 +188,22 @@ describe("#Tween", function() {
       assert.notEqual(t1.state, oldState);
     });
   });
+
+  describe("#finish", function() {
+    it("", function() {
+
+    });
+  });
+
+  describe("#delay", function() {
+    it("", function() {
+
+    });
+  });
+
+  describe("#stop", function() {
+    it("", function() {
+
+    });
+  });
 });

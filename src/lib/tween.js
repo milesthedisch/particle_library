@@ -148,30 +148,6 @@ YAT.rewind = function(id=this.id) {
   tween.start();
 };
 
-YAT.start = function(...args) {
-  if (typeof args[0] === "object") {
-    /* eslint-disable */
-    var {
-      id = this.id, 
-      props = this.opts.props, 
-      easingFn = this.opts.easingFn, 
-      duration = this.opts.duration,
-    } = args[0];
-    /* eslint-enable */
-  } else {
-    /* eslint-disable */
-    var [
-      id = this.id, 
-      props = this.opts.props, 
-      easingFn = this.opts.easingFn, 
-      duration = this.opts.duration,
-    ] = args;
-    /* eslint-enable */
-  }
-
-  return this;
-};
-
 YAT.startAll = function startAll() {
   if (!this.tweens.length) {
     throw new Error("There are no tweens to start");

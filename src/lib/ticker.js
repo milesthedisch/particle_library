@@ -8,7 +8,7 @@ const STATE = {
 };
 
 
-Ticker.init = function({
+Ticker.init = function init({
   timeStamp=performance.now(),
   id,
   duration=1000,
@@ -35,7 +35,7 @@ Ticker.init = function({
   return this;
 };
 
-Ticker.tickFor = function(duration, string) {
+Ticker.tickFor = function tickFor(duration, string) {
   switch (string) {
   case "frames": case "f":
     return {
@@ -58,13 +58,13 @@ Ticker.tickFor = function(duration, string) {
   };
 };
 
-Ticker.start = function() {
+Ticker.start = function start() {
   if (this.STATE === STATE.RUNNING) return false;
   this.STATE = STATE.RUNNING;
   this.startTime = performance.now();
 };
 
-Ticker.stop = function() {
+Ticker.stop = function stop() {
   if (this.STATE === STATE.STOPPED) return false;
   this.STATE = STATE.STOPPED;
 
