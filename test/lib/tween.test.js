@@ -214,7 +214,7 @@ describe("#Tween", function() {
 
   describe("#delay", function() {
     it("should delay the easing updating", function(done) {
-      this.timeout(20000);
+      this.timeout(2000);
       const t1 = tweenInstance.create();
       tweenInstance.startAll();
       requestAnimationFrame.step(3, 17);
