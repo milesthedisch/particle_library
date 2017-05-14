@@ -193,7 +193,7 @@ YAT.stop = function stop() {
 YAT.finish = function finish() {
   this.stop();
   this._clock.removeSlave(this.ticker.id);
-  update();
+  this.state = this.props;
   return this;
 };
 

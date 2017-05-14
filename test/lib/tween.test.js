@@ -206,7 +206,9 @@ describe("#Tween", function() {
       const t1 = tweenInstance.create({duration: 1000});
       tweenInstance.startAll();
       requestAnimationFrame.step(1, 100);
-      console.log(t1.state);
+      assert.isBelow(t1.state.x, 100);
+      t1.finish();
+      assert.equal(t1.state.x, 100);
     });
   });
 
