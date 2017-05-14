@@ -201,7 +201,7 @@ describe("#Tween", function() {
     });
   });
 
-  describe.only("#finish", function() {
+  describe("#finish", function() {
     it("should finish the tween to the end and skip the rest of the tween", function() {
       const t1 = tweenInstance.create({duration: 1000});
       tweenInstance.startAll();
