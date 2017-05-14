@@ -88,16 +88,13 @@ Ticker.nudge = function nudge(state) {
     throw new Error("Please provide a state object");
   }
 
-  console.log("running");
   if (this.STATE === STATE.STOPPED || this.STATE !== STATE.RUNNING) {
-    console.log("not running");
     this.needsUpdate = false;
     return null;
   }
 
   this.STATE = STATE.RUNNING;
   this.timeSinceStart += state.delta;
-  console.log(this.timeSinceStart);
 
   if (this.timeSinceStart < this.duration.ms) {
     this.needsUpdate = true;

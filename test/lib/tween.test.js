@@ -217,7 +217,7 @@ describe("#Tween", function() {
       this.timeout(2000);
       const t1 = tweenInstance.create();
       tweenInstance.startAll();
-      requestAnimationFrame.step(3, 17);
+      requestAnimationFrame.step(100, 17);
       assert.isAbove(t1.state.x, 0);
       t1.delay(1000);
       assert.equal(t1.ticker.STATE, "STOPPED");
