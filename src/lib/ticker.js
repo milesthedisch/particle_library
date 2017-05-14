@@ -28,6 +28,7 @@ Ticker.init = function init({
   this.stopTime;
   this.startTime = 0;
   this.timeSinceStart = 0;
+  this.timeSinceStart2 = 0;
 
   // Fire the first time you get called.
   this.needsUpdate = true;
@@ -87,13 +88,16 @@ Ticker.nudge = function nudge(state) {
     throw new Error("Please provide a state object");
   }
 
+  console.log("running");
   if (this.STATE === STATE.STOPPED || this.STATE !== STATE.RUNNING) {
+    console.log("not running");
     this.needsUpdate = false;
     return null;
   }
 
   this.STATE = STATE.RUNNING;
-  this.timeSinceStart = (state.timeSinceStart + state.clockStart) - this.startTime;
+  this.timeSinceStart += state.delta;
+  console.log(this.timeSinceStart);
 
   if (this.timeSinceStart < this.duration.ms) {
     this.needsUpdate = true;

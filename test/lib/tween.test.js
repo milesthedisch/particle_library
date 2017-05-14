@@ -213,8 +213,18 @@ describe("#Tween", function() {
   });
 
   describe("#delay", function() {
-    it("should delay the easing updating", function() {
-
+    it("should delay the easing updating", function(done) {
+      this.timeout(20000);
+      const t1 = tweenInstance.create();
+      tweenInstance.startAll();
+      requestAnimationFrame.step(3, 17);
+      assert.isAbove(t1.state.x, 0);
+      t1.delay(1000);
+      assert.equal(t1.ticker.STATE, "STOPPED");
+      setTimeout(function() {
+        assert.equal(t1.ticker.STATE, "RUNNING");
+        done();
+      }, 1000);
     });
   });
 });
