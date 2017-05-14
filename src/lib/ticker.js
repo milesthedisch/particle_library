@@ -93,12 +93,7 @@ Ticker.nudge = function nudge(state) {
   }
 
   this.STATE = STATE.RUNNING;
-
-  const now = performance.now();
-  const delta = now - this.startTime;
-
-  this.timeSinceStart += delta;
-  this.startTime = now;
+  this.timeSinceStart = (state.timeSinceStart + state.clockStart) - this.startTime;
 
   if (this.timeSinceStart < this.duration.ms) {
     this.needsUpdate = true;

@@ -71,7 +71,12 @@ YAT.init = function initTween(opts) {
   return this;
 };
 
-YAT.updateTweens = function updateTweens() {
+/**
+ * updateTweens
+ * 
+ * @return {}
+ */
+YAT.updateTweens = function updateTeens() {
   this.tweens.forEach((tween) => {
     if (tween.ticker.needsUpdate) {
       tween.update(tween.ticker);
@@ -161,17 +166,30 @@ YAT.startAll = function startAll() {
   this._clock.start();
 };
 
+/**
+ * delay - how long to delay the animation
+ * @param  {number} duration
+ * @return {YAT}
+ */
 YAT.delay = function delay(duration) {
   this.ticker.stop();
   setTimeout(() => this.ticker.start(), duration);
   return this;
 };
 
+/**
+ * stop - stops the ticker
+ * @return {YAT}
+ */
 YAT.stop = function stop() {
   this.ticker.stop();
   return this;
 };
 
+/**
+ * finish - finishes the tween animation
+ * @return {YAT}
+ */
 YAT.finish = function finish() {
   this.stop();
   this._clock.removeSlave(this.ticker.id);

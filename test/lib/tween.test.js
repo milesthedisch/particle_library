@@ -189,20 +189,29 @@ describe("#Tween", function() {
     });
   });
 
-  describe("#finish", function() {
-    it("", function() {
+  describe("#stop", function() {
+    it("should stop the tween", function() {
+      const t1 = tweenInstance.create();
+      tweenInstance.startAll();
+      requestAnimationFrame.step(1, tweenInstance._clock.startTime);
+      assert.equal(t1.ticker.needsUpdate, true);
+      t1.stop();
+      requestAnimationFrame.step(1, 17);
+      assert.equal(t1.ticker.needsUpdate, false);
+    });
+  });
 
+  describe.only("#finish", function() {
+    it("should finish the tween to the end and skip the rest of the tween", function() {
+      const t1 = tweenInstance.create({duration: 1000});
+      tweenInstance.startAll();
+      requestAnimationFrame.step(1, 100);
+      console.log(t1.state);
     });
   });
 
   describe("#delay", function() {
-    it("", function() {
-
-    });
-  });
-
-  describe("#stop", function() {
-    it("", function() {
+    it("should delay the easing updating", function() {
 
     });
   });

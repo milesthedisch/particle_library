@@ -74,7 +74,8 @@ Clock.loop = function loop(newTime) {
       delta,
       index: this.index,
       lastTime: this.lastTime,
-      timesSinceStart: this.timeSinceStart,
+      clockStart: this.startTime,
+      timeSinceStart: this.timeSinceStart,
     });
     this.lastTime = newTime - (delta % this.fps);
   }
@@ -106,7 +107,6 @@ Clock.stop = function stopClock() {
  */
 Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
-
 
   this.slaves.forEach((slave, index) => {
     if (slave.done) {
