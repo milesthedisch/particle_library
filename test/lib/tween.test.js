@@ -23,7 +23,9 @@ describe("#Tween", function() {
 
   beforeEach(function() {
     requestAnimationFrame.reset();
-    tweenInstance = tween.init({clock});
+    tweenInstance = tween.init({
+      clock: clock.init(),
+    });
   });
 
   afterEach(function() {

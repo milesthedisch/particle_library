@@ -499,7 +499,7 @@ Utils.multiCurve = function(points, ctx) {
  * @param  {Float} ease [description]
  * @param  {Int} a    [description]
  * @param  {Int} b    [description]
- * @return {[type]}      [description]
+ * @return {Int}      [description]
  */
 Utils.ease = function(ease, a, b) {
   // the delta can get extremely small and its not performant to keep

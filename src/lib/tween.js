@@ -30,7 +30,7 @@ YAT.init = function initTween(opts) {
     throw new Error("Please provide a clock API.");
   }
 
-  this._clock = opts.clock.init();
+  this._clock = opts.clock;
   this.parent = eventInstance;
   this.tweens = [];
 

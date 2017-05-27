@@ -19,7 +19,7 @@ Event.init = function initEvent() {
 /**
  * emit
  * @description Executes the handeler that assocaited with the emitted event.
- * @param {...String} args
+ * @param {Array} args
  * @return {Event}
  */
 Event.emit = function emit(...args) {
@@ -115,8 +115,8 @@ Event.off = function off(...args) {
 
 /**
  * listeners - Return all callbacks attached to a certain event
- * @param  {...[*]} args
- * @return {function.<Array>}
+ * @param  {any<Array>} args
+ * @return {function[]}
  */
 Event.listeners = function listeners(...args) {
   const [event] = args;

@@ -2,6 +2,7 @@ const ticker = require("./ticker");
 const event = require("./event").init();
 const Clock = Object.create(event);
 const MAX_FPS = 1000/60;
+const noop = () => {};
 
 /**
  * init - Initalizes the clock with correct properties.
@@ -9,7 +10,12 @@ const MAX_FPS = 1000/60;
  * @param  {Number} opts.fps The fps you want the clock to tick at.
  * @return {Clock}
  */
-Clock.init = function initClock(opts={fps: MAX_FPS}) {
+Clock.init = function initClock(opts={}) {
+  opts = Object.assign({
+    fps: MAX_FPS,
+    renderer: noop,
+  }, opts);
+
   this.slaves = [];
   this.parent = event;
 
@@ -24,6 +30,7 @@ Clock.init = function initClock(opts={fps: MAX_FPS}) {
   this.lastTime;
   this.stopTime;
   this.timeSinceStart = 0;
+  this.renderer = opts.renderer;
 
   // The maximum FPS the browser can deliver is 60.
   this.fps = opts.fps > MAX_FPS ?
@@ -66,6 +73,8 @@ Clock.loop = function loop(newTime) {
 
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
+
+  this.renderer();
 
   if (delta > this.fps) {
     this.index++;
