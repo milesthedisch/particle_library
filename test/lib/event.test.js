@@ -124,6 +124,17 @@ describe("#Event", function() {
 
       assert.deepEqual(actualCalls, expectedCalls);
     });
+
+    it("should emit the event and arguments passed as well", function(done) {
+      const extraData = {a: 1};
+
+      eventInstance.on("type1", function(data) {
+        assert.deepEqual(extraData, data);
+        done();
+      });
+
+      eventInstance.emit("type1", extraData);
+    });
   });
 
   describe("#off", function() {

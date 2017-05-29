@@ -13,7 +13,6 @@ const noop = () => {};
 Clock.init = function initClock(opts={}) {
   opts = Object.assign({
     fps: MAX_FPS,
-    renderer: noop,
   }, opts);
 
   this.slaves = [];
@@ -30,7 +29,6 @@ Clock.init = function initClock(opts={}) {
   this.lastTime;
   this.stopTime;
   this.timeSinceStart = 0;
-  this.renderer = opts.renderer;
 
   // The maximum FPS the browser can deliver is 60.
   this.fps = opts.fps > MAX_FPS ?
@@ -74,7 +72,7 @@ Clock.loop = function loop(newTime) {
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
 
-  this.renderer();
+  this.emit("render");
 
   if (delta > this.fps) {
     this.index++;

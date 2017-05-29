@@ -30,7 +30,10 @@ YAT.init = function initTween(opts) {
     throw new Error("Please provide a clock API.");
   }
 
-  this._clock = opts.clock;
+  this._clock = opts.clock.init({
+    fps: opts.fps || 60,
+  });
+
   this.parent = eventInstance;
   this.tweens = [];
 
@@ -68,6 +71,7 @@ YAT.init = function initTween(opts) {
   };
 
   this._clock.on("tick", this.updateTweens, this);
+
   return this;
 };
 
@@ -82,7 +86,8 @@ YAT.updateTweens = function updateTeens() {
       tween.update(tween.ticker);
     }
 
-    if (tween.ticker.done) {
+    if (!tween.ticker.needsUpdate) {
+      tween.update(tween.ticker);
       tween.remove();
     }
 
@@ -198,7 +203,7 @@ YAT.finish = function finish() {
 };
 
 YAT.remove = function remove(id=this.id) {
-  this.tweens = this.tween.filter((t) => {
+  this.tweens = this.tweens.filter((t) => {
     if (t.id === id) {
       this._clock.removeSlave(t.ticker.id);
       return false;
@@ -209,16 +214,23 @@ YAT.remove = function remove(id=this.id) {
 };
 
 YAT.update = function update(ticker) {
+  if (!ticker.needsUpdate) {
+    this.state = Object.assign({}, this.props);
+    return this.state;
+  }
+
   const {timeSinceStart: delta} = ticker;
   const norm = this.normalizer(delta);
 
   for (let key in this.obj) {
     if (this.obj.hasOwnProperty(key)) {
       if (this.obj[key] !== undefined && this.props[key] !== undefined) {
-        this.state[key] = this.easing(this.props[key], this.obj[key], norm);
+        this.state[key] = this.easing(this.props[key] - this.obj[key], this.obj[key], norm);
       }
     }
   }
+
+  return this.state;
 };
 
 /**
@@ -229,6 +241,7 @@ YAT.update = function update(ticker) {
  * @return {Function}
  */
 function bindNormalize(a, b, normalize) {
+  console.log(a, b);
   return (delta) => normalize(delta, a, b);
 }
 
