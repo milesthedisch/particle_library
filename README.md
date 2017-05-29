@@ -21,17 +21,18 @@ To get up and running you'll first need a two things.
 
 Once you've installed the prerequisites and installed particle_library via npm. Its as easy as requiring it in a bundler, or including a script tag in you header with the correct source attribute.
 
-Install via npm
+**Install via npm**
+
 `npm install -S particle_library`
 
-No bundler
+**No bundler**
 ```html
   <head>
     <script src="path/to/particle_library.js"></script>
   </head>
 ```
 
-With a bundler
+**With a bundler**
 ```js
 const particeLib = require('particle_library');
 ```
