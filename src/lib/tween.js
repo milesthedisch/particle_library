@@ -6,7 +6,6 @@
  * right mind actaully benefits from this then so be it.
  */
 
-
 const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 const event = require("./event");
@@ -172,6 +171,17 @@ YAT.startAll = function startAll() {
 };
 
 /**
+ * stopAll - Stops all tweens
+ */
+YAT.stopAll = function stopAll() {
+  if (this.tweens.length) {
+    throw new Error("There are no tweens to stop");
+  }
+
+  this._clock.stop();
+};
+
+/**
  * delay - how long to delay the animation
  * @param  {number} duration
  * @return {YAT}
@@ -241,7 +251,6 @@ YAT.update = function update(ticker) {
  * @return {Function}
  */
 function bindNormalize(a, b, normalize) {
-  console.log(a, b);
   return (delta) => normalize(delta, a, b);
 }
 
