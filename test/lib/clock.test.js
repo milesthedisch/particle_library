@@ -46,10 +46,10 @@ describe("#Clock", function() {
       requestAnimationFrame.step(1, 1000/60);
       requestAnimationFrame.step(1, 1000/60);
 
-      assert.isAtMost(whipSlavesSpy.callCount, 2, "whipSlaves call count");
+      assert.isAtMost(whipSlavesSpy.callCount, 3, "whipSlaves call count");
 
       // Which frame we are in. Its a zero based index. So the first frame is 0.
-      assert.isAtMost(clockInstance.index, 1, "frame index");
+      assert.isAtMost(clockInstance.index, 2, "frame index");
     });
 
     it("should run a loop that calls whipSlaves every given fps", function() {
@@ -61,8 +61,8 @@ describe("#Clock", function() {
       requestAnimationFrame.step(1, 1000/FPS);
       requestAnimationFrame.step(1, 1000/FPS);
 
-      assert.isAtMost(whipSlavesSpy.callCount, 2, "whipSlaves call count");
-      assert.isAtMost(clockInstance.index, 1, "frame index");
+      assert.isAtMost(whipSlavesSpy.callCount, 3, "whipSlaves call count");
+      assert.isAtMost(clockInstance.index, 2, "frame index");
     });
   });
 
