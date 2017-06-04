@@ -43,16 +43,16 @@ Clock.init = function initClock(opts={}) {
  * @param  {Number} fps The fps you want the clock to tick at.
  * @return {Clock}
  */
-Clock.start = function start(fps=60) {
-  if (fps > 60) {
+Clock.start = function start() {
+  if (this.fps > 60) {
     throw new Error("The given fps is too high");
   }
 
-  if (+fps === NaN) {
+  if (+this.fps === NaN) {
     throw new Error("The given fps is not valid");
   }
 
-  this.fps = 1000 / fps;
+  this.fps = 1000 / this.fps;
   this.startTime = performance.now();
   this.lastTime = this.startTime;
 
@@ -116,15 +116,7 @@ Clock.whipSlaves = function whipSlaves(state) {
   if (!this.slaves.length) return;
 
   this.slaves.forEach((slave, index) => {
-    if (slave.done) {
-      this.removeSlave(slave.id);
-    }
-
-    if (slave.needsUpdate) {
-      // Can i set a timeout here and have the nudges run async?
-      // Give it a shoot.
-      slave.nudge(state);
-    }
+    slave.nudge(state);
   });
 
   this.emit("tick");

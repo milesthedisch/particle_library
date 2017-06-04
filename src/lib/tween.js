@@ -75,9 +75,7 @@ YAT.init = function initTween(opts) {
 };
 
 /**
- * updateTweens
- * 
- * @return {}
+ * updateTweens - Updates all the tween instances.
  */
 YAT.updateTweens = function updateTeens() {
   this.tweens.forEach((tween) => {
@@ -85,7 +83,8 @@ YAT.updateTweens = function updateTeens() {
       tween.update(tween.ticker);
     }
 
-    if (!tween.ticker.needsUpdate) {
+    if (!tween.ticker.needsUpdate &&
+        tween.ticker.STATE === "DONE") {
       tween.update(tween.ticker);
       tween.remove();
     }
@@ -164,7 +163,6 @@ YAT.startAll = function startAll() {
 
   this.tweens.forEach((t) => {
     t.ticker.start();
-    t.normalizer = bindNormalize(0, t.ticker.duration.ms, utils.normalize);
   });
 
   this._clock.start();
@@ -188,6 +186,7 @@ YAT.stopAll = function stopAll() {
  */
 YAT.delay = function delay(duration) {
   this.ticker.stop();
+  this.obj = clone(this.state);
   setTimeout(() => this.ticker.start(), duration);
   return this;
 };
@@ -229,8 +228,8 @@ YAT.update = function update(ticker) {
     return this.state;
   }
 
-  const {timeSinceStart: delta} = ticker;
-  const norm = this.normalizer(delta);
+  const {timeSinceStart: delta, duration} = ticker;
+  const norm = utils.normalize(delta, 0, duration.ms);
 
   for (let key in this.obj) {
     if (this.obj.hasOwnProperty(key)) {
@@ -242,17 +241,6 @@ YAT.update = function update(ticker) {
 
   return this.state;
 };
-
-/**
- * bindNormalize - To bind normalizer values.
- * @param  {Number} a
- * @param  {Number} b
- * @param  {Function} normalize
- * @return {Function}
- */
-function bindNormalize(a, b, normalize) {
-  return (delta) => normalize(delta, a, b);
-}
 
 module.exports = YAT;
 

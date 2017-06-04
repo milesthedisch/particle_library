@@ -72,13 +72,10 @@ Ticker.stop = function stop() {
   // Know what time it stopped.
   // so that if it starts again it
   // it can recalculate how far it needs to go.
-  const newDuration = this.timeSinceStart - this.duration.ms || 0;
+  const newDuration = this.duration.ms - this.timeSinceStart || 0;
 
-  this.duration = {
-    type: "frames",
-    value: newDuration,
-    ms: newDuration,
-  };
+  this.duration = this.tickFor(newDuration, "milliseconds");
+  this.timeSinceStart = 0;
 
   this.stopTime = performance.now();
 };
@@ -87,6 +84,7 @@ Ticker.nudge = function nudge(state) {
   if (!state) {
     throw new Error("Please provide a state object");
   }
+
 
   if (this.STATE === STATE.STOPPED || this.STATE !== STATE.RUNNING) {
     this.needsUpdate = false;
