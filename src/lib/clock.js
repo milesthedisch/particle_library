@@ -1,7 +1,7 @@
 const ticker = require("./ticker");
 const event = require("./event").init();
 const Clock = Object.create(event);
-const MAX_FPS = 1000/60;
+const MAX_FPS = 60;
 const noop = () => {};
 
 /**
@@ -72,10 +72,9 @@ Clock.loop = function loop(newTime) {
   let delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
 
-  this.emit("render");
-
   if (delta > this.fps) {
     this.index++;
+
     this.whipSlaves({
       newTime,
       delta,
@@ -84,8 +83,11 @@ Clock.loop = function loop(newTime) {
       clockStart: this.startTime,
       timeSinceStart: this.timeSinceStart,
     });
+
     this.lastTime = newTime - (delta % this.fps);
   }
+
+  this.emit("render");
 
   return this;
 };
