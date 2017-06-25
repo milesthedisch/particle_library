@@ -532,7 +532,7 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
  * @param  {*}  data
  * @return {Boolean}
  */
-Utils.isObject = function(data) {
+Utils.isObject = function isObject(data) {
   return typeof data === "object" && ({}).toString.call(data) === "[object Object]";
 };
 
@@ -541,11 +541,32 @@ Utils.isObject = function(data) {
  * @param  {Array} array
  * @return {Array}
  */
-Utils.unique = function(array) {
+Utils.unique = function unique(array) {
   return array.reduce((x, y) => {
     if (x.indexOf(y) === -1) x.push(y);
     return x;
   }, []);
+};
+
+/**
+ * colorInterpolation
+ * @param  {Number} val  A value from 0 - 1
+ * @param  {[type]} hexA A hexidecimal color
+ * @param  {[type]} hexB A hexidecimal color
+ * @return {[type]} hexC A hexidecimal color
+ */
+Utils.colorInterpolation = function colorInterpolation(val, hexA, hexB) {
+  // If given hsl then it should use the hsl value and interpolate that value
+
+  // If given rgb/a it should use the rgba value given and interpolate that value
+
+  // The options should in include lch intepolation
+
+  return "someHex";
+};
+
+Utils.perspective = function perspective(focalLength, distance) {
+  return focalLength / (focalLength - distance);
 };
 
 module.exports = Object.create(Utils);
