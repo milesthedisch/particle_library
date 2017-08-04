@@ -1,4 +1,5 @@
 /* eslint max-len: 0 */
+// @flow
 
 /**
  * This module is composed of small function that
@@ -24,8 +25,8 @@ const Utils = Object.create(null);
  * @param  {Int} max - The minimum value in the range.
  * @return {Int} Int - The value represented in that range.
  */
-Utils.normalize = function normalize(val, min, max) {
-  return (val - min) / (max - min);
+function normalize(val: number, min: number, max: number): number {
+  return ((val - min) / (max - min): number);
 };
 
 /**
@@ -37,7 +38,7 @@ Utils.normalize = function normalize(val, min, max) {
  * @param  {Interger} max
  * @return {Interger}
  */
-Utils.lerp = function lerp(val, min, max) {
+function lerp(val: number, min: number, max: number): number {
   return (max - min) * val + min;
 };
 
@@ -51,12 +52,12 @@ Utils.lerp = function lerp(val, min, max) {
  * @param  {number} destMax
  * @return {number}
  */
-Utils.map = function map(value, srcMin, srcMax, destMin, destMax) {
-  srcMax = Math.max(srcMax, srcMin);
-  srcMin = Math.min(srcMax, srcMin);
-  destMin = Math.min(destMin, destMax);
-  destMax = Math.max(destMin, destMax);
-  return this.lerp(this.normalize(value, srcMin, srcMax), destMin, destMax);
+function map(value: number, srcMin: number, srcMax: number, destMin: number, destMax: number): number {
+  srcMax = (Math.max(srcMax, srcMin): number);
+  srcMin = (Math.min(srcMax, srcMin): number);
+  destMin = (Math.min(destMin, destMax): number);
+  destMax = (Math.max(destMin, destMax): number);
+  return lerp(normalize(value, srcMin, srcMax), destMin, destMax);
 };
 
 /**
@@ -67,8 +68,8 @@ Utils.map = function map(value, srcMin, srcMax, destMin, destMax) {
  * @memberOf Utils
  * @return {Percent}    A value.
  */
-Utils.percent = function(val) {
-  return val * 100;
+function percent(val: number): number {
+  return ((val * 100): number);
 };
 
 /**
@@ -80,7 +81,7 @@ Utils.percent = function(val) {
  * @param  {Number} max
  * @return {Number}
  */
-Utils.clamp = function(value, min, max) {
+function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
 };
 
@@ -91,7 +92,7 @@ Utils.clamp = function(value, min, max) {
  * @param  {Integer} y
  * @return {Integer}
  */
-Utils.randomBetween = function(x, y) {
+function randomBetween(x: number, y: number): number {
   let min = Math.min(x, y);
   let max = Math.max(x, y);
   return Math.floor(Math.random() * (max - min)) + min;
@@ -106,7 +107,7 @@ Utils.randomBetween = function(x, y) {
  * @param  {Number} y1
  * @return {Number}
  */
-Utils.distanceXY = function(x0, y0, x1, y1) {
+function distanceXY(x0: number, y0: number, x1: number, y1: number): number {
   const dx = x0 - x1;
   const dy = y0 - y1;
   return Math.hypot(dx, dy);
@@ -119,7 +120,7 @@ Utils.distanceXY = function(x0, y0, x1, y1) {
  * @param  {Vector} v2
  * @return {Number}
  */
-Utils.distanceVec = function(v1, v2) {
+function distanceVec(v1: Vector, v2: Vector): number {
   const dVec = (v1)["-"](v2);
   return Math.hypot(dVec.get("x"), dVec.get("y"));
 };
@@ -548,19 +549,13 @@ Utils.unique = function unique(array) {
   }, []);
 };
 
-/**
- * colorInterpolation
- * @param  {Number} val  A value from 0 - 1
- * @param  {[type]} hexA A hexidecimal color
- * @param  {[type]} hexB A hexidecimal color
- * @return {[type]} hexC A hexidecimal color
- */
-Utils.colorInterpolation = function colorInterpolation(val, hexA, hexB) {
-  // If given hsl then it should use the hsl value and interpolate that value
+Utils.colorInterpolation = function colorInterpolation(float: number, colorFrom: Color, colorTo: Color) : Color {
+  const {r1, g1, b1} = colorFrom;
+  const {r2, g2, b2} = colorTo;
 
-  // If given rgb/a it should use the rgba value given and interpolate that value
-
-  // The options should in include lch intepolation
+  const r = r1 + (r2 - r1) / float;
+  const g = g1 + (g2 - g1) / float;
+  const b = b1 + (b2 - b1) / float;
 
   return "someHex";
 };
@@ -569,4 +564,15 @@ Utils.perspective = function perspective(focalLength, distance) {
   return focalLength / (focalLength - distance);
 };
 
-module.exports = Object.create(Utils);
+module.exports = {
+  normalize,
+  lerp,
+  map,
+  percent,
+  clamp,
+  randomBetween,
+  distanceXY,
+  distanceVec
+};
+
+// module.exports = Object.create(Utils);

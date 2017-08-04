@@ -29,7 +29,7 @@ const INITIAL_STATE = {
  * @param {state} state initial state to pass the constructor
  */
 function Particle(state=clone(INITIAL_STATE)) {
-  this.state = state;
+  this.state = state; 
 }
 
 /**
@@ -64,8 +64,8 @@ Particle.prototype.create = function(opts=clone(INITIAL_STATE)) {
  * @returns {Object} Acceleration vector.
  */
 Particle.prototype.accelerate = function accelerate(ax=this.state.vx, ay=this.state.vy) {
-  this.state.vx += ax;
-  this.state.vy += ay;
+  this.state.vx += ax | 0;
+  this.state.vy += ay | 0;
   return {ax, ay};
 };
 

@@ -8,6 +8,27 @@ const INITIAL_STATE = {
 };
 
 /**
+ * Vector class is responsible for doing vector operations and storing
+ * the x and y coordinates of the vector.
+ */
+interface Vector {
+  x: number;
+  y: number;
+  create(): Vector;
+  set(): boolean;
+  get(): any;
+  setAngle(): any;
+  setLength(): any;
+  getLength(number): number;
+  setLength(number): number;
+  random(number, number): Vector;
+  add(Vector): Vector;
+  subtract(Vector): Vector;
+  multiply(Vector): Vector;
+  divide(Vector): Vector;
+};
+
+/**
  * @class Vector
  * @param {Object} state object.
  */
@@ -22,7 +43,7 @@ function Vector(state=INITIAL_STATE) {
  * @param  {Int} y
  * @return {Vector}   A object inheriting from Vector.
  */
-Vector.prototype.create = function create(x=0, y=0) {
+Vector.prototype.create = function create(x: number = 0, y: number = 0): Vector {
   const vec = new Vector({x, y});
   return vec;
 };
@@ -34,7 +55,7 @@ Vector.prototype.create = function create(x=0, y=0) {
  * @param  {*} val
  * @return {Boolean} Is the prop your passing in exsist.
  */
-Vector.prototype.set = function set(prop, val) {
+Vector.prototype.set = function set(prop, val): boolean {
   // TODO: Add check val is number
   // 1. Create utils.isNumber function.
 
@@ -61,7 +82,7 @@ Vector.prototype.get = function get(prop) {
  * @memberOf Vector
  * @param {Radians} rad A floating point number.
  */
-Vector.prototype.setAngle = function setAngle(rad) {
+Vector.prototype.setAngle = function setAngle(rad: number) {
   // TODO: Add check rad is number
   // 1. Create utils.isNumber function.
 
@@ -76,7 +97,7 @@ Vector.prototype.setAngle = function setAngle(rad) {
  * @memberOf Vector
  * @param {Integer} length
  */
-Vector.prototype.setLength = function setLength(length) {
+Vector.prototype.setLength = function setLength(length: number): number {
   // TODO: Add check rad is number
   // 1. Create utils.isNumber function.
 
@@ -91,9 +112,9 @@ Vector.prototype.setLength = function setLength(length) {
  * @memberOf Vector
  * @return {Integer} Cooridinates.
  */
-Vector.prototype.getLength = function getLength() {
-  const x = this.get("x");
-  const y = this.get("y");
+Vector.prototype.getLength = function getLength(): number {
+  const x = (this.get("x"): number);
+  const y = (this.get("y"): number);
   return Math.hypot(x, y);
 };
 
@@ -102,9 +123,9 @@ Vector.prototype.getLength = function getLength() {
  * @memberOf Vector
  * @return {Integer} Cooridinates.
  */
-Vector.prototype.getAngle = function getAngle() {
-  const x = this.get("x");
-  const y = this.get("y");
+Vector.prototype.getAngle = function getAngle(): number {
+  const x = (this.get("x"): number);
+  const y = (this.get("y"): number);
   return Math.atan2(y, x);
 };
 
@@ -115,7 +136,7 @@ Vector.prototype.getAngle = function getAngle() {
  * @return {Vector} A vector with cooridnates, or multiple vectors.
  */
 
-Vector.prototype.add = function add(v2) {
+Vector.prototype.add = function add(v2: Vector): Vector {
   const self = this;
 
   if (v2.constructor.name === "Array" && v2.length) {
@@ -140,7 +161,7 @@ Vector.prototype.add = function add(v2) {
  * @return {Vector} A vector that contains a reduced state.
  * @example {x: 2, y: 2} - {x: 2, y: 2} = {x: 0, y: 0}
  */
-Vector.prototype.subtract = function subtract(v2) {
+Vector.prototype.subtract = function subtract(v2: Vector): Vector {
   const self = this;
 
   if (v2.constructor.name === "Array" && v2.length) {
@@ -166,7 +187,7 @@ Vector.prototype.subtract = function subtract(v2) {
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
-Vector.prototype.multiply = function multiply(v2) {
+Vector.prototype.multiply = function multiply(v2: Vector): Vector {
   return this.create(
     this.get("x") * v2.get("x"),
     this.get("y") * v2.get("y")
@@ -179,7 +200,7 @@ Vector.prototype.multiply = function multiply(v2) {
  * @param  {Vector} v2 A vector that contains state.
  * @return {Vector}    A vector that contains a reduced state.
  */
-Vector.prototype.divide = function divide(v2) {
+Vector.prototype.divide = function divide(v2: Vector): Vector {
   return this.create(
     this.get("x") / v2.get("x"),
     this.get("y") / v2.get("y")
@@ -192,7 +213,7 @@ Vector.prototype.divide = function divide(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.addTo = function addTo(v2) {
+Vector.prototype.addTo = function addTo(v2: Vector): Vector {
   this.state.x = this.get("x") + v2.get("x");
   this.state.y = this.get("y") + v2.get("y");
   return this.state;
@@ -204,7 +225,7 @@ Vector.prototype.addTo = function addTo(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.subtractFrom = function subtractFrom(v2) {
+Vector.prototype.subtractFrom = function subtractFrom(v2: Vector): Vector {
   this.state.x = this.get("x") - v2.get("x");
   this.state.y = this.get("y") - v2.get("y");
   return this.state;
@@ -216,7 +237,7 @@ Vector.prototype.subtractFrom = function subtractFrom(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.multiplyBy = function multiplyBy(v2) {
+Vector.prototype.multiplyBy = function multiplyBy(v2: Vector): Vector {
   this.state.x = this.get("x") * v2.get("x");
   this.state.y = this.get("y") * v2.get("y");
   return this.state;
@@ -228,7 +249,7 @@ Vector.prototype.multiplyBy = function multiplyBy(v2) {
  * @param {Vector} [v2] - A vector that contains state.
  * @return {Object} [state] - Key value pair of coordinates
  */
-Vector.prototype.divideBy = function divideBy(v2) {
+Vector.prototype.divideBy = function divideBy(v2: Vector): Vector {
   this.state.x = this.get("x") / v2.get("x");
   this.state.y = this.get("y") / v2.get("y");
   return this.state;
@@ -238,7 +259,7 @@ Vector.prototype.divideBy = function divideBy(v2) {
  * @memberOf Vector
  * @param  {Number} angle A number of radians to rotate clockwise by.
 */
-Vector.prototype.rotate = function(delta) {
+Vector.prototype.rotate = function(delta: number) {
   const cos = Math.cos(delta);
   const sin = Math.sin(delta);
 
@@ -257,7 +278,7 @@ Vector.prototype.rotate = function(delta) {
  * @param {Number} max - A max range on the random vector state.
  * @return {Vector}
  */
-Vector.prototype.random = function rVector(min=1, max=10) {
+Vector.prototype.random = function rVector(min: number=1, max: number=10): Vector {
   const x = utils.lerp(Math.random(), min, max);
   const y = utils.lerp(Math.random(), min, max);
   return this.create(x, y);

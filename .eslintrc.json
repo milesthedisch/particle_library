@@ -3,6 +3,7 @@
         "browser": true,
         "es6": true
     },
+    "parser": "babel-eslint",
     "settings": {
         "import/extensions": [".test.js", ".js"]
     },
@@ -12,7 +13,8 @@
         "plugin:import/warnings"
     ],
     "plugins": [
-        "import"
+        "import",
+        "flowtype"
     ],
     "rules": {
         "indent": [
