@@ -9,6 +9,11 @@ const INITIAL_STATE = {
   y: 1,
 };
 
+type State = {
+  x: number;
+  y: number;
+}
+
 /**
  * Vector class is responsible for doing vector operations and storing
  * the x and y coordinates of the vector.
@@ -19,9 +24,7 @@ const INITIAL_STATE = {
  * @param {Object} state object.
  */
 class Vector {
-  x: number;
-  y: number;
-  state: Object;
+  state: State;
 
   /**
    * constructor
@@ -287,6 +290,10 @@ class Vector {
 
     return this;
   };
+
+  static distanceBetween(v1: Vector, v2: Vector): number {
+
+  }
 };
 
 module.exports = Vector;

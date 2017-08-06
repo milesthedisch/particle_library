@@ -1,6 +1,8 @@
 /* eslint max-len: 0 */
 // @flow
 
+import type Vector from "./vectors.js";
+
 /**
  * This module is composed of small function that
  * should be used when needed. Most functions are pure
@@ -121,7 +123,7 @@ function distanceXY(x0: number, y0: number, x1: number, y1: number): number {
  * @return {Number}
  */
 function distanceVec(v1: Vector, v2: Vector): number {
-  const dVec = (v1)["-"](v2);
+  const dVec = v1.subtract(v2);
   return Math.hypot(dVec.get("x"), dVec.get("y"));
 };
 
@@ -133,7 +135,7 @@ function distanceVec(v1: Vector, v2: Vector): number {
  * @param  {Number} max
  * @return {Boolean}
  */
-Utils.inRange = function(val, min, max) {
+function inRange(val: number, min: number, max: number): boolean {
   return (val <= Math.max(max, min)) && (Math.min(max, min) <= val);
 };
 
@@ -146,7 +148,7 @@ Utils.inRange = function(val, min, max) {
  * @param  {Number} max1
  * @return {Boolean}
  */
-Utils.rangeIntersect = function(min0, max0, min1, max1) {
+function rangeIntersect(min0: number, max0: number, min1: number, max1: number): boolean {
   return (
     Math.max(max0, min0) >= Math.min(min1, max1) &&
     Math.min(min0, max0) <= Math.max(max1, min1)
@@ -160,7 +162,7 @@ Utils.rangeIntersect = function(min0, max0, min1, max1) {
  * @param  {Vector} vec1
  * @return {Boolean}
  */
-Utils.vectorIntersect = function(vec0, vec1) {
+function vectorIntersect(vec0: Vector, vec1: Vector): boolean {
   const x0 = vec0.get("x");
   const y0 = vec0.get("y");
   const x1 = vec1.get("x");
@@ -175,7 +177,7 @@ Utils.vectorIntersect = function(vec0, vec1) {
  * @param  {Particle} r1
  * @return {Boolean}
  */
-Utils.collisionRect = function(r0, r1) {
+function collisionRect(r0, r1) {
   const r0x = r0.state.x;
   const r0y = r0.state.y;
   const r1x = r1.state.x;

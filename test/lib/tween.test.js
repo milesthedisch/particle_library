@@ -1,8 +1,8 @@
 /* eslint max-len: 0*/
 const sinon = require("sinon");
-const tween = require("../../dist/src/lib/tween.js");
-const event = require("../../dist/src/lib/event.js");
-const clock = require("../../dist/src/lib/clock.js");
+const tween = require("../../src/lib/tween.js");
+const event = require("../../src/lib/event.js");
+const clock = require("../../src/lib/clock.js");
 
 // Testing dependcies //
 const utils = require("../utils.js").perfNowPolyfill(global); // eslint-disable-line

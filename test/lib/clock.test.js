@@ -6,7 +6,7 @@ const utils = require("../utils.js");
 utils.perfNowPolyfill(global);
 const sinon = require("sinon");
 const assert = require("chai").assert;
-const clock = require("../../dist/src/lib/clock.js");
+const clock = require("../../src/lib/clock.js");
 
 describe("#Clock", function() {
   let clockInstance;

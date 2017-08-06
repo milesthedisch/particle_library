@@ -4,7 +4,7 @@ const utils = require("../../src/lib/utils.js");
 const sinon = require("sinon");
 const assert = require("chai").assert;
 
-describe.only("#Vector", function() {
+describe("#Vector", function() {
   let vec;
 
   beforeEach(function() {
