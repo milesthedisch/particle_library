@@ -7,7 +7,8 @@
     "lib": "./src/lib"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register --recursive ./test/**/*.js",
+    "test": "mocha -r flow-remove-types/register --recursive ./test/**/*.js",
+    "test:pre": "babel --plugins transform-flow-strip-types ./src/**/* --out-dir ./dist/**/* --presets=env",
     "build:production": "npm test && webpack --bail --progress --config webpack.prod",
     "build:dev": "webpack --bail --progress --config webpack.dev",
     "build:docs": "jsdoc -r ./src/lib -d ./docs",
@@ -29,6 +30,7 @@
     "babel-eslint": "^7.0.0",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^6.2.5",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-polyfill": "^6.16.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.16.0",
@@ -43,6 +45,7 @@
     "extend": "^3.0.0",
     "flow": "^0.2.3",
     "flow-bin": "^0.52.0",
+    "flow-remove-types": "^1.2.1",
     "glob": "^7.1.1",
     "gutil": "^1.6.4",
     "istanbul": "^0.4.5",

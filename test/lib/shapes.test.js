@@ -1,4 +1,4 @@
-const Shapes = require("../../src/lib/shapes.js");
+const Shapes = require("../../dist/src/lib/shapes.js");
 const utils = require("../utils");
 const sinon = require("sinon");
 const assert = require("chai").assert;

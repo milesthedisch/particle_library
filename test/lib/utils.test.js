@@ -1,7 +1,7 @@
 /* eslint max-len: 0 */
-const utils = require("../../src/lib/utils");
-const Vector = require("../../src/lib/vectors");
-const Particle = require("../../src/lib/particle");
+const utils = require("../../dist/src/lib/utils");
+const Vector = require("../../dist/src/lib/vectors");
+const Particle = require("../../dist/src/lib/particle");
 const testUtils = require("../utils");
 const assert = require("chai").assert;
 

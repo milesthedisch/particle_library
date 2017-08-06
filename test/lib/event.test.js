@@ -1,6 +1,6 @@
 /* eslint max-len: 0*/
 const assert = require("chai").assert;
-const event = require("../../src/lib/event");
+const event = require("../../dist/src/lib/event");
 const utils = require("../utils");
 
 describe("#Event", function() {

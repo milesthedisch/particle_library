@@ -4,7 +4,7 @@ const utils = require("../../src/lib/utils.js");
 const sinon = require("sinon");
 const assert = require("chai").assert;
 
-describe("#Vector", function() {
+describe.only("#Vector", function() {
   let vec;
 
   beforeEach(function() {
@@ -109,21 +109,6 @@ describe("#Vector", function() {
       const v2 = vec.create(1, 1);
       assert.deepEqual((v1.add(v2)).state, (vec.create(2, 2)).state);
     });
-
-    it("should return a reduced vector if given a array", function() {
-      const vecs = [];
-      for (let i = 0; i <= 10; i++) {
-        vecs.push(vec.create(i, i));
-      }
-      const v1 = vecs.pop();
-      assert.deepEqual((v1.add(vecs)).state, vec.create(55, 55).state);
-    });
-
-    it("should have alias '+'", function() {
-      const v1 = vec.create(1, 1);
-      const v2 = vec.create(1, 1);
-      assert.deepEqual((v1["+"](v2)).state, (vec.create(2, 2)).state);
-    });
   });
 
   describe("vector.substract", function() {
@@ -131,21 +116,6 @@ describe("#Vector", function() {
       const v1 = vec.create(1, 1);
       const v2 = vec.create(1, 1);
       assert.deepEqual((v1.subtract(v2)).state, (vec.create(0, 0)).state);
-    });
-
-    it("should return a reduced vector if given a array", function() {
-      const vecs = [];
-      for (let i = 0; i <= 10; i++) {
-        vecs.push(vec.create(i, i));
-      }
-      const v1 = vecs.pop();
-      assert.deepEqual((v1.subtract(vecs)).state, vec.create(-35, -35).state);
-    });
-
-    it("should have alias '-'", function() {
-      const v1 = vec.create(1, 1);
-      const v2 = vec.create(1, 1);
-      assert.deepEqual((v1["-"](v2)).state, (vec.create(0, 0)).state);
     });
   });
 
@@ -155,12 +125,6 @@ describe("#Vector", function() {
       const v2 = vec.create(2, 2);
       assert.deepEqual((v1.multiply(v2)).state, (vec.create(4, 4)).state);
     });
-
-    it("should have alias '*'", function() {
-      const v1 = vec.create(2, 2);
-      const v2 = vec.create(2, 2);
-      assert.deepEqual((v1["*"](v2)).state, (vec.create(4, 4)).state);
-    });
   });
 
   describe("vector.divide", function() {
@@ -168,12 +132,6 @@ describe("#Vector", function() {
       const v1 = vec.create(2, 2);
       const v2 = vec.create(2, 2);
       assert.deepEqual((v1.divide(v2)).state, (vec.create(1, 1)).state);
-    });
-
-    it("should have alias '*'", function() {
-      const v1 = vec.create(2, 2);
-      const v2 = vec.create(2, 2);
-      assert.deepEqual((v1["/"](v2)).state, (vec.create(1, 1)).state);
     });
   });
 
