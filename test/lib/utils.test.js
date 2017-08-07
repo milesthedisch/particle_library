@@ -8,6 +8,7 @@ const assert = require("chai").assert;
 describe("#Util", function() {
   let util;
   let vector;
+ 
   beforeEach(function() {
     util = utils;
     vector = new Vector();
@@ -130,19 +131,19 @@ describe("#Util", function() {
     it("should return true when the two vectors are intersecting", function() {
       const vec0 = vector.create(1, 10);
       const vec1 = vector.create(3, 6);
-      assert.ok(utils.vectorIntersect(vec0, vec1));
+      assert.ok(Vector.vectorIntersect(vec0, vec1));
     });
 
     it("should return false when the two vectors are not intersecting", function() {
       const vec0 = vector.create(1, 10);
       const vec1 = vector.create(-10, 0);
-      assert.ok(!utils.vectorIntersect(vec0, vec1));
+      assert.ok(!Vector.vectorIntersect(vec0, vec1));
     });
 
     it("should return false when the two vectors are not intersecting", function() {
       const vec0 = vector.create(-1, 10);
       const vec1 = vector.create(-10, 0);
-      assert.ok(utils.vectorIntersect(vec0, vec1));
+      assert.ok(Vector.vectorIntersect(vec0, vec1));
     });
 
     it("should return false when given no values", function() {

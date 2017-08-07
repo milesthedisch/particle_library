@@ -9,11 +9,6 @@ const INITIAL_STATE = {
   y: 1,
 };
 
-type State = {
-  x: number;
-  y: number;
-}
-
 /**
  * Vector class is responsible for doing vector operations and storing
  * the x and y coordinates of the vector.
@@ -24,7 +19,10 @@ type State = {
  * @param {Object} state object.
  */
 class Vector {
-  state: State;
+  state: {
+    x: number;
+    y: number;
+  };
 
   /**
    * constructor
@@ -291,9 +289,31 @@ class Vector {
     return this;
   };
 
+  /**
+   * v1
+   * @param {Vector} v1 Vector
+   * @param {Vector} v2 Vector
+   * @return {number}
+   */
   static distanceBetween(v1: Vector, v2: Vector): number {
-
+    const dVec = v1.subtract(v2);
+    return Math.hypot(dVec.get("x"), dVec.get("y"));
   }
+
+  /**
+   * @description Given twos vectors see if they intersect.
+   * @memberOf Utils
+   * @param  {Vector} vec0
+   * @param  {Vector} vec1
+   * @return {Boolean}
+   */
+  static vectorIntersect(vec0: Vector, vec1: Vector): boolean {
+    const x0 = vec0.get("x");
+    const y0 = vec0.get("y");
+    const x1 = vec1.get("x");
+    const y1 = vec1.get("y");
+    return utils.rangeIntersect(x0, y0, x1, y1);
+  };
 };
 
 module.exports = Vector;

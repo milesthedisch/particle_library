@@ -156,28 +156,13 @@ function rangeIntersect(min0: number, max0: number, min1: number, max1: number):
 };
 
 /**
- * @description Given twos vectors see if they intersect.
- * @memberOf Utils
- * @param  {Vector} vec0
- * @param  {Vector} vec1
- * @return {Boolean}
- */
-function vectorIntersect(vec0: Vector, vec1: Vector): boolean {
-  const x0 = vec0.get("x");
-  const y0 = vec0.get("y");
-  const x1 = vec1.get("x");
-  const y1 = vec1.get("y");
-  return this.rangeIntersect(x0, y0, x1, y1);
-};
-
-/**
  * @description Given two rectange see if the intersect.
  * @memberOf Utils
  * @param  {Particle} r0
  * @param  {Particle} r1
  * @return {Boolean}
  */
-function collisionRect(r0, r1) {
+function collisionRect(r0: any, r1: any) {
   const r0x = r0.state.x;
   const r0y = r0.state.y;
   const r1x = r1.state.x;
@@ -189,8 +174,8 @@ function collisionRect(r0, r1) {
   const r1h = r1y + r1.state.height;
 
   return (
-    this.rangeIntersect(r0x, r0w, r1x, r1w) &&
-    this.rangeIntersect(r0y, r0h, r1y, r1h)
+    rangeIntersect(r0x, r0w, r1x, r1w) &&
+    rangeIntersect(r0y, r0h, r1y, r1h)
   );
 };
 
@@ -201,13 +186,14 @@ function collisionRect(r0, r1) {
  * @param  {Particle} c2
  * @return {Boolean}
  */
-Utils.collisionCircle = function(c1, c2) {
+function collisionCircle(c1: any, c2: any): boolean {
   const radi = (c1.state.radius + c2.state.radius);
-  const distance = this.distanceXY(c1.state.x, c1.state.y, c2.state.x, c2.state.y);
+  const distance = distanceXY(c1.state.x, c1.state.y, c2.state.x, c2.state.y);
 
   if (distance) {
     return radi > distance;
   }
+
   return true;
 };
 
@@ -219,14 +205,15 @@ Utils.collisionCircle = function(c1, c2) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.collisionCirclePoint = function(x, y, circle) {
+function collisionCirclePoint(x: number, y: number, circle: any) {
   // TODO Write tests.
-  const dist = this.distanceXY(
+  const dist = distanceXY(
     x,
     y,
     circle.state.x,
     circle.state.y
   );
+
   return circle.state.radius > dist;
 };
 
@@ -237,8 +224,8 @@ Utils.collisionCirclePoint = function(x, y, circle) {
  * @param  {Particle} circle
  * @return {Boolean}
  */
-Utils.collisionCircleVec = function(vec, circle) {
-  return circle.state.radius > this.distanceXY(
+function collisionCircleVec(vec: Vector, circle: any) {
+  return circle.state.radius > distanceXY(
     vec.get("x"),
     vec.get("y"),
     circle.state.x,
@@ -254,12 +241,12 @@ Utils.collisionCircleVec = function(vec, circle) {
  * @param  {Particle} rect
  * @return {Boolean}
  */
-Utils.collisionRectPoint = function(x, y, rect) {
+function collisionRectPoint(x: number, y: number, rect: any) {
   const rectX = rect.state.x;
   const rectY = rect.state.y;
   return (
-    this.inRange(x, rectX, rectX + rect.state.width) &&
-    this.inRange(y, rectY, rectY + rect.state.height)
+    inRange(x, rectX, rectX + rect.state.width) &&
+    inRange(y, rectY, rectY + rect.state.height)
   );
 };
 
@@ -270,8 +257,8 @@ Utils.collisionRectPoint = function(x, y, rect) {
  * @param  {Particle} rect
  * @return {Boolean}
  */
-Utils.collisionRectVec = function(vec, rect) {
-  return this.collisionRectPoint(vec.get("x"), vec.get("y"), rect);
+function collisionRectVec(vec: Vector, rect: any) {
+  return collisionRectPoint(vec.get("x"), vec.get("y"), rect);
 };
 
 /**
@@ -284,9 +271,9 @@ Utils.collisionRectVec = function(vec, rect) {
  * @return {Function}
  * @see underscore
  */
-Utils.throttle = function throttle(func, wait, options) {
+function throttle(func: Function, wait: number, options: any) {
   let context;
-  let args;
+  let args: any;
   let result;
   let timeout = null;
   let previous = 0;
@@ -297,12 +284,12 @@ Utils.throttle = function throttle(func, wait, options) {
     result = func.apply(context, args);
     if (!timeout) context = args = null;
   };
-  return function(...args) {
+  return function(...args: any) {
     let now = Date.now();
     if (!previous && options.leading === false) previous = now;
     let remaining = wait - (now - previous);
     context = this;
-    args = args;
+    args = (args: any);
     if (remaining <= 0 || remaining > wait) {
       if (timeout) {
         clearTimeout(timeout);
@@ -326,7 +313,7 @@ Utils.throttle = function throttle(func, wait, options) {
  * @param   {number} y
  * @return  {number[]} Coordinates
  */
-Utils.setLength = function(length, x, y) {
+function setLength(length: number, x: number, y: number): Array<number> {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
       typeof length !== "number") {
@@ -348,7 +335,7 @@ Utils.setLength = function(length, x, y) {
  * @param   {number} y
  * @return  {number[]} coordinates
  */
-Utils.setAngle = function(angle, x, y) {
+function setAngle(angle: number, x: number, y: number): Array<number> {
   if (typeof x !== "number" ||
       typeof y !== "number" ||
       typeof angle !== "number") {
@@ -368,7 +355,7 @@ Utils.setAngle = function(angle, x, y) {
  * @param  {number} deg Degress
  * @return {number}
  */
-Utils.degToRad = function(deg) {
+function degToRad(deg: number): number {
   return deg / 180 * Math.PI;
 };
 
@@ -378,7 +365,7 @@ Utils.degToRad = function(deg) {
  * @param  {number} rad
  * @return {number}
  */
-Utils.radToDeg = function(rad) {
+function radToDeg(rad: number): number {
   return rad * 180 / Math.PI;
 };
 
@@ -389,7 +376,7 @@ Utils.radToDeg = function(rad) {
  * @param  {number} places An exponent
  * @return {number}
  */
-Utils.roundToPlaces = function(val, places) {
+function roundToPlaces(val: number, places: number): number {
   const mult = Math.pow(10, places);
   return Math.round(val * mult) / mult;
 };
@@ -400,7 +387,7 @@ Utils.roundToPlaces = function(val, places) {
  * @param  {number} nearest
  * @return {number}
  */
-Utils.roundToMultiple = function(val, nearest) {
+function roundToMultiple(val: number, nearest: number): number {
   if (!nearest) {
     throw new Error("Nothing can be a multiple of " + String(nearest));
   }
@@ -416,7 +403,7 @@ Utils.roundToMultiple = function(val, nearest) {
  * @param  {number} pFinal
  * @return {number}
  */
-Utils.quadraticBezier = function(v0, v1, v2, t) {
+function quadraticBezier(v0: number, v1: number, v2: number, t: number): number {
   return Math.pow(1 - t, 2) * v0 + (1 - t) * 2 * t * v1 + t * t * v2;
 };
 
@@ -430,7 +417,7 @@ Utils.quadraticBezier = function(v0, v1, v2, t) {
  * @param  {number} pFinal
  * @return {number}
  */
-Utils.cubicBezier = function(v0, v1, v2, v3, t) {
+function cubicBezier(v0 : number, v1 : number, v2 : number, v3 : number, t : number): number {
   return Math.pow(1 - t, 3) * v0 +
          Math.pow(1 - t, 2) * 3 * t * v1 +
          (1 - t) * 3 * t * t * v2 +
@@ -446,9 +433,9 @@ Utils.cubicBezier = function(v0, v1, v2, v3, t) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.quadraticBezierPoint = function(p0, p1, p2, t) {
-  const x = this.quadraticBezier(p0.x, p1.x, p2.x, t);
-  const y = this.quadraticBezier(p0.y, p1.y, p2.y, t);
+function quadraticBezierPoint(p0: any, p1: any, p2: any, t: number) {
+  const x = quadraticBezier(p0.x, p1.x, p2.x, t);
+  const y = quadraticBezier(p0.y, p1.y, p2.y, t);
   return {x, y};
 };
 
@@ -462,9 +449,9 @@ Utils.quadraticBezierPoint = function(p0, p1, p2, t) {
  * @param  {Object} pFinal
  * @return {number}
  */
-Utils.cubicBezierPoint = function(p0, p1, p2, p3, t) {
-  x = this.cubicBezier(p0.x, p1.x, p2.x, t);
-  y = this.cubicBezier(p0.y, p1.y, p2.y, t);
+function cubicBezierPoint(p0: any, p1: any, p2: any, p3: any, t: number) {
+  const x = cubicBezier(p0.x, p1.x, p2.x, t);
+  const y = cubicBezier(p0.y, p1.y, p2.y, t);
   return {x, y};
 };
 
@@ -475,7 +462,7 @@ Utils.cubicBezierPoint = function(p0, p1, p2, p3, t) {
  * @param  {{number, number}} points
  * @param  {CanvasRenderingContext2D} ctx
  */
-Utils.multiCurve = function(points, ctx) {
+function multiCurve(points: Array<any>, ctx) {
   let p0;
   let p1;
   let midX;
@@ -504,7 +491,7 @@ Utils.multiCurve = function(points, ctx) {
  * @param  {Int} b    [description]
  * @return {Int}      [description]
  */
-Utils.ease = function(ease, a, b) {
+function ease(ease: number, a: number, b: number): boolean | number {
   // the delta can get extremely small and its not performant to keep
   // on rendering or calculating for animation purposes.
   if (Math.abs(b - a) < 0.1) {
@@ -514,7 +501,15 @@ Utils.ease = function(ease, a, b) {
   return (b - a) * ease;
 };
 
-Utils.easeTo = function(ease, origin, target, threshold=0.1) {
+/**
+ * easeTo
+ * @param  {number} ease:      number        Ease factor.
+ * @param  {Object} origin:    Object        The starting point.
+ * @param  {Object} target:    Object        The ending point.
+ * @param  {Number} threshold: number        Easing threshold.
+ * @return {[type]}            [description]
+ */
+function easeTo(ease: number, origin: Object, target: Object, threshold: number=0.1) {
   const dx = target.x - origin.x;
   const dy = target.y - origin.y;
 
@@ -535,7 +530,7 @@ Utils.easeTo = function(ease, origin, target, threshold=0.1) {
  * @param  {*}  data
  * @return {Boolean}
  */
-Utils.isObject = function isObject(data) {
+function isObject(data: any): boolean {
   return typeof data === "object" && ({}).toString.call(data) === "[object Object]";
 };
 
@@ -544,14 +539,14 @@ Utils.isObject = function isObject(data) {
  * @param  {Array} array
  * @return {Array}
  */
-Utils.unique = function unique(array) {
+function unique(array) {
   return array.reduce((x, y) => {
     if (x.indexOf(y) === -1) x.push(y);
     return x;
   }, []);
 };
 
-Utils.colorInterpolation = function colorInterpolation(float: number, colorFrom: Color, colorTo: Color) : Color {
+function colorInterpolation(float: number, colorFrom: Color, colorTo: Color) : Color {
   const {r1, g1, b1} = colorFrom;
   const {r2, g2, b2} = colorTo;
 
@@ -562,7 +557,7 @@ Utils.colorInterpolation = function colorInterpolation(float: number, colorFrom:
   return "someHex";
 };
 
-Utils.perspective = function perspective(focalLength, distance) {
+function perspective(focalLength, distance) {
   return focalLength / (focalLength - distance);
 };
 
@@ -574,7 +569,30 @@ module.exports = {
   clamp,
   randomBetween,
   distanceXY,
-  distanceVec
+  distanceVec,
+  inRange,
+  rangeIntersect,
+  collisionRect,
+  collisionCircle,
+  collisionCirclePoint,
+  collisionCircleVec,
+  collisionRectPoint,
+  collisionRectVec,
+  throttle,
+  setLength,
+  setAngle,
+  degToRad,
+  radToDeg,
+  roundToPlaces,
+  roundToMultiple,
+  quadraticBezier,
+  cubicBezier,
+  quadraticBezierPoint,
+  cubicBezierPoint,
+  ease,
+  easeTo,
+  isObject,
+  unique
 };
 
 // module.exports = Object.create(Utils);
