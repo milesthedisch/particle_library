@@ -6,7 +6,6 @@
  * right mind actaully benefits from this then so be it.
  */
 
-const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 const event = require("./event");
 const utils = require("./utils");

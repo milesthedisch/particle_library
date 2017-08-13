@@ -1,13 +1,14 @@
-/* eslint max-len: 0 */
 // @flow
 
-import type Vector from "./vectors.js";
+/* eslint max-len: 0 */
 
 /**
  * This module is composed of small function that
  * should be used when needed. Most functions are pure
  * and only return values. For more info read the docs.
  */
+
+import type Vector from "./vectors.js";
 
 /**
  * normalize - Takes a max and min value and returns
