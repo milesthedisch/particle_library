@@ -3,7 +3,9 @@
  * @type {Object}
  * @implements {utils}
  */
-const Event = Object.create(null);
+const Event = Object.create(null);  
+
+
 
 /**
  * init

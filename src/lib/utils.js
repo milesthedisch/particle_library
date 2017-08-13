@@ -10,12 +10,6 @@ import type Vector from "./vectors.js";
  */
 
 /**
- * @class Utils
- * @return {Utils}
- */
-const Utils = Object.create(null);
-
-/**
  * normalize - Takes a max and min value and returns
  * a floating point number, that when multiplied
  * by one hundred represents a precentage of the range
@@ -450,8 +444,8 @@ function quadraticBezierPoint(p0: any, p1: any, p2: any, t: number) {
  * @return {number}
  */
 function cubicBezierPoint(p0: any, p1: any, p2: any, p3: any, t: number) {
-  const x = cubicBezier(p0.x, p1.x, p2.x, t);
-  const y = cubicBezier(p0.y, p1.y, p2.y, t);
+  const x = cubicBezier(p0.x, p1.x, p2.x, p3.x, t);
+  const y = cubicBezier(p0.y, p1.y, p2.y, p3.y, t);
   return {x, y};
 };
 
@@ -462,7 +456,7 @@ function cubicBezierPoint(p0: any, p1: any, p2: any, p3: any, t: number) {
  * @param  {{number, number}} points
  * @param  {CanvasRenderingContext2D} ctx
  */
-function multiCurve(points: Array<any>, ctx) {
+function multiCurve(points: Array<any>, ctx: Object) {
   let p0;
   let p1;
   let midX;
@@ -539,27 +533,39 @@ function isObject(data: any): boolean {
  * @param  {Array} array
  * @return {Array}
  */
-function unique(array) {
+function unique(array: Array<any>) {
   return array.reduce((x, y) => {
     if (x.indexOf(y) === -1) x.push(y);
     return x;
   }, []);
 };
 
-function colorInterpolation(float: number, colorFrom: Color, colorTo: Color) : Color {
-  const {r1, g1, b1} = colorFrom;
-  const {r2, g2, b2} = colorTo;
+// function colorInterpolation(float: number, colorFrom: Color, colorTo: Color) : Color {
+//   const {r1, g1, b1} = colorFrom;
+//   const {r2, g2, b2} = colorTo;
 
-  const r = r1 + (r2 - r1) / float;
-  const g = g1 + (g2 - g1) / float;
-  const b = b1 + (b2 - b1) / float;
+//   const r = r1 + (r2 - r1) / float;
+//   const g = g1 + (g2 - g1) / float;
+//   const b = b1 + (b2 - b1) / float;
 
-  return "someHex";
-};
+//   return "someHex";
+// };
 
-function perspective(focalLength, distance) {
+/**
+ * perspective - perspective is the ratio to multiply the x and y values
+ * by to get those points represeneted in 3d space.
+ * @param  {number} focalLength: The length of the lens
+ * @param  {number} distance:    The distance from begining of the lens the the beginging of the object.
+ * @return {number}``
+ */
+function perspective(focalLength: number, distance: number): number {
   return focalLength / (focalLength - distance);
 };
+
+/**
+ * @class Utils
+ * @return {Utils}
+ */
 
 module.exports = {
   normalize,

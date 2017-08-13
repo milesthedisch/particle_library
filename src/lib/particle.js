@@ -5,7 +5,7 @@
 * and feel like physical movments.
 */
 
-const extend = require("extend");
+const extend = require("extend"); 
 const clone = require("lodash/cloneDeep");
 /* The default state a particle starts with It should not move. */
 

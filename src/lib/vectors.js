@@ -69,7 +69,9 @@ class Vector {
    * @param  {String} prop  The prop to set on state.
    * @return {Value}        The value assosiated with the prop.
    */
-  get(prop: string): any {
+  get(prop: stri
+
+    g): any {
     return this.state[prop];
   };
 
