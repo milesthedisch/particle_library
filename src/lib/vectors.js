@@ -279,7 +279,6 @@ class Vector {
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
 
-    //
     const x = this.state.x * cos - this.state.y * sin;
     const y = this.state.y * cos + this.state.x * sin;
 

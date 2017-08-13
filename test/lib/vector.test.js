@@ -212,19 +212,38 @@ describe("#Vector", function() {
       assert(maxX >= randomVector.get("x") && minX <= randomVector.get("x"), "x is not in range");
       assert(maxY >= randomVector.get("y") && minY <= randomVector.get("y"), "Y is not in range");
     });
+  });
 
-    it("'should call utils.randomBetween twice with the min and max numbers", function() {
-      const minX = 0;
-      const maxX = 100;
-      const minY = 0;
-      const maxY = 100;
+  describe("#rotateBy", function () {
+    var vec;
 
-      vec.randomBetween(minX, maxX, minY, maxY);
-      assert.equal(rndBetweenSpy.getCall(0).args[0], 0);
-      assert.equal(rndBetweenSpy.getCall(0).args[1], 100);
-      assert.equal(rndBetweenSpy.getCall(1).args[0], 0);
-      assert.equal(rndBetweenSpy.getCall(1).args[1], 100);
-      assert.equal(rndBetweenSpy.callCount, 2);
+    beforeEach(function () {
+      vec = new Vector({
+        x: 1,
+        y: 0
+      });
+    });
+
+    describe("rotate the vector clock wise by the given radians", function() {
+      it("should return y as 1 if x is 1 and radians given is 90", function() {
+        var result = vec.rotateBy(Math.PI / 2);
+        assert.equal(result.state.y, 1);
+
+        // For some reason the number coming back is extremley small e-17.
+        // Which to pixel space is pretty much 0, going to round this down
+        // to zero in the tests so they look more intuitive.
+        assert.equal(utils.roundToPlaces(result.state.x, 0.1), 0);
+      });
+
+      it("should return the same coordinates when radians given is Math.PI * 2", function() {
+        var result = vec.rotateBy(Math.PI * 2);
+        assert.deepEqual(vec.state.x, 1, 0);
+
+        // Same reason as above, but we are adding zero causing we get -0 in JS...
+        // Adding zero seemsing to normalize the 0 back to a actual zero...
+        // WTF!
+        assert.deepEqual(utils.roundToPlaces(vec.state.y, 0.1) + 0, 0);
+      });
     });
   });
 });

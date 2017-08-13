@@ -461,11 +461,40 @@ describe("#Util", function() {
         });
       });
     });
+
     describe("#unique", function() {
       it("should return values that in an array that are not dupliactes", function() {
         const sample = [1, 2, 3, 4, 5, 5, 5, 5, 5, 6, 6, 7, 7, 8, 8, 8, 9, 10, 10];
         assert.equal(utils.unique(sample).length, 10);
         assert.equal(utils.unique(sample).reduce((x, y) => x+y), 55);
+      });
+    });
+
+    describe("#radToDeg", function () {
+      it("should return 180 degs for PI", function () {
+        assert.equal(utils.radToDeg(Math.PI), 180);
+      });
+
+      it("should return 360 deg for PI * 2 radians", function() {
+        assert.equal(utils.radToDeg(Math.PI * 2), 360);
+      });
+
+      it("should return 0 deg for 0 radians", function () {
+        assert.equal(utils.radToDeg(0), 0);
+      });
+    });
+
+    describe("#degToRad", function () {
+      it("should return PI radians for 180 deg", function () {
+        assert.equal(utils.degToRad(180), Math.PI);
+      });
+
+      it("should return PI * 2 radians for 360 deg", function() {
+        assert.equal(utils.degToRad(360), Math.PI * 2);
+      });
+
+      it("should return 0 radians for 0 deg", function () {
+        assert.equal(utils.degToRad(0), 0);
       });
     });
   });

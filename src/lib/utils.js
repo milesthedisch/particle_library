@@ -589,10 +589,12 @@ module.exports = {
   cubicBezier,
   quadraticBezierPoint,
   cubicBezierPoint,
+  multiCurve,
+  perspective,
   ease,
   easeTo,
   isObject,
-  unique
+  unique,
 };
 
 // module.exports = Object.create(Utils);
