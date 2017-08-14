@@ -12,8 +12,21 @@ const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 
 
-type Spring = {};
-type Mass = {};
+type Spring = {
+  point: {
+    state: {
+      x: number,
+      y: number,
+    },
+  },
+};
+
+type Mass = {
+  state: {
+    x: number,
+    y: number,
+  },
+};
 
 /* The default state a particle starts with It should not move. */
 type state = {
@@ -132,7 +145,7 @@ class Particle {
    * @memberOf Particle
    * @param {number} speed
    */
-  setSpeed(speed) {
+  setSpeed(speed: number): void {
     const angle = this.getHeading();
     this.state.vx = Math.cos(angle) * speed;
     this.state.vy = Math.sin(angle) * speed;
@@ -143,7 +156,7 @@ class Particle {
    * @description sets the internal speed of the particle given the angle
    * @param {number} angle
    */
-  setHeading(angle) {
+  setHeading(angle: number): void {
     const speed = this.getSpeed();
     this.state.vx = Math.cos(angle) * speed;
     this.state.vy = Math.sin(angle) * speed;
@@ -156,7 +169,7 @@ class Particle {
    * @param  {number} y
    * @return {number} force of velocity vector.
    */
-  getSpeed(x=this.state.vx, y=this.state.vy) {
+  getSpeed(x: number = this.state.vx, y: number = this.state.vy): number {
     return Math.hypot(this.state.vx, this.state.vy);
   };
 
@@ -167,7 +180,7 @@ class Particle {
    * @param  {number} y
    * @return {number} angle of velocity vector.
    */
-  getHeading(x=this.state.vx, y=this.state.vy) {
+  getHeading(x: number = this.state.vx, y: number = this.state.vy): number {
     return Math.atan2(y, x);
   };
 
@@ -177,7 +190,7 @@ class Particle {
    * @param {Object} spring A spring object
    * @return {Object}
    */
-  addSpring(spring) {
+  addSpring(spring: Spring): Spring {
     this.removeSpring(spring);
     this.state.springs.push(spring);
     return spring;
@@ -188,7 +201,7 @@ class Particle {
    * @memberOf Particle
    * @param  {Object} spring
    */
-  removeSpring({point: {state: p}}) {
+  removeSpring({point: {state: p}}: Spring): void {
     const springs = this.state.springs;
 
     for (let i = 0; i < springs.length; i++) {
@@ -210,11 +223,12 @@ class Particle {
    * in API Docs.
    *
    * @memberOf Particle
-   * @param  {Particle} p2      A particle instance.
+   * @param  {Particle} p      A particle instance.
    * @return {Integer}  Angle   A angle.
    */
-  angelTo({state: {x: x, y: y}}) {
-    const {x: dx, y: dy} = {x: x - this.state.x, y: y - this.state.y};
+  angelTo(p: Particle): number {
+    const dx = p.state.x - this.state.x;
+    const dy = p.state.y - this.state.y;
     return Math.atan2(dy, dx);
   };
 
@@ -224,11 +238,12 @@ class Particle {
    * between the two particles.
    *
    * @memberOf Particle
-   * @param  {Particle} p2      A particle instance
-   * @return {Integer}  Angle   A Distance
+   * @param  {Particle} p      A particle instance
+   * @return {number}  Angle   A Distance
    */
-  distanceTo({state: {x: x, y: y}}) {
-    const {x: dx, y: dy} = {x: x - this.state.x, y: y - this.state.y};
+  distanceTo(p: Particle): number {
+    const dx = p.state.x - this.state.x;
+    const dy = p.state.y - this.state.y;
     return Math.hypot(dx, dy);
   };
 
@@ -237,7 +252,7 @@ class Particle {
    * @description Append a particle to the masses array.
    * @param {Particle} mass
    */
-  addMass(mass) {
+  addMass(mass: Mass): void {
     this.removeMass(mass);
     this.state.masses.push(mass);
   };
@@ -247,7 +262,7 @@ class Particle {
    * @description Remove a particle for the masses array.
    * @param  {Particle} mass
    */
-  removeMass({state: mass}) {
+  removeMass({state: mass}: Mass): void {
     const masses = this.state.masses;
 
     for (let i = 0; i < masses.length; i++) {
@@ -262,19 +277,19 @@ class Particle {
   /**
    * @memberOf Particle
    * @description Applys gravitation to the input particle.
-   * @param  {Particle} p2
+   * @param  {Particle} p
    * @return {Object}
    */
-  gravitateTo(p2) {
-    const dx = p2.state.x - this.state.x;
-    const dy = p2.state.y - this.state.y;
+  gravitateTo(p: Particle) {
+    const dx = p.state.x - this.state.x;
+    const dy = p.state.y - this.state.y;
 
     // Distance between the two particles
     const distSQ = dx * dx + dy * dy;
     const dist = Math.sqrt(distSQ);
 
     // Magnitude of the vector [F = G(m1)(m2)/r^2]
-    const force = p2.state.mass / distSQ;
+    const force = p.state.mass / distSQ;
 
     // Setting up angles of the vector
     const sin = dy / dist;
@@ -287,7 +302,7 @@ class Particle {
     return this.accelerate(ax, ay);
   };
 
-  // This generatorr function is pretty gross Miles fix this you lazy pile of developer.
+  // TODO:FIX this function MILES its gross
   /**
    * @memberOf Particle
    * @description generate a bunch of particles.
@@ -301,19 +316,18 @@ class Particle {
     Object.freeze(opts);
 
     const particles = [];
-    const self = this;
 
     if (typeof callback === "function") {
       for (let i = 0; i < num; i++) {
         callback(opts, i, function(p) {
           if (!p) {
             console.warn("No particle passed to generator. Will use default state.");
-            const newParticle = self.create(opts);
+            const newParticle = Particle.create(opts);
             particles.push(newParticle);
             return newParticle;
           }
 
-          const newParticle = self.create(p);
+          const newParticle = Particle.create(p);
           particles.push(newParticle);
           return newParticle;
         });
@@ -322,7 +336,7 @@ class Particle {
 
     if (!callback) {
       for (let i = 0; i < num; i++) {
-        particles.push(self.create(opts));
+        particles.push(Particle.create(opts));
       }
     }
 
