@@ -278,7 +278,7 @@ describe("#Particle", function() {
       });
     });
 
-    describe("#removeMass", function(){
+    describe("#removeMass", function() {
       it("should remove a mass from the masses array", function() {
         const p = new Particle();
         const p1 = p.create();

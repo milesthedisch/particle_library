@@ -351,7 +351,7 @@ class Particle {
    * @param {Number} i Index of particle in Array.
    * @param {Function} {} A call back to be called with the generated particle.
    */
-  
+
   /**
    * @memberOf Particle
    * @description Apply velocity to the position.
