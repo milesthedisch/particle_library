@@ -290,7 +290,7 @@ describe.only("#Particle", function() {
 
   describe("#generator", function() {
     it("should generate default particles", function() {
-      const particles = p.generator(1);
+      const particles = Particle.generate(1);
 
       // When we create a particle the velocity gets setLength and setAngle called. And because the
       // particles are a 0, 0 to start with and the magnitude is 1 its the velocity vector gets set
@@ -305,7 +305,7 @@ describe.only("#Particle", function() {
     });
 
     it("should generate multiple particles", function() {
-      const particles = p.generator(2);
+      const particles = Particle.generate(2);
 
       assert.equal(particles.length, 2);
       assert.deepEqual(particles[0].state, createdParticleState, "particle 1: ");
@@ -313,7 +313,7 @@ describe.only("#Particle", function() {
     });
 
     it("should use opts passed in to each particle and extended.", function() {
-      const particles = p.generator(2, {a: 1});
+      const particles = Particle.generate(2, {a: 1});
 
       extend(true, createdParticleState, {
         a: 1,
@@ -328,13 +328,11 @@ describe.only("#Particle", function() {
 
   describe("#updatePos", function() {
     it("should add the vector to the position", function() {
-      
       const p = Particle.create();
       assert.deepEqual(p.updatePos(1, 1), {x: 1, y: 1});
     });
 
     it("should add the internal velocity vector to the position", function() {
-      
       const p1 = Particle.create({
         vx: 1,
         vy: 0,
@@ -344,7 +342,6 @@ describe.only("#Particle", function() {
     });
 
     it("should add the internal velocity twice if we call speed twice", function() {
-      
       const p1 = Particle.create({
         vx: 1,
         vy: 0,
@@ -358,7 +355,7 @@ describe.only("#Particle", function() {
   describe("#springs", function() {
     describe("#springFromTo", function() {
       it("it should fail if not given a particle as the first argument", function() {
-        
+        const particle = Particle.create();
         try {
           particle.springFromTo(undefined);
         } catch (e) {
@@ -367,7 +364,6 @@ describe.only("#Particle", function() {
       });
 
       it("it should move the springed particle closer to its attracting point", function() {
-        
         const p1 = Particle.create({
           x: 100,
           y: 100,
@@ -386,8 +382,7 @@ describe.only("#Particle", function() {
 
     describe("#springPoint", function() {
       it("should return an error if not given a point.", function() {
-        
-        const p1 = particle.create({
+        const p1 = Particle.create({
           position: vector.create(100, 100),
         });
 
@@ -397,9 +392,9 @@ describe.only("#Particle", function() {
           assert.ok(e.message);
         }
       });
+
       it("should move the springed particle closer to its attracting point", function() {
-        
-        const p1 = particle.create({
+        const p1 = Particle.create({
           x: 100,
           y: 100,
         });
@@ -419,8 +414,7 @@ describe.only("#Particle", function() {
 
     describe("#addSpring", function() {
       it("should add a spring to the springs array", function() {
-        
-        const p1 = particle.create();
+        const p1 = Particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
         p1.addSpring(point);
@@ -428,8 +422,7 @@ describe.only("#Particle", function() {
       });
 
       it("should remove the same spring and add it again if we try to add a duplicate", function() {
-        
-        const p1 = particle.create();
+        const p1 = Particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
         p1.addSpring(point);
@@ -440,8 +433,7 @@ describe.only("#Particle", function() {
 
     describe("#removeSpring", function() {
       it("should remove a spring to the springs array", function() {
-        
-        const p1 = particle.create();
+        const p1 = Particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
         p1.addSpring(point);
@@ -451,8 +443,7 @@ describe.only("#Particle", function() {
       });
 
       it("should do nothing if removing a non exsistant point", function() {
-        
-        const p1 = particle.create();
+        const p1 = Particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
         assert.equal(p1.state.springs.length, 0);
@@ -463,8 +454,7 @@ describe.only("#Particle", function() {
 
     describe("#handleSprings", function() {
       it("should call handleSprings twice", function() {
-        
-        const p1 = particle.create();
+        const p1 = Particle.create();
         const point1 = {point: vector.create(0, 0), offset: 0, spring: 0};
         const point2 = {point: vector.create(1, 1), offset: 0, spring: 0};
 
@@ -475,8 +465,7 @@ describe.only("#Particle", function() {
       });
 
       it("should do nothing when its called without and springs.", function() {
-        
-        const p1 = particle.create();
+        const p1 = Particle.create();
         p1.handleSprings();
       });
     });

@@ -113,7 +113,7 @@ class Particle {
   static generate(number: number, opts: state=clone(INITIAL_STATE)): Array<Particle> {
     const particles = [];
 
-    for (let i = 0; i < number; number++) {
+    for (let i = 0; i < number; i++) {
       particles.push(Particle.create(opts));
     }
 
