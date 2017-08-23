@@ -23,14 +23,6 @@ type Spring = {
   spring: number,
 };
 
-type Mass = {
-  state: {
-    x: number,
-    y: number,
-  },
-  mass: number,
-  gravity: number
-};
 
 /* The default state a particle starts with It should not move. */
 type state = {
@@ -45,7 +37,7 @@ type state = {
   direction: number,
   friction: number,
   springs: Array<Spring>,
-  masses: Array<Particle|Mass>,
+  masses: Array<Particle>,
 };
 
 const INITIAL_STATE: state = {
@@ -244,7 +236,7 @@ class Particle {
    * @description Append a particle to the masses array.
    * @param {Particle} mass
    */
-  addMass(mass: Mass): void {
+  addMass(mass: Particle): void {
     this.removeMass(mass);
     this.state.masses.push(mass);
   };
@@ -254,7 +246,7 @@ class Particle {
    * @description Remove a particle for the masses array.
    * @param  {Particle} mass
    */
-  removeMass({state: mass}: Mass): void {
+  removeMass({state: mass}: Particle): void {
     const masses = this.state.masses;
 
     for (let i = 0; i < masses.length; i++) {
@@ -423,7 +415,7 @@ class Particle {
    * @param  {Particles[]|Object[]} masses
    * @return {Particles[]|Object[]}
    */
-  handleMasses(masses: Array<Particle|Mass>=this.state.masses) {
+  handleMasses(masses: Array<Particle>=this.state.masses) {
     for (let i = 0; i < masses.length; i++) {
       this.gravitateTo(masses[i]);
     }
