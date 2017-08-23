@@ -7,7 +7,7 @@ const Vector = require("../../src/lib/vectors.js");
 
 const vector = new Vector();
 
-describe("#Particle", function() {
+describe.only("#Particle", function() {
   let defaultParticleState;
   let createdParticleState;
 
@@ -55,15 +55,12 @@ describe("#Particle", function() {
 
   describe("#create", function() {
     it("should return a default particle state", function() {
-      const p = new Particle();
-      const p1 = p.create();
+      const p1 = Particle.create();
       assert.deepEqual(p1.state, createdParticleState);
     });
 
-    it("should return extend particle state that has been passed in", function() { // eslint-disable-line
-      const p = new Particle();
-
-      const p1 = p.create({
+    it("should return extend particle state that has been passed in", function() { // eslint-disable-line 
+      const p1 = Particle.create({
         x: 1,
         y: 1,
         gravity: 1,
@@ -84,16 +81,14 @@ describe("#Particle", function() {
 
   describe("#accelerate", function() {
     it("should increase the velocity of a particle", function() {
-      const particle = new Particle();
-      const p1 = particle.create();
+      const p1 = Particle.create();
       p1.accelerate(1, 1);
       assert.equal(p1.state.vx, 1);
       assert.equal(p1.state.vy, 1);
     });
 
     it("should decrease the velocity of a particle", function() {
-      const particle = new Particle();
-      const p1 = particle.create();
+      const p1 = Particle.create();
       p1.accelerate(-1, -1);
       assert.equal(p1.state.vx, -1);
       assert.equal(p1.state.vy, -1);
@@ -102,8 +97,7 @@ describe("#Particle", function() {
 
   describe("#update", function() {
     it("should change the velocity with the given gravity", function() {
-      const particle = new Particle();
-      const p1 = particle.create({
+      const p1 = Particle.create({
         gravity: 1,
       });
 
@@ -123,8 +117,7 @@ describe("#Particle", function() {
     });
 
     it("should not change given no gravity", function() {
-      const particle = new Particle();
-      const p1 = particle.create();
+      const p1 = Particle.create();
       p1.update();
       assert.equal(p1.state.gravity, 0);
       assert.equal(p1.state.vx, 0);
@@ -134,8 +127,7 @@ describe("#Particle", function() {
     });
 
     it("should change given friction and some velocity", function() {
-      const particle = new Particle();
-      const p1 = particle.create({
+      const p1 = Particle.create({
         magnitude: 2,
         direction: Math.PI * 2,
         friction: 0.95,
@@ -149,21 +141,15 @@ describe("#Particle", function() {
   });
 
   describe("#angleTo", function() {
-    let particle;
-    let vector;
     let p1;
     let p2;
 
     beforeEach(function() {
-      particle = new Particle();
-      vector = new Vector();
-      p1 = particle.create();
-      p2 = particle.create();
+      p1 = Particle.create();
+      p2 = Particle.create();
     });
 
     afterEach(function() {
-      particle = undefined;
-      vector = undefined;
       p1 = undefined;
       p2 = undefined;
     });
@@ -210,9 +196,8 @@ describe("#Particle", function() {
 
   describe("#distanceTo", function() {
     it("should give the distance between two particles.", function() {
-      const particle = new Particle();
-      const p1 = particle.create({x: 2, y: 2});
-      const p2 = particle.create({x: -1, y: -1});
+      const p1 = Particle.create({x: 2, y: 2});
+      const p2 = Particle.create({x: -1, y: -1});
       assert.equal(p1.distanceTo(p2), Math.hypot(3, 3));
     });
 
@@ -231,10 +216,8 @@ describe("#Particle", function() {
 
   describe("#gravitateTo", function() {
     it("should gravitate towards the heavier mass", function() {
-      const p = new Particle();
-
-      const p1 = p.create({mass: 100, x: 1000, y: 1000});
-      const p2 = p.create({mass: 100, x: 1000, y: 100});
+      const p1 = Particle.create({mass: 100, x: 1000, y: 1000});
+      const p2 = Particle.create({mass: 100, x: 1000, y: 100});
 
       p2.gravitateTo(p1);
       p2.update();
@@ -243,10 +226,8 @@ describe("#Particle", function() {
     });
 
     it("should stand still if the mass of the object that its gravitating to is 0", function() {
-      const p = new Particle();
-
-      const p1 = p.create({mass: 0, x: 1000, y: 1000});
-      const p2 = p.create({mass: 100, x: 1000, y: 100});
+      const p1 = Particle.create({mass: 0, x: 1000, y: 1000});
+      const p2 = Particle.create({mass: 100, x: 1000, y: 100});
 
       p2.gravitateTo(p1);
       p2.update();
@@ -259,8 +240,7 @@ describe("#Particle", function() {
   describe("#Masses", function() {
     describe("#addMass", function() {
       it("should add a mass to the masses array", function() {
-        const p = new Particle();
-        const p1 = p.create();
+        const p1 = Particle.create();
         const m1 = {mass: 100, state: {x: 1, y: 1}};
 
         p1.addMass(m1);
@@ -268,8 +248,7 @@ describe("#Particle", function() {
       });
 
       it("should not add a duplicate mass", function() {
-        const p = new Particle();
-        const p1 = p.create();
+        const p1 = Particle.create();
         const m1 = {mass: 100, state: {x: 1, y: 1}};
 
         p1.addMass(m1);
@@ -280,8 +259,7 @@ describe("#Particle", function() {
 
     describe("#removeMass", function() {
       it("should remove a mass from the masses array", function() {
-        const p = new Particle();
-        const p1 = p.create();
+        const p1 = Particle.create();
         const m1 = {mass: 100, state: {x: 1, y: 1}};
 
         p1.addMass(m1);
@@ -290,8 +268,7 @@ describe("#Particle", function() {
       });
 
       it("should do nothing given a non exsistant mass", function() {
-        const p = new Particle();
-        const p1 = p.create();
+        const p1 = Particle.create();
         const m1 = {mass: 100, state: {x: 1, y: 1}};
 
         p1.removeMass(m1);
@@ -301,8 +278,7 @@ describe("#Particle", function() {
 
     describe("#handleMasses", function() {
       it("should do nothing given no masses", function() {
-        const p = new Particle();
-        const p1 = p.create();
+        const p1 = Particle.create();
 
         p1.handleMasses();
         assert.deepEqual(p1.state, createdParticleState);
@@ -314,7 +290,6 @@ describe("#Particle", function() {
 
   describe("#generator", function() {
     it("should generate default particles", function() {
-      const p = new Particle();
       const particles = p.generator(1);
 
       // When we create a particle the velocity gets setLength and setAngle called. And because the
@@ -330,7 +305,6 @@ describe("#Particle", function() {
     });
 
     it("should generate multiple particles", function() {
-      const p = new Particle();
       const particles = p.generator(2);
 
       assert.equal(particles.length, 2);
@@ -339,7 +313,6 @@ describe("#Particle", function() {
     });
 
     it("should use opts passed in to each particle and extended.", function() {
-      const p = new Particle();
       const particles = p.generator(2, {a: 1});
 
       extend(true, createdParticleState, {
@@ -351,82 +324,18 @@ describe("#Particle", function() {
       assert.deepEqual(particles[0].state, createdParticleState);
       assert.deepEqual(particles[1].state, createdParticleState);
     });
-
-    describe("give a third argument as a function", function() {
-      it("should use passed in defaults if the create fn is not given anything", function() {
-        const p = new Particle();
-
-        const particles = p.generator(2, {a: 2}, function map(_, __, create) {
-          create();
-        });
-
-        extend(true, createdParticleState, {
-          a: 2,
-        });
-
-        assert.deepEqual(particles[0].state, createdParticleState);
-        assert.deepEqual(particles[1].state, createdParticleState);
-      });
-
-      it("should return an empty array if given no cb arguments", function() {
-        const p = new Particle();
-        const particles = p.generator(2, {a: 2}, function noop() {});
-
-        assert.deepEqual(particles, []);
-      });
-
-      it("should not be able mutate default state within callback", function() {
-        const p = new Particle();
-
-        try {
-          p.generator(2, {a: 2}, function map(opts, i, create) {
-            opts.a += 1;
-            create(opts);
-          });
-        } catch (e) {
-          assert.ok(e instanceof TypeError);
-        }
-      });
-
-      it("should be passed the index of particle", function() {
-        const p = new Particle();
-        const indexs = [];
-        const particles = p.generator(2, {a: 2}, function map(opts, i, create) {
-          indexs.push(i);
-        });
-
-        assert.equal(indexs.length, 2);
-        assert.deepEqual(particles, []);
-      });
-
-      it("should create particles given to the the create method", function() {
-        const p = new Particle();
-        const particles = p.generator(2, {a: 2}, function map(opts, i, create) {
-          const newState = extend({}, opts, {
-            a: opts.a + i,
-          });
-
-          create(newState);
-        });
-
-        createdParticleState.a = 2;
-        assert.deepEqual(particles[0].state, createdParticleState);
-        createdParticleState.a = 3;
-        assert.deepEqual(particles[1].state, createdParticleState);
-      });
-    });
   });
 
   describe("#updatePos", function() {
     it("should add the vector to the position", function() {
-      const particle = new Particle();
-      const p = particle.create();
+      
+      const p = Particle.create();
       assert.deepEqual(p.updatePos(1, 1), {x: 1, y: 1});
     });
 
     it("should add the internal velocity vector to the position", function() {
-      const particle = new Particle();
-      const p1 = particle.create({
+      
+      const p1 = Particle.create({
         vx: 1,
         vy: 0,
         magnitude: 1,
@@ -435,8 +344,8 @@ describe("#Particle", function() {
     });
 
     it("should add the internal velocity twice if we call speed twice", function() {
-      const particle = new Particle();
-      const p1 = particle.create({
+      
+      const p1 = Particle.create({
         vx: 1,
         vy: 0,
         magnitude: 1,
@@ -449,7 +358,7 @@ describe("#Particle", function() {
   describe("#springs", function() {
     describe("#springFromTo", function() {
       it("it should fail if not given a particle as the first argument", function() {
-        const particle = new Particle();
+        
         try {
           particle.springFromTo(undefined);
         } catch (e) {
@@ -458,12 +367,12 @@ describe("#Particle", function() {
       });
 
       it("it should move the springed particle closer to its attracting point", function() {
-        const particle = new Particle();
-        const p1 = particle.create({
+        
+        const p1 = Particle.create({
           x: 100,
           y: 100,
         });
-        const p2 = particle.create({
+        const p2 = Particle.create({
           x: 100,
           y: 400,
         });
@@ -477,7 +386,7 @@ describe("#Particle", function() {
 
     describe("#springPoint", function() {
       it("should return an error if not given a point.", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create({
           position: vector.create(100, 100),
         });
@@ -489,7 +398,7 @@ describe("#Particle", function() {
         }
       });
       it("should move the springed particle closer to its attracting point", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create({
           x: 100,
           y: 100,
@@ -510,7 +419,7 @@ describe("#Particle", function() {
 
     describe("#addSpring", function() {
       it("should add a spring to the springs array", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
@@ -519,7 +428,7 @@ describe("#Particle", function() {
       });
 
       it("should remove the same spring and add it again if we try to add a duplicate", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
@@ -531,7 +440,7 @@ describe("#Particle", function() {
 
     describe("#removeSpring", function() {
       it("should remove a spring to the springs array", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
@@ -542,7 +451,7 @@ describe("#Particle", function() {
       });
 
       it("should do nothing if removing a non exsistant point", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create();
         const point = {point: vector.create(0, 0), offset: 0, spring: 0};
 
@@ -554,7 +463,7 @@ describe("#Particle", function() {
 
     describe("#handleSprings", function() {
       it("should call handleSprings twice", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create();
         const point1 = {point: vector.create(0, 0), offset: 0, spring: 0};
         const point2 = {point: vector.create(1, 1), offset: 0, spring: 0};
@@ -566,7 +475,7 @@ describe("#Particle", function() {
       });
 
       it("should do nothing when its called without and springs.", function() {
-        const particle = new Particle();
+        
         const p1 = particle.create();
         p1.handleSprings();
       });
