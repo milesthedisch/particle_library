@@ -8,7 +8,7 @@ const assert = require("chai").assert;
 describe("#Util", function() {
   let util;
   let vector;
- 
+
   beforeEach(function() {
     util = utils;
     vector = new Vector();

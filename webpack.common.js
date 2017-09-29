@@ -36,7 +36,12 @@ module.exports = {
 	        presets: ['env', 'flow']
 	      },
 	    },
-		],
+    ],
+    preLoaders: [{
+      test: /\.jsx?$/,
+        loader: "remove-flow-types",
+        include: path.join(__dirname, "src")
+    }],
 	},
 	target: "web",
 };
