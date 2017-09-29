@@ -7,7 +7,7 @@ const Vector = require("../../src/lib/vectors.js");
 
 const vector = new Vector();
 
-describe.only("#Particle", function() {
+describe("#Particle", function() {
   let defaultParticleState;
   let createdParticleState;
 
@@ -59,7 +59,7 @@ describe.only("#Particle", function() {
       assert.deepEqual(p1.state, createdParticleState);
     });
 
-    it("should return extend particle state that has been passed in", function() { // eslint-disable-line 
+    it("should return extend particle state that has been passed in", function() { // eslint-disable-line
       const p1 = Particle.create({
         x: 1,
         y: 1,
