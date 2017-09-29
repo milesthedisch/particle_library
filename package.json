@@ -12,7 +12,7 @@
     "build:production": "npm test && webpack --bail --progress --config webpack.prod",
     "build:dev": "webpack --bail --progress --config webpack.dev",
     "dev": "webpack --bail --watch --progress --config webpack.dev",
-    "cov": "nyc npm test",
+    "cov": "nyc --reporter=lcov --require=flow-remove-types/register npm test",
     "prepublish": "npm test && npm run cov && npm run build:production && npm run build:dev",
     "flow": "flow"
   },
