@@ -1,5 +1,6 @@
 node_modules
 /npm-debug.*
+.DS_Store
 .nyc_output/
 coverage/
 *.txt
