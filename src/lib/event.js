@@ -5,8 +5,6 @@
  */
 const Event = Object.create(null);  
 
-
-
 /**
  * init
  * @memberOf Event
