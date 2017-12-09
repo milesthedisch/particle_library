@@ -38,6 +38,9 @@ type state = {
   friction: number,
   springs: Array<Spring>,
   masses: Array<Particle>,
+  color: string,
+  width: number,
+  height: number,
 };
 
 const INITIAL_STATE: state = {
@@ -53,6 +56,9 @@ const INITIAL_STATE: state = {
   friction: 1,
   springs: [],
   masses: [],
+  color: "#000000",
+  width: 10,
+  height: 10,
 };
 
 /**

@@ -32,6 +32,7 @@ describe("#Shapes", function() {
     stroke = sinon.spy();
     lineTo = sinon.spy();
     moveTo = sinon.spy();
+    closePath = sinon.spy();
 
     context = {
       fillStyle,
@@ -47,6 +48,7 @@ describe("#Shapes", function() {
       fill,
       stroke,
       lineTo,
+      closePath,
     };
 
     global.window = {
@@ -121,7 +123,7 @@ describe("#Shapes", function() {
         it("should call beginPath and stroke if given valid args.", function() {
           const startingPoint = {x: 0, y: 0};
           const pointArray = [{x: 1, y: 1}, {x: 2, y: 2}];
-          shape.drawLinePoints(...[startingPoint, ...pointArray]);
+          shape.drawLinePoints([startingPoint, ...pointArray]);
 
           assert(beginPath.calledOnce, "Begin path was not called.");
           assert(stroke.calledOnce, "Stroke was not called.");

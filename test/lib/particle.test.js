@@ -25,6 +25,9 @@ describe("#Particle", function() {
       friction: 1,
       masses: [],
       springs: [],
+      color: "#000000",
+      width: 10,
+      height: 10,
     };
 
     createdParticleState = {
@@ -40,6 +43,9 @@ describe("#Particle", function() {
       friction: 1,
       masses: [],
       springs: [],
+      color: "#000000",
+      width: 10,
+      height: 10,
     };
   });
 
