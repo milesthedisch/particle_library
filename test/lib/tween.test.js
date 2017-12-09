@@ -19,6 +19,7 @@ const DEFAULTS = {
 };
 
 describe("#Tween", function() {
+
   let tweenInstance;
 
   beforeEach(function() {
@@ -176,6 +177,8 @@ describe("#Tween", function() {
 
   describe("#stop", function() {
     it("should stop the tween", function() {
+      this.retries(5); // eslint-disable-line
+
       const t1 = tweenInstance.create();
       tweenInstance.startAll();
       requestAnimationFrame.step(1, tweenInstance._clock.startTime);
@@ -188,6 +191,8 @@ describe("#Tween", function() {
 
   describe("#finish", function() {
     it("should finish the tween to the end and skip the rest of the tween", function() {
+      this.retries(5); // eslint-disable-line
+
       const t1 = tweenInstance.create({duration: 1000});
       tweenInstance.startAll();
       requestAnimationFrame.step(1, 100);
