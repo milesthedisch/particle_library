@@ -1,11 +1,11 @@
 /* eslint-disable */
 const webpack = require("webpack");
-const path = require("path");
+const { resolve } = require("path");
 
 const paths = {
-	main: path.join(__dirname, "src/main.js"),
-	lib: path.resolve("./src/lib"),
-	src: path.resolve("./src")
+	main: resolve(__dirname, "./src/main.js"),
+	lib: resolve("./src/lib"),
+	src: resolve("./src")
 }
 
 module.exports = {
@@ -13,13 +13,13 @@ module.exports = {
 		main: [paths.main],
 	},
 	output: {
-		path: __dirname,
+		path: resolve(__dirname + "./dist"),
 		filename: "main.js",
 		library: "particle",
 		libraryTarget: "umd"
 	},
   resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
+    root: resolve(__dirname, './node_modules')
   },
 	resolve: {
 		root: [
@@ -40,7 +40,7 @@ module.exports = {
     preLoaders: [{
       test: /\.jsx?$/,
         loader: "remove-flow-types",
-        include: path.join(__dirname, "src")
+        include: resolve(__dirname, "./src")
     }],
 	},
 	target: "web",

@@ -214,19 +214,19 @@ describe("#Vector", function() {
     });
   });
 
-  describe("#rotateBy", function () {
-    var vec;
+  describe("#rotateBy", function() {
+    let vec;
 
-    beforeEach(function () {
+    beforeEach(function() {
       vec = new Vector({
         x: 1,
-        y: 0
+        y: 0,
       });
     });
 
     describe("rotate the vector clock wise by the given radians", function() {
       it("should return y as 1 if x is 1 and radians given is 90", function() {
-        var result = vec.rotateBy(Math.PI / 2);
+        const result = vec.rotateBy(Math.PI / 2);
         assert.equal(result.state.y, 1);
 
         // For some reason the number coming back is extremley small e-17.
@@ -236,13 +236,13 @@ describe("#Vector", function() {
       });
 
       it("should return the same coordinates when radians given is Math.PI * 2", function() {
-        var result = vec.rotateBy(Math.PI * 2);
+        const result = vec.rotateBy(Math.PI * 2);
         assert.deepEqual(vec.state.x, 1, 0);
 
         // Same reason as above, but we are adding zero causing we get -0 in JS...
         // Adding zero seemsing to normalize the 0 back to a actual zero...
         // WTF!
-        assert.deepEqual(utils.roundToPlaces(vec.state.y, 0.1) + 0, 0);
+        assert.deepEqual(utils.roundToPlaces(result.state.y, 0.1) + 0, 0);
       });
     });
   });

@@ -24,8 +24,7 @@
         "import/no-unresolved": [
             2, 
             {
-                "commonjs": true, 
-                "amd": true
+                "commonjs": true
             }
         ],
         "linebreak-style": [
