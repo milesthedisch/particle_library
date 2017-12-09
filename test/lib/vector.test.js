@@ -214,6 +214,20 @@ describe("#Vector", function() {
     });
   });
 
+  describe("#distanceVec", function() {
+    it("should return the distance between two vectors", function() {
+      const vec1 = vec.create(0, 0);
+      const vec2 = vec.create(0, 1);
+      assert.equal(Vector.distanceBetween(vec1, vec2), 1);
+    });
+
+    it("should return the distance between two diagonal vectors", function() {
+      const vec1 = vec.create(0, 0);
+      const vec2 = vec.create(1, 1);
+      assert.equal(Vector.distanceBetween(vec1, vec2), Math.sqrt(2));
+    });
+  });
+
   describe("#rotateBy", function() {
     let vec;
 

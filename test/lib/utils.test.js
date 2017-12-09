@@ -165,20 +165,6 @@ describe("#Util", function() {
     });
   });
 
-  describe("#distanceVec", function() {
-    it("should return the distance between two vectors", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(0, 1);
-      assert.equal(utils.distanceVec(vec1, vec2), 1);
-    });
-
-    it("should return the distance between two diagonal vectors", function() {
-      const vec1 = vector.create(0, 0);
-      const vec2 = vector.create(1, 1);
-      assert.equal(utils.distanceVec(vec1, vec2), Math.sqrt(2));
-    });
-  });
-
   describe("#collisionCirlce", function() {
     it("should return true when the circles radi are greater than the distance", function() {
       const particle1 = new Particle({radius: 10, x: 0, y: 19.9});

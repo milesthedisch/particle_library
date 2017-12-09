@@ -111,18 +111,6 @@ function distanceXY(x0: number, y0: number, x1: number, y1: number): number {
 };
 
 /**
- * @description Given two vectors return the distance between the two.
- * @memberOf Utils
- * @param  {Vector} v1
- * @param  {Vector} v2
- * @return {Number}
- */
-function distanceVec(v1: Vector, v2: Vector): number {
-  const dVec = v1.subtract(v2);
-  return Math.hypot(dVec.get("x"), dVec.get("y"));
-};
-
-/**
  * @description given a number
  * @memberOf Utils
  * @param  {Number} val
@@ -481,15 +469,16 @@ function multiCurve(points: Array<any>, ctx: Object) {
 /**
  * ease
  * @memberOf Utils
- * @param  {Float} ease [description]
- * @param  {Int} a    [description]
- * @param  {Int} b    [description]
- * @return {Int}      [description]
+ * @param  {Float} ease
+ * @param  {Int} a
+ * @param  {Int} b
+ * @param  {number} threshold
+ * @return {Int}
  */
-function ease(ease: number, a: number, b: number): boolean | number {
+function ease(ease: number, a: number, b: number, threshold: number = 0.1): boolean | number {
   // the delta can get extremely small and its not performant to keep
   // on rendering or calculating for animation purposes.
-  if (Math.abs(b - a) < 0.1) {
+  if (Math.abs(b - a) < threshold) {
     return false;
   }
 
@@ -502,7 +491,7 @@ function ease(ease: number, a: number, b: number): boolean | number {
  * @param  {Object} origin:    Object        The starting point.
  * @param  {Object} target:    Object        The ending point.
  * @param  {Number} threshold: number        Easing threshold.
- * @return {[type]}            [description]
+ * @return {Object}
  */
 function easeTo(ease: number, origin: Object, target: Object, threshold: number=0.1) {
   const dx = target.x - origin.x;
@@ -576,7 +565,6 @@ module.exports = {
   clamp,
   randomBetween,
   distanceXY,
-  distanceVec,
   inRange,
   rangeIntersect,
   collisionRect,
