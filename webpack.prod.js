@@ -7,7 +7,7 @@ module.exports = Object.assign(common, {
     new webpack.optimize.UglifyJsPlugin(),
   ],
   output: {
-    path: resolve(__dirname + "./dist"),
+    path: resolve(__dirname, "./dist"),
     filename: "main.min.js",
     library: "particle",
     libraryTarget: "var",

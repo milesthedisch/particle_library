@@ -2,7 +2,7 @@
   "name": "particle_library",
   "version": "1.1.6",
   "description": "A light weight particle library.",
-  "main": "dist/main.min.js",
+  "main": "dist/main.js",
   "directories": {
     "lib": "./src/lib"
   },

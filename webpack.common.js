@@ -13,7 +13,7 @@ module.exports = {
 		main: [paths.main],
 	},
 	output: {
-		path: resolve(__dirname + "./dist"),
+		path: resolve(__dirname, "./dist"),
 		filename: "main.js",
 		library: "particle",
 		libraryTarget: "umd"
