@@ -10,6 +10,11 @@
 
 import type Vector from "./vectors.js";
 
+type Point = {
+  x: number,
+  y: number
+};
+
 /**
  * normalize - Takes a max and min value and returns
  * a floating point number, that when multiplied
@@ -297,12 +302,6 @@ function throttle(func: Function, wait: number, options: any) {
  * @return  {number[]} Coordinates
  */
 function setLength(length: number, x: number, y: number): Array<number> {
-  if (typeof x !== "number" ||
-      typeof y !== "number" ||
-      typeof length !== "number") {
-    throw new Error("Please provide valid x and y values");
-  }
-
   const angle = Math.atan2(y, x);
   x = Math.cos(angle) * length;
   y = Math.sin(angle) * length;
@@ -319,12 +318,6 @@ function setLength(length: number, x: number, y: number): Array<number> {
  * @return  {number[]} coordinates
  */
 function setAngle(angle: number, x: number, y: number): Array<number> {
-  if (typeof x !== "number" ||
-      typeof y !== "number" ||
-      typeof angle !== "number") {
-    throw new Error("Please provide valid x and y values");
-  }
-
   const length = Math.hypot(x, y);
   x = Math.cos(angle) * length;
   y = Math.sin(angle) * length;
@@ -371,9 +364,6 @@ function roundToPlaces(val: number, places: number): number {
  * @return {number}
  */
 function roundToMultiple(val: number, nearest: number): number {
-  if (!nearest) {
-    throw new Error("Nothing can be a multiple of " + String(nearest));
-  }
   return Math.round(val / nearest) * nearest;
 };
 
@@ -445,7 +435,7 @@ function cubicBezierPoint(p0: any, p1: any, p2: any, p3: any, t: number) {
  * @param  {{number, number}} points
  * @param  {CanvasRenderingContext2D} ctx
  */
-function multiCurve(points: Array<any>, ctx: Object) {
+function multiCurve(points: Array<Point>, ctx: Object) {
   let p0;
   let p1;
   let midX;
