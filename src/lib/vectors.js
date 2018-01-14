@@ -18,7 +18,7 @@ const INITIAL_STATE = {
  * @class Vector
  * @param {Object} state object.
  */
-class Vector {
+export default class Vector {
   state: {
     x: number;
     y: number;
@@ -314,5 +314,3 @@ class Vector {
     return utils.rangeIntersect(x0, y0, x1, y1);
   };
 };
-
-module.exports = Vector;

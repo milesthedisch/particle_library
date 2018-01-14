@@ -10,7 +10,7 @@ import type Particle from "./particle.js";
  * @param {Object} ctx      Canvas context.
  * @param {Object} document The document object.
 */
-class Shapes {
+export default class Shapes {
   ctx: CanvasRenderingContext2D;
   document: Document;
 

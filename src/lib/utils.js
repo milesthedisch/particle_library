@@ -543,11 +543,82 @@ function perspective(focalLength: number, distance: number): number {
 };
 
 /**
+ * lineIntersection
+ * @param  {Point} p1
+ * @param  {Point} p2
+ * @param  {Point} p3
+ * @param  {Point} p4
+ * @return {Boolean | Point}
+ */
+function lineIntersection(p0: Point, p1: Point, p2: Point, p3: Point) {
+  // Standard form of a line.
+  // Ax + By = C;
+
+  const A1 = p0.y - p1.y;
+  const B1 = p1.x - p0.x;
+
+  const C1 = A1 * p0.x + B1 * p0.y;
+
+  const A2 = p2.y - p3.y;
+  const B2 = p3.x - p2.x;
+
+  const C2 = A2 * p2.x + B2 * p2.y;
+
+  // THe thing on the bottom of the divide symbol.
+  // If the left hand and right hand side equal each other
+  // that essentially means that the slopes are the same
+  // which means theres no intersection.
+  const denominator = A1 * B2 - A2 * B1;
+
+  // The lines or colinear or parallel so we should return
+  // null as there is no intersectoin.
+  if (denominator === 0) {
+    return null;
+  }
+
+  const xIntercept = (B2 * C1 - B1 * C2) / denominator;
+  const yIntercept = (A1 * C2 - A2 * C1) / denominator;
+
+  // Line segments is the intercept in the range of x or y
+  // We can deduce this by using the the range of x or y
+  // and divding it by the range of the intersection point
+  // if is greater than 1 than its outside of the range
+  // if its less than 0 its outside of the range.
+
+  const x0Range = (p1.x - p0.x);
+  const y0Range = (p1.y - p0.y);
+  const x0Val = (xIntercept - p0.x);
+  const y0Val = (yIntercept - p0.y);
+
+  const x1Range = (p3.x - p2.x);
+  const y1Range = (p3.y - p2.y);
+  const x1Val = (xIntercept - p2.x);
+  const y1Val = (yIntercept - p2.y);
+
+  const rx0 = x0Val / x0Range;
+  const ry0 = y0Val / y0Range;
+  const rx1 = x1Val / x1Range;
+  const ry1 = y1Val / y1Range;
+
+  const insideLineSegement0 =
+    (rx0 >= 0 && rx0 <= 1) || (ry0 >= 0 && ry0 <= 1);
+
+  const insideLineSegement1 =
+    (rx1 > 0 && rx1 < 1) || (ry1 > 0 && ry1 < 1);
+
+  if (insideLineSegement0 && insideLineSegement1) {
+    return {x: xIntercept, y: yIntercept};
+  }
+
+  return false;
+};
+
+/**
  * @class Utils
  * @return {Utils}
  */
 
-module.exports = {
+export default {
   normalize,
   lerp,
   map,

@@ -11,19 +11,6 @@
 const extend = require("extend");
 const clone = require("lodash/cloneDeep");
 
-
-type Spring = {
-  point: {
-    state: {
-      x: number,
-      y: number,
-    },
-  },
-  offset: number,
-  spring: number,
-};
-
-
 /* The default state a particle starts with It should not move. */
 type state = {
   x: number,
