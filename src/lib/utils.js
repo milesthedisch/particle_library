@@ -11,8 +11,10 @@
 import type Vector from "./vectors.js";
 
 type Point = {
-  x: number,
-  y: number
+  state: {
+    x: number,
+    y: number,
+  }
 };
 
 /**
@@ -543,7 +545,7 @@ function perspective(focalLength: number, distance: number): number {
 };
 
 /**
- * lineIntersection
+ * lineIntersection - line intersection
  * @param  {Point} p1
  * @param  {Point} p2
  * @param  {Point} p3
@@ -554,15 +556,15 @@ function lineIntersection(p0: Point, p1: Point, p2: Point, p3: Point) {
   // Standard form of a line.
   // Ax + By = C;
 
-  const A1 = p0.y - p1.y;
-  const B1 = p1.x - p0.x;
+  const A1 = p0.state.y - p1.state.y;
+  const B1 = p1.state.x - p0.state.x;
 
-  const C1 = A1 * p0.x + B1 * p0.y;
+  const C1 = A1 * p0.state.x + B1 * p0.state.y;
 
-  const A2 = p2.y - p3.y;
-  const B2 = p3.x - p2.x;
+  const A2 = p2.state.y - p3.state.y;
+  const B2 = p3.state.x - p2.state.x;
 
-  const C2 = A2 * p2.x + B2 * p2.y;
+  const C2 = A2 * p2.state.x + B2 * p2.state.y;
 
   // THe thing on the bottom of the divide symbol.
   // If the left hand and right hand side equal each other
@@ -585,15 +587,15 @@ function lineIntersection(p0: Point, p1: Point, p2: Point, p3: Point) {
   // if is greater than 1 than its outside of the range
   // if its less than 0 its outside of the range.
 
-  const x0Range = (p1.x - p0.x);
-  const y0Range = (p1.y - p0.y);
-  const x0Val = (xIntercept - p0.x);
-  const y0Val = (yIntercept - p0.y);
+  const x0Range = (p1.state.x - p0.state.x);
+  const y0Range = (p1.state.y - p0.state.y);
+  const x0Val = (xIntercept - p0.state.x);
+  const y0Val = (yIntercept - p0.state.y);
 
-  const x1Range = (p3.x - p2.x);
-  const y1Range = (p3.y - p2.y);
-  const x1Val = (xIntercept - p2.x);
-  const y1Val = (yIntercept - p2.y);
+  const x1Range = (p3.state.x - p2.state.x);
+  const y1Range = (p3.state.y - p2.state.y);
+  const x1Val = (xIntercept - p2.state.x);
+  const y1Val = (yIntercept - p2.state.y);
 
   const rx0 = x0Val / x0Range;
   const ry0 = y0Val / y0Range;
@@ -651,6 +653,7 @@ export default {
   easeTo,
   isObject,
   unique,
+  lineIntersection,
 };
 
 // module.exports = Object.create(Utils);
