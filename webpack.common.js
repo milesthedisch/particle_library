@@ -18,9 +18,9 @@ module.exports = {
 		library: "particle",
 		libraryTarget: "umd"
 	},
-  resolveLoader: {
-    root: resolve(__dirname, './node_modules')
-  },
+    resolveLoader: {
+        root: resolve(__dirname, './node_modules')
+    },
 	resolve: {
 		root: [
 			paths.src,

@@ -138,7 +138,7 @@ export default class Vector {
    * @param {Number} max - A max range on the random vector state.
    * @return {Vector}
    */
-  random(min: number=1, max: number=10): Vector {
+  random(min: number = 1, max: number = 10): Vector {
     const x = utils.lerp(Math.random(), min, max);
     const y = utils.lerp(Math.random(), min, max);
     return this.create(x, y);

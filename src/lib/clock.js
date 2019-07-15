@@ -1,8 +1,9 @@
-const ticker = require("./ticker");
-const event = require("./event").init();
+import ticker from "./ticker";
+import Event from "./event";
+
+const event = Event.init();
 const Clock = Object.create(event);
 const MAX_FPS = 60;
-const noop = () => {};
 
 /**
  * init - Initalizes the clock with correct properties.

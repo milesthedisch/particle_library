@@ -3,7 +3,7 @@
  * @type {Object}
  * @implements {utils}
  */
-const Event = Object.create(null);  
+const Event = Object.create(null);
 
 /**
  * init
@@ -31,13 +31,13 @@ Event.emit = function emit(...args) {
 
   this.callbacks[event] = this.callbacks[event] || [];
 
-  if (this.callbacks[event].length) {
-    this.callbacks[event].forEach((callback) => {
-      callback(...rest);
-    });
+  if (!this.callbacks[event].length) {
+    return this;
   }
 
-  return this;
+  this.callbacks[event].forEach((callback) => {
+    callback(...rest);
+  });
 };
 
 /**
