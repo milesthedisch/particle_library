@@ -3,12 +3,11 @@
  * Why not have one more package that does the same thing as the 50 out there?
  * Well thats a good question that will not be answered in this comment block.
  * To be honest its for practice and learning purposes. And if anyone in their
- * right mind actaully benefits from this then so be it.
+ * right mind actually benefits from this then so be it.
  */
 
-const clone = require("lodash/cloneDeep");
-const event = require("./event");
-const utils = require("./utils");
+import Event from "./event";
+import utils from "./utils";
 
 const DEFAULTS = {
   obj: {x: 0, y: 0},
@@ -17,13 +16,11 @@ const DEFAULTS = {
   duration: 1000,
 };
 
-const eventInstance = event.init();
+const eventInstance = Event.init();
 // Inherit methods from eventInstance
-const YAT = Object.create(eventInstance);
+const YAT = Object.create(eventInstance) as any;
 
-YAT.init = function initTween(opts) {
-  // Can and uses Event and Clock methods.
-
+YAT.init = function initTween(opts: any) {
   if (!opts.clock) {
     throw new Error("Please provide a clock API.");
   }
@@ -37,34 +34,24 @@ YAT.init = function initTween(opts) {
 
   /**
    * easingFns
-   * @description All easing functions are orignially written
+   * @description All easing functions are originally written
    * by robert penner, the tweening god.
-   * Here each method is passed a normalized value. Which is
-   * usually a number between 0 and 1. You can think of this number as
-   * a percentage of a range. With that normlized value / percentage we
-   * can map that percentage to another range. This is called interpolation.
-   * @see {@link http://robertpenner.com/easing/}
-   * @type {Object}
    */
   this.easingFns = {
-    // Here this ease function is linear as there is only one
-    // n value. Each ease function can be mapped to a polynomial.
-    ease(c, b, n) { // polynomial: ax + b = c; where x is the normalized value
+    ease(c: number, b: number, n: number) {
       return c * n + b;
     },
-    easeInQuad(c, b, n) { // polynomial: 1x^2 + 0x + 0 = d;
+    easeInQuad(c: number, b: number, n: number) {
       return c * (n * n) + b;
     },
-    easeOutQuad(c, b, n) { // polynomial: -1x^2 + 2x + 0 = d;
+    easeOutQuad(c: number, b: number, n: number) {
       return c * (n * (2 - n)) + b;
     },
-    easeInOutQuad(c, b, n) {
+    easeInOutQuad(c: number, b: number, n: number) {
       if ((n*=2) < 1) {
-        return c/2 * (n*n) + b; // Polynomial for half the range:
-        // 2x^2 + 0x + 0 = d;
+        return c/2 * (n*n) + b;
       }
-      return -c/2 * ((--n)*(n-2) - 1) + b; // Polynomial for the the upper
-      // half of the range: -2x^2 + 4x - 1
+      return -c/2 * ((--n)*(n-2) - 1) + b;
     },
   };
 
@@ -77,7 +64,7 @@ YAT.init = function initTween(opts) {
  * updateTweens - Updates all the tween instances.
  */
 YAT.updateTweens = function updateTeens() {
-  this.tweens.forEach((tween) => {
+  this.tweens.forEach((tween: any) => {
     if (tween.ticker.needsUpdate) {
       tween.update(tween.ticker);
     }
@@ -94,9 +81,9 @@ YAT.updateTweens = function updateTeens() {
   });
 };
 
-YAT.create = function(opts={}) {
+YAT.create = function(opts: any = {}) {
   const YATInstance = Object.create(YAT);
-  const _opts = Object.assign(clone(DEFAULTS), opts);
+  const _opts = Object.assign(structuredClone(DEFAULTS), opts);
   const {duration, obj, props, easing, id} = _opts;
 
   if (!YATInstance.easingFns[easing]) {
@@ -104,7 +91,7 @@ YAT.create = function(opts={}) {
   }
 
   if (id) {
-    if (this.tweens.some((x) => x.id === id)) {
+    if (this.tweens.some((x: any) => x.id === id)) {
       throw new Error(`The tween with id: ${id} already exists.`);
     }
 
@@ -113,7 +100,7 @@ YAT.create = function(opts={}) {
     YATInstance.id = this.tweens.length + 1;
   }
 
-  YATInstance.state = clone(obj);
+  YATInstance.state = structuredClone(obj);
   YATInstance.obj = obj;
   YATInstance.props = props;
   YATInstance.duration = duration;
@@ -127,7 +114,7 @@ YAT.create = function(opts={}) {
   return YATInstance;
 };
 
-YAT.get = function(id) {
+YAT.get = function(id: string | number) {
   if (this.tweens.length === 1) {
     return YAT[0];
   }
@@ -141,14 +128,13 @@ YAT.get = function(id) {
   return false;
 };
 
-YAT.rewind = function(id=this.id) {
+YAT.rewind = function(this: any, id: string | number = this.id) {
   const tween = this.get(id);
 
   if (!this.stopped) {
     tween.stop();
   }
 
-  // Figure out a way to cache the old props //
   this.opts.obj = this.opts.props;
   this.opts.props = this.opts.propsBeforeTween;
 
@@ -160,7 +146,7 @@ YAT.startAll = function startAll() {
     throw new Error("There are no tweens to start");
   }
 
-  this.tweens.forEach((t) => {
+  this.tweens.forEach((t: any) => {
     t.ticker.start();
   });
 
@@ -180,19 +166,16 @@ YAT.stopAll = function stopAll() {
 
 /**
  * delay - how long to delay the animation
- * @param  {number} duration
- * @return {YAT}
  */
-YAT.delay = function delay(duration) {
+YAT.delay = function delay(duration: number) {
   this.ticker.stop();
-  this.obj = clone(this.state);
+  this.obj = structuredClone(this.state);
   setTimeout(() => this.ticker.start(), duration);
   return this;
 };
 
 /**
  * stop - stops the ticker
- * @return {YAT}
  */
 YAT.stop = function stop() {
   this.ticker.stop();
@@ -201,7 +184,6 @@ YAT.stop = function stop() {
 
 /**
  * finish - finishes the tween animation
- * @return {YAT}
  */
 YAT.finish = function finish() {
   this.stop();
@@ -210,8 +192,8 @@ YAT.finish = function finish() {
   return this;
 };
 
-YAT.remove = function remove(id=this.id) {
-  this.tweens = this.tweens.filter((t) => {
+YAT.remove = function remove(this: any, id: string | number = this.id) {
+  this.tweens = this.tweens.filter((t: any) => {
     if (t.id === id) {
       this._clock.removeSlave(t.ticker.id);
       return false;
@@ -221,7 +203,7 @@ YAT.remove = function remove(id=this.id) {
   });
 };
 
-YAT.update = function update(ticker) {
+YAT.update = function update(ticker: any) {
   if (!ticker.needsUpdate) {
     this.state = Object.assign({}, this.props);
     return this.state;
@@ -230,8 +212,8 @@ YAT.update = function update(ticker) {
   const {timeSinceStart: delta, duration} = ticker;
   const norm = utils.normalize(delta, 0, duration.ms);
 
-  for (let key in this.obj) {
-    if (this.obj.hasOwnProperty(key)) {
+  for (const key in this.obj) {
+    if (Object.prototype.hasOwnProperty.call(this.obj, key)) {
       if (this.obj[key] !== undefined && this.props[key] !== undefined) {
         this.state[key] = this.easing(this.props[key] - this.obj[key], this.obj[key], norm);
       }
@@ -241,26 +223,24 @@ YAT.update = function update(ticker) {
   return this.state;
 };
 
-module.exports = YAT;
-
-/* eslint-disable */
+export default YAT;
 
 /*
  *
  * TERMS OF USE - EASING EQUATIONS
- * 
- * Open source under the BSD License. 
- * 
- * Copyright © 2001 Robert Penner
+ *
+ * Open source under the BSD License.
+ *
+ * Copyright 2001 Robert Penner
  * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, 
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of 
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of
  * conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list 
- * of conditions and the following disclaimer in the documentation and/or other materials 
+ * Redistributions in binary form must reproduce the above copyright notice, this list
+ * of conditions and the following disclaimer in the documentation and/or other materials
  * provided with the distribution.
  *
  * Neither the name of the author nor the names of contributors may be used to endorse

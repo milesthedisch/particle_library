@@ -1,10 +1,10 @@
-const FALSY = [false, 0, "", undefined, NaN, '']; // eslint-disable-line
+const FALSY = [false, 0, "", undefined, NaN, ""] as const;
 
 const testUtils = {
-  forEachFalsy(fn) {
-    FALSY.forEach(fn);
+  forEachFalsy(fn: (val: any) => void) {
+    (FALSY as readonly any[]).forEach(fn);
   },
-  perfNowPolyfill(context) {
+  perfNowPolyfill(context: any) {
     const startTime = Date.now();
 
     if (!context.performance) {
@@ -17,4 +17,4 @@ const testUtils = {
   },
 };
 
-module.exports = Object.create(testUtils);
+export default testUtils;

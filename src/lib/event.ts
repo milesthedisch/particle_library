@@ -1,28 +1,37 @@
+export interface EventEmitter {
+  callbacks: Record<string, ((...args: any[]) => void)[]>;
+  init(): EventEmitter;
+  emit(...args: any[]): void;
+  on(event: string, fn: (...args: any[]) => void, context?: any): EventEmitter;
+  off(...args: any[]): EventEmitter;
+  listeners(...args: any[]): string[] | ((...args: any[]) => void)[];
+  once(...args: any[]): void;
+  removeListener: typeof Event.off;
+  removeAllListeners: typeof Event.off;
+  fire: typeof Event.emit;
+  addListener: typeof Event.on;
+  get: typeof Event.listeners;
+}
+
 /**
  * Event
- * @type {Object}
- * @implements {utils}
  */
-const Event = Object.create(null);
+const Event = Object.create(null) as EventEmitter;
 
 /**
  * init
- * @memberOf Event
  * @description Initializes the event object.
- * @return {Event}
  */
-Event.init = function initEvent() {
+Event.init = function initEvent(this: EventEmitter) {
   this.callbacks = {};
   return this;
 };
 
 /**
  * emit
- * @description Executes the handeler that assocaited with the emitted event.
- * @param {Array} args
- * @return {Event}
+ * @description Executes the handler that associated with the emitted event.
  */
-Event.emit = function emit(...args) {
+Event.emit = function emit(this: EventEmitter, ...args: any[]) {
   const [event, ...rest] = args;
 
   if (!event) {
@@ -43,12 +52,8 @@ Event.emit = function emit(...args) {
 /**
  * on
  * @description Attach a handler to an event.
- * @param  {String}   event
- * @param  {Function} fn
- * @param  {Object}   context
- * @return {Event}
  */
-Event.on = function on(event, fn, context) {
+Event.on = function on(this: EventEmitter, event: string, fn: (...args: any[]) => void, context?: any) {
   if (!event || !fn) {
     throw new TypeError("Event: Please provide truthy arguments");
   }
@@ -69,9 +74,9 @@ Event.on = function on(event, fn, context) {
       return this;
     }
 
-    // Dont create duplicates of the same handeled function.
+    // Dont create duplicates of the same handled function.
     // If you want your function run twice wrap it in a function.
-    return this.callbacks[e].every((cb, i, col) => {
+    return this.callbacks[e].every((cb) => {
       return cb !== fn;
     }) ? this.callbacks[e].push(fn) :
       console.warn(`Event: That function ${fn} has already been declared a` +
@@ -83,12 +88,9 @@ Event.on = function on(event, fn, context) {
 
 /**
  * off
- * @description Remove an event handeler.
- * @param  {String}   event
- * @param  {Function} fn
- * @return {Event}
+ * @description Remove an event handler.
  */
-Event.off = function off(...args) {
+Event.off = function off(this: EventEmitter, ...args: any[]) {
   const [event, fn] = args;
 
   if (!event) {
@@ -96,7 +98,7 @@ Event.off = function off(...args) {
     return this;
   }
 
-  let callbacks = this.callbacks[event];
+  const callbacks = this.callbacks[event];
 
   if (!callbacks) {
     console.warn(`Event: No event named ${event} has been registered`);
@@ -115,10 +117,8 @@ Event.off = function off(...args) {
 
 /**
  * listeners - Return all callbacks attached to a certain event
- * @param  {any<Array>} args
- * @return {function[]}
  */
-Event.listeners = function listeners(...args) {
+Event.listeners = function listeners(this: EventEmitter, ...args: any[]) {
   const [event] = args;
 
   if (!event) {
@@ -132,7 +132,7 @@ Event.listeners = function listeners(...args) {
   return this.callbacks[event];
 };
 
-Event.once = function once(...args) {
+Event.once = function once(this: EventEmitter, ...args: any[]) {
   const self = this;
   const [event, fn, context] = args;
 
@@ -150,4 +150,4 @@ Event.fire = Event.emit;
 Event.addListener = Event.on;
 Event.get = Event.listeners;
 
-module.exports = Event;
+export default Event;

@@ -1,17 +1,14 @@
-import ticker from "./ticker";
+import Ticker from "./ticker";
 import Event from "./event";
 
 const event = Event.init();
-const Clock = Object.create(event);
+const Clock = Object.create(event) as any;
 const MAX_FPS = 60;
 
 /**
- * init - Initalizes the clock with correct properties.
- * @param  {Object} opts
- * @param  {Number} opts.fps The fps you want the clock to tick at.
- * @return {Clock}
+ * init - Initializes the clock with correct properties.
  */
-Clock.init = function initClock(opts={}) {
+Clock.init = function initClock(opts: { fps?: number } = {}) {
   opts = Object.assign({
     fps: MAX_FPS,
   }, opts);
@@ -26,13 +23,13 @@ Clock.init = function initClock(opts={}) {
   this.rAF = 0;
 
   // Time properties
-  this.startTime;
-  this.lastTime;
-  this.stopTime;
+  this.startTime = undefined;
+  this.lastTime = undefined;
+  this.stopTime = undefined;
   this.timeSinceStart = 0;
 
   // The maximum FPS the browser can deliver is 60.
-  this.fps = opts.fps > MAX_FPS ?
+  this.fps = opts.fps! > MAX_FPS ?
     MAX_FPS :
     (opts.fps || MAX_FPS);
 
@@ -41,15 +38,13 @@ Clock.init = function initClock(opts={}) {
 
 /**
  * start - Starts the clock with starting time properties.
- * @param  {Number} fps The fps you want the clock to tick at.
- * @return {Clock}
  */
 Clock.start = function start() {
   if (this.fps > 60) {
     throw new Error("The given fps is too high");
   }
 
-  if (+this.fps === NaN) {
+  if (+this.fps !== +this.fps) {
     throw new Error("The given fps is not valid");
   }
 
@@ -63,14 +58,12 @@ Clock.start = function start() {
 };
 
 /**
- * tick
- * @param  {Number} newTime A value in ms that is equal to the current time.
- * @return {Clock}
+ * loop
  */
-Clock.loop = function loop(newTime) {
+Clock.loop = function loop(this: any, newTime: number) {
   this.rAF = requestAnimationFrame(loop.bind(this));
 
-  let delta = newTime - this.lastTime;
+  const delta = newTime - this.lastTime;
   this.timeSinceStart = newTime - this.startTime;
 
   if (delta > this.fps) {
@@ -95,7 +88,6 @@ Clock.loop = function loop(newTime) {
 
 /**
  * stop - Stop the clock and call the last tick if needed.
- * @return {Clock}
  */
 Clock.stop = function stopClock() {
   cancelAnimationFrame(this.rAF);
@@ -112,13 +104,11 @@ Clock.stop = function stopClock() {
 /**
  * whipSlaves - Run all slaves in sequence and pass in
  * the given state of the clock.
- * @param  {Object} state
- * @return {Clock}
  */
-Clock.whipSlaves = function whipSlaves(state) {
+Clock.whipSlaves = function whipSlaves(state: any) {
   if (!this.slaves.length) return;
 
-  this.slaves.forEach((slave, index) => {
+  this.slaves.forEach((slave: any) => {
     slave.nudge(state);
   });
 
@@ -126,7 +116,7 @@ Clock.whipSlaves = function whipSlaves(state) {
   return this;
 };
 
-Clock.createSlave = function createSlave(opts) {
+Clock.createSlave = function createSlave(opts: any) {
   if (!opts) {
     throw new Error("Please provide a options object");
   }
@@ -134,7 +124,7 @@ Clock.createSlave = function createSlave(opts) {
   const {id, duration} = opts;
   const timeStamp = performance.now();
 
-  const slave = Object.create(ticker)
+  const slave = Object.create(Ticker)
     .init({timeStamp, id, duration});
 
   if (id) {
@@ -146,8 +136,8 @@ Clock.createSlave = function createSlave(opts) {
   return slave;
 };
 
-Clock.removeSlave = function removeSlave(id) {
-  this.slaves = this.slaves.filter((slave) => {
+Clock.removeSlave = function removeSlave(id: string | number) {
+  this.slaves = this.slaves.filter((slave: any) => {
     if (slave.id !== id) {
       return true;
     }
@@ -169,4 +159,4 @@ Clock.reset = function() {
 
 Clock.removeAllSlaves = Clock.clearSlaves;
 
-module.exports = Clock;
+export default Clock;

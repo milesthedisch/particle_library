@@ -6,3 +6,4 @@ coverage/
 *.txt
 docs/*
 dist/
+*.tsbuildinfo

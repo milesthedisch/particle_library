@@ -1,44 +1,34 @@
-const Shapes = require("../../src/lib/shapes.js");
-const utils = require("../utils");
-const sinon = require("sinon");
-const assert = require("chai").assert;
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import Shapes from "../../src/lib/shapes";
+import testUtils from "../utils";
 
 describe("#Shapes", function() {
-  let context;
-  let document;
-  let beginPath;
-  let fill;
-  let stroke;
-  let lineTo;
-  let moveTo;
-  let arcReturn;
-  let shape;
+  let context: any;
+  let document: any;
+  let beginPath: any;
+  let fill: any;
+  let stroke: any;
+  let lineTo: any;
+  let moveTo: any;
+  let arcReturn: any;
+  let shape: any;
+  let closePath: any;
 
   const circleArgumentDefaults = [4, 4, 2, 0, 6.283185307179586, false];
 
   beforeEach(function() {
-    const fillStyle = {
-      set(x) {
-        if (x === undefined) {
-          return circleArgumentDefaults.color;
-        } else {
-          return x;
-        }
-      },
-    };
-
-    beginPath = sinon.spy();
-    fill = sinon.spy();
-    stroke = sinon.spy();
-    lineTo = sinon.spy();
-    moveTo = sinon.spy();
-    closePath = sinon.spy();
+    beginPath = vi.fn();
+    fill = vi.fn();
+    stroke = vi.fn();
+    lineTo = vi.fn();
+    moveTo = vi.fn();
+    closePath = vi.fn();
 
     context = {
-      fillStyle,
+      fillStyle: "#000000",
       moveTo,
       beginPath,
-      arc: function(...args) {
+      arc: function(...args: any[]) {
         if (arguments.length === 0) {
           arcReturn = circleArgumentDefaults;
         } else {
@@ -49,9 +39,11 @@ describe("#Shapes", function() {
       stroke,
       lineTo,
       closePath,
+      fillRect: vi.fn(),
+      strokeStyle: "",
     };
 
-    global.window = {
+    (globalThis as any).window = {
       document: {},
     };
 
@@ -61,27 +53,27 @@ describe("#Shapes", function() {
   });
 
   afterEach(function() {
-    delete global.window;
-    delete global.document;
-    delete global.context;
+    delete (globalThis as any).window;
+    delete (globalThis as any).document;
+    delete (globalThis as any).context;
   });
 
   it("should throw an error when given no context", function() {
     try {
-      new Shapes();
-    } catch (e) {
-      assert.equal("Error", e.constructor.name);
+      new Shapes(undefined as any);
+    } catch (e: any) {
+      expect(e.constructor.name).toBe("Error");
     }
   });
 
   it("should use context given to it.", function() {
     const shape = new Shapes(context, document);
-    assert.deepEqual(shape.ctx, context);
+    expect(shape.ctx).toEqual(context);
   });
 
   it("should use window document when document is not defined", function() {
     const shape = new Shapes(context);
-    assert.deepEqual(shape.ctx, context);
+    expect(shape.ctx).toEqual(context);
   });
 
   describe("Shapes.circle", function() {
@@ -90,33 +82,33 @@ describe("#Shapes", function() {
         const shape = new Shapes(context, document);
         shape.circle();
         const defaultColor = "#000000";
-        assert.equal(context.fillStyle, defaultColor);
+        expect(context.fillStyle).toBe(defaultColor);
       });
 
       it("should call beginPath", function() {
         const shape = new Shapes(context, document);
         shape.circle();
-        assert(beginPath.called);
+        expect(beginPath).toHaveBeenCalled();
       });
 
       it("should call arc", function() {
         const shape = new Shapes(context, document);
         shape.circle();
-        assert.deepEqual(arcReturn, circleArgumentDefaults);
+        expect(arcReturn).toEqual(circleArgumentDefaults);
       });
 
       it("should call fill", function() {
         const shape = new Shapes(context, document);
         shape.circle();
-        assert(fill.called);
+        expect(fill).toHaveBeenCalled();
       });
     });
 
     describe("#Lines", function() {
       describe("Shapes.drawLinePoints", function() {
         it("Should throw an error if not given the first argument", function() {
-          utils.forEachFalsy(function(ø) {
-            assert.throws(shape.drawLinePoints.bind(null, ø), Error);
+          testUtils.forEachFalsy(function(ø: any) {
+            expect(shape.drawLinePoints.bind(null, ø)).toThrow(Error);
           });
         });
 
@@ -125,13 +117,9 @@ describe("#Shapes", function() {
           const pointArray = [{x: 1, y: 1}, {x: 2, y: 2}];
           shape.drawLinePoints([startingPoint, ...pointArray]);
 
-          assert(beginPath.calledOnce, "Begin path was not called.");
-          assert(stroke.calledOnce, "Stroke was not called.");
-          assert.equal(
-            lineTo.callCount,
-            pointArray.length,
-            "Call count was not right."
-          );
+          expect(beginPath).toHaveBeenCalledOnce();
+          expect(stroke).toHaveBeenCalledOnce();
+          expect(lineTo.mock.calls.length).toBe(pointArray.length);
         });
       });
     });

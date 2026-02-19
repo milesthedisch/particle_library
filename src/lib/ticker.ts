@@ -1,31 +1,41 @@
-const event = require("./event");
+import Event from "./event";
+
 const MAX_FPS = 1000/60;
-const Ticker = Object.create(event);
+
+interface Duration {
+  type: string;
+  value: number;
+  ms: number;
+}
+
 const STATE = {
   STOPPED: "STOPPED",
   RUNNING: "RUNNING",
   DONE: "DONE",
-};
+} as const;
 
+const Ticker = Object.create(Event) as any;
 
 Ticker.init = function init({
-  timeStamp=performance.now(),
   id,
-  duration=1000,
-  interval=MAX_FPS,
+  duration = 1000,
+  interval = MAX_FPS,
+}: {
+  timeStamp?: number;
+  id?: string | number;
+  duration?: number;
+  interval?: number;
 }) {
   this.id = id;
-  this.parent = event;
+  this.parent = Event;
   this.parent.name = "event";
 
-  // Probably cant support this??
-  // You have to have your own clock.
   this.interval = interval;
   this.duration = this.tickFor(duration, "ms");
 
-  this.STATE;
-  this.delta;
-  this.stopTime;
+  this.STATE = undefined;
+  this.delta = undefined;
+  this.stopTime = undefined;
   this.startTime = 0;
   this.timeSinceStart = 0;
   this.timeSinceStart2 = 0;
@@ -36,7 +46,7 @@ Ticker.init = function init({
   return this;
 };
 
-Ticker.tickFor = function tickFor(duration, string) {
+Ticker.tickFor = function tickFor(duration: number, string: string): Duration {
   switch (string) {
   case "frames": case "f":
     return {
@@ -56,7 +66,7 @@ Ticker.tickFor = function tickFor(duration, string) {
       value: duration,
       ms: duration,
     };
-  };
+  }
 };
 
 Ticker.start = function start() {
@@ -69,9 +79,6 @@ Ticker.stop = function stop() {
   if (this.STATE === STATE.STOPPED) return false;
   this.STATE = STATE.STOPPED;
 
-  // Know what time it stopped.
-  // so that if it starts again it
-  // it can recalculate how far it needs to go.
   const newDuration = this.duration.ms - this.timeSinceStart || 0;
 
   this.duration = this.tickFor(newDuration, "milliseconds");
@@ -80,11 +87,10 @@ Ticker.stop = function stop() {
   this.stopTime = performance.now();
 };
 
-Ticker.nudge = function nudge(state) {
+Ticker.nudge = function nudge(state: any) {
   if (!state) {
     throw new Error("Please provide a state object");
   }
-
 
   if (this.STATE === STATE.STOPPED || this.STATE !== STATE.RUNNING) {
     this.needsUpdate = false;
@@ -102,4 +108,4 @@ Ticker.nudge = function nudge(state) {
   }
 };
 
-module.exports = Ticker;
+export default Ticker;
